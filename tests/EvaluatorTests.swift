@@ -41,43 +41,43 @@ class EvaluatorTests: XCTestCase {
 			),
 			(
 				"34 + 42",
-				(34 + 42)
+				76
 			),
 			(
 				"42 - 454",
-				(42 - 454)
+				-412
 			),
 			(
 				"42 - 454 + 5",
-				((42 - 454) + 5)
+				-407
 			),
 			(
 				"5 - 42 * 454",
-				(5 - (42 * 454))
+				-19063
 			),
 			(
 				"5 / 5 - -6 / +7 - 42 * -454",
-				(((5 / 5) - (-6 / 7)) - (42 * -454))
+				19069
 			),
 			(
 				"5 / (5 --6) /+7 - 42* -454",
-				(((5 / (5 - -6)) / 7) - (42 * -454))
+				19068
 			),
 			(
 				"1 * 2 * 3",
-				((1 * 2) * 3)
+				6
 			),
 			(
 				"1 * (2 * 3)",
-				(1 * (2 * 3))
+				6
 			),
 			(
-				"(((1 * (2 * 3))))",
-				(1 * (2 * 3))
+				"(((6 / (3 / 2))))",
+				6
 			),
 			(
-				"(((1 * 2 * 3)))",
-				((1 * 2) * 3)
+				"(((6 / 3 / 2)))",
+				1
 			),
 			(
 				"(((5)))",
@@ -85,9 +85,9 @@ class EvaluatorTests: XCTestCase {
 			),
 			(
 				"(5*(5-2))",
-				(5 * (5 - 2))
+				15
 			)
-			].forEach { (string, target) in
+		].forEach { (string, target) in
 				let scanner = ArithmeticExpressionScanner(scanner: Scanner(string: string))
 				print(string)
 				if let res = scanner.scanArithmeticExpression() {
