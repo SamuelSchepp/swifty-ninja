@@ -1,0 +1,152 @@
+type ExpTree = record {
+	Boolean isLeaf;
+	
+	ExpTree left;
+	ExpTree right;
+	Character op;
+	
+	Integer value;
+};
+
+ExpTree newInnerNode(Character o, ExpTree left, ExpTree right) {
+	local ExpTree n;
+	n = new(ExpTree);
+	
+	n.isLeaf = false;
+	n.left = left;
+	n.right = right;
+	
+	n.op = o;
+	
+	return n;
+}
+
+ExpTree newLeafNode(Integer v) {
+	local ExpTree n;
+	n = new(ExpTree);
+	
+	n.isLeaf = true;
+	n.value = v;
+	
+	return n;
+}
+
+void print(ExpTree exp) {
+	if(exp.isLeaf) {
+		writeInteger(exp.value);
+	}
+	else {
+		writeString("(");
+		if(exp.op == '+') {
+			print(exp.left);
+			writeString(" + ");
+			print(exp.right);
+		}
+		if(exp.op == '-') {
+			print(exp.left);
+			writeString(" - ");
+			print(exp.right);
+		}
+		if(exp.op == '*') {
+			print(exp.left);
+			writeString(" * ");
+			print(exp.right);
+		}
+		if(exp.op == '/') {
+			print(exp.left);
+			writeString(" / ");
+			print(exp.right);
+		}
+		writeString(")");
+	}
+}
+
+void printSpace(Integer count) {
+	local Integer i;
+	i = 0;
+	
+	while(i < count) {
+		i = i + 1;
+		writeString("      ");
+	}
+}
+
+void print2(ExpTree exp, Integer depth) {
+	
+	if(exp.isLeaf) {
+		writeString("newLeafNode(");
+		writeInteger(exp.value);
+		writeString(")");
+	}
+	else {
+		writeString("newInnerNode(");
+		depth = depth + 1;
+		
+		writeCharacter('\n');
+		printSpace(depth);
+		
+		writeString("\'");
+		writeCharacter(exp.op);
+		writeString("\',");
+		
+		writeCharacter('\n');
+		printSpace(depth);
+		
+		print2(exp.left, depth);
+		writeString(",");
+		
+		writeCharacter('\n');
+		printSpace(depth);
+		
+		print2(exp.right, depth);
+		writeString(")");
+	}
+}
+
+
+Integer eval(ExpTree exp) {
+	if(exp.isLeaf) {
+		return exp.value;
+	}
+	else {
+		if(exp.op == '+') {
+			return eval(exp.left) + eval(exp.right);
+		}
+		if(exp.op == '-') {
+			return eval(exp.left) - eval(exp.right);
+		}
+		if(exp.op == '*') {
+			return eval(exp.left) * eval(exp.right);
+		}
+		if(exp.op == '/') {
+			return eval(exp.left) / eval(exp.right);
+		}
+	}
+}
+
+void main() {
+	local ExpTree root;
+	
+	writeString("ExpTree Start\n");
+	
+	root = newInnerNode(
+	  '-',
+		newLeafNode(5),
+		  newInnerNode(
+		    '*',
+		    newInnerNode(
+		      '+',
+		      newLeafNode(1),
+		      newLeafNode(3)),
+		    newInnerNode(
+		      '-',
+		      newLeafNode(4),
+		      newLeafNode(7))));
+	
+	print(root);
+	writeString(" = ");		  
+	writeInteger(eval(root));
+	writeCharacter('\n');
+	print2(root, 0);
+	writeCharacter('\n');
+}

@@ -1,0 +1,18 @@
+global Integer x;
+global Integer y;
+
+void main() {
+
+	x = readInteger();
+	y = readInteger();
+
+	while (x != y) {
+	  if (x > y) {
+	    x = x - y;
+	  } else {
+	    y = y - x;
+	  }
+	}
+	writeInteger(x);
+	writeCharacter('\n');
+}

@@ -1,0 +1,25 @@
+void main() {
+	writeInteger(fibIteration(readInteger()));
+	writeCharacter('\n');
+}
+
+Integer fibIteration(Integer n) {
+    local Integer x;
+	local Integer y;
+	local Integer z;
+	local Integer i;	
+
+	i = 0;
+    x = 0;	
+	z = 1;
+    y = 1;
+
+	while(i < n) {
+	    x = y;
+        y = z;
+        z = x + y;
+	    i = i + 1;
+	}
+        
+    return x;
+}

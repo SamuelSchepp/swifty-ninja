@@ -61,6 +61,12 @@
             ReferencedContainer = "container:swifty-ninja.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "run /Users/samuel/Documents/Git/swifty-ninja/examples/bruch.nj"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

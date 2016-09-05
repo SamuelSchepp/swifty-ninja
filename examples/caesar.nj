@@ -1,0 +1,32 @@
+void main() {
+	local Integer key;
+	local Character input;
+	local Character result;
+	writeCharacter('>');
+	
+	input = readCharacter();
+
+	writeCharacter('>');
+
+	key = readInteger();
+
+    writeCharacter(':');
+
+	result = toCaesar(input, key);
+	
+	writeCharacter(result);
+	
+	
+	writeCharacter(' ');
+	writeCharacter('(');
+	
+	writeInteger(char2int(result));
+	
+	writeCharacter(')');
+	
+	writeCharacter('\n');
+}
+
+Character toCaesar(Character n, Integer key) {
+	return int2char(char2int(n) + key);
+}
