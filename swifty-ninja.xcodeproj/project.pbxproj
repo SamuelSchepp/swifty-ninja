@@ -10,13 +10,18 @@
 		7E3B66411D7CCC2B004A14CE /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3B66401D7CCC2B004A14CE /* Types.swift */; };
 		7E3B66431D7CCC4B004A14CE /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3B66421D7CCC4B004A14CE /* Library.swift */; };
 		7E3B66561D7CCEA9004A14CE /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3B66551D7CCEA9004A14CE /* AST.swift */; };
+		7E40CCC11D7DD42F00D7880C /* NinjaScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCC01D7DD42F00D7880C /* NinjaScanner.swift */; };
+		7E40CCC21D7DD58500D7880C /* NinjaScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCC01D7DD42F00D7880C /* NinjaScanner.swift */; };
+		7E40CCC51D7DE02600D7880C /* ArithmeticExpressionEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCC41D7DE02600D7880C /* ArithmeticExpressionEvaluator.swift */; };
+		7E40CCC61D7DE0C600D7880C /* ArithmeticExpressionEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCC41D7DE02600D7880C /* ArithmeticExpressionEvaluator.swift */; };
+		7E40CCC81D7DE20500D7880C /* EvaluatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCC71D7DE20500D7880C /* EvaluatorTests.swift */; };
 		7E8BD9941D7CBC07003052DB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8BD9931D7CBC07003052DB /* main.swift */; };
 		7E8BD99B1D7CC33F003052DB /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8BD99A1D7CC33F003052DB /* Stack.swift */; };
 		7E8BD9AA1D7CC683003052DB /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8BD99A1D7CC33F003052DB /* Stack.swift */; };
 		7E8BD9AC1D7CC8A2003052DB /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8BD9AB1D7CC8A2003052DB /* StackTests.swift */; };
-		7EC299DD1D7D503300AD943B /* NinjaScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC299DC1D7D503300AD943B /* NinjaScanner.swift */; };
-		7EC299DF1D7D53B800AD943B /* NinjaScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC299DE1D7D53B800AD943B /* NinjaScannerTests.swift */; };
-		7EC299E01D7D541400AD943B /* NinjaScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC299DC1D7D503300AD943B /* NinjaScanner.swift */; };
+		7EC299DD1D7D503300AD943B /* ArithmeticExpressionScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC299DC1D7D503300AD943B /* ArithmeticExpressionScanner.swift */; };
+		7EC299DF1D7D53B800AD943B /* ScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC299DE1D7D53B800AD943B /* ScannerTests.swift */; };
+		7EC299E01D7D541400AD943B /* ArithmeticExpressionScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC299DC1D7D503300AD943B /* ArithmeticExpressionScanner.swift */; };
 		7EC299E11D7D543900AD943B /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3B66551D7CCEA9004A14CE /* AST.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,14 +57,17 @@
 		7E3B66531D7CCD34004A14CE /* t.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = t.nj; sourceTree = "<group>"; };
 		7E3B66541D7CCD34004A14CE /* twodim.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = twodim.nj; sourceTree = "<group>"; };
 		7E3B66551D7CCEA9004A14CE /* AST.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
+		7E40CCC01D7DD42F00D7880C /* NinjaScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NinjaScanner.swift; sourceTree = "<group>"; };
+		7E40CCC41D7DE02600D7880C /* ArithmeticExpressionEvaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArithmeticExpressionEvaluator.swift; sourceTree = "<group>"; };
+		7E40CCC71D7DE20500D7880C /* EvaluatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluatorTests.swift; sourceTree = "<group>"; };
 		7E8BD9901D7CBC07003052DB /* swifty-ninja */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "swifty-ninja"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E8BD9931D7CBC07003052DB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		7E8BD99A1D7CC33F003052DB /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		7E8BD9A01D7CC5C9003052DB /* swift-ninja-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "swift-ninja-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E8BD9A41D7CC5C9003052DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E8BD9AB1D7CC8A2003052DB /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
-		7EC299DC1D7D503300AD943B /* NinjaScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NinjaScanner.swift; sourceTree = "<group>"; };
-		7EC299DE1D7D53B800AD943B /* NinjaScannerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NinjaScannerTests.swift; sourceTree = "<group>"; };
+		7EC299DC1D7D503300AD943B /* ArithmeticExpressionScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArithmeticExpressionScanner.swift; sourceTree = "<group>"; };
+		7EC299DE1D7D53B800AD943B /* ScannerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +111,23 @@
 			path = examples;
 			sourceTree = "<group>";
 		};
+		7E40CCBF1D7DC9BC00D7880C /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				7E40CCC01D7DD42F00D7880C /* NinjaScanner.swift */,
+				7EC299DC1D7D503300AD943B /* ArithmeticExpressionScanner.swift */,
+			);
+			name = Scanner;
+			sourceTree = "<group>";
+		};
+		7E40CCC31D7DE00E00D7880C /* Evaluator */ = {
+			isa = PBXGroup;
+			children = (
+				7E40CCC41D7DE02600D7880C /* ArithmeticExpressionEvaluator.swift */,
+			);
+			name = Evaluator;
+			sourceTree = "<group>";
+		};
 		7E8BD9871D7CBC05003052DB = {
 			isa = PBXGroup;
 			children = (
@@ -130,7 +155,8 @@
 				7E3B66401D7CCC2B004A14CE /* Types.swift */,
 				7E3B66421D7CCC4B004A14CE /* Library.swift */,
 				7E3B66551D7CCEA9004A14CE /* AST.swift */,
-				7EC299DC1D7D503300AD943B /* NinjaScanner.swift */,
+				7E40CCC31D7DE00E00D7880C /* Evaluator */,
+				7E40CCBF1D7DC9BC00D7880C /* Scanner */,
 			);
 			path = "swifty-ninja";
 			sourceTree = "<group>";
@@ -140,7 +166,8 @@
 			children = (
 				7E8BD9A41D7CC5C9003052DB /* Info.plist */,
 				7E8BD9AB1D7CC8A2003052DB /* StackTests.swift */,
-				7EC299DE1D7D53B800AD943B /* NinjaScannerTests.swift */,
+				7EC299DE1D7D53B800AD943B /* ScannerTests.swift */,
+				7E40CCC71D7DE20500D7880C /* EvaluatorTests.swift */,
 			);
 			path = "swift-ninja-tests";
 			sourceTree = "<group>";
@@ -240,7 +267,9 @@
 				7E3B66411D7CCC2B004A14CE /* Types.swift in Sources */,
 				7E3B66431D7CCC4B004A14CE /* Library.swift in Sources */,
 				7E8BD99B1D7CC33F003052DB /* Stack.swift in Sources */,
-				7EC299DD1D7D503300AD943B /* NinjaScanner.swift in Sources */,
+				7E40CCC51D7DE02600D7880C /* ArithmeticExpressionEvaluator.swift in Sources */,
+				7E40CCC11D7DD42F00D7880C /* NinjaScanner.swift in Sources */,
+				7EC299DD1D7D503300AD943B /* ArithmeticExpressionScanner.swift in Sources */,
 				7E3B66561D7CCEA9004A14CE /* AST.swift in Sources */,
 				7E8BD9941D7CBC07003052DB /* main.swift in Sources */,
 			);
@@ -250,11 +279,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EC299DF1D7D53B800AD943B /* NinjaScannerTests.swift in Sources */,
+				7EC299DF1D7D53B800AD943B /* ScannerTests.swift in Sources */,
+				7E40CCC61D7DE0C600D7880C /* ArithmeticExpressionEvaluator.swift in Sources */,
 				7E8BD9AA1D7CC683003052DB /* Stack.swift in Sources */,
 				7E8BD9AC1D7CC8A2003052DB /* StackTests.swift in Sources */,
 				7EC299E11D7D543900AD943B /* AST.swift in Sources */,
-				7EC299E01D7D541400AD943B /* NinjaScanner.swift in Sources */,
+				7E40CCC81D7DE20500D7880C /* EvaluatorTests.swift in Sources */,
+				7EC299E01D7D541400AD943B /* ArithmeticExpressionScanner.swift in Sources */,
+				7E40CCC21D7DD58500D7880C /* NinjaScanner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

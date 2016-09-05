@@ -8,13 +8,12 @@
 
 import Foundation
 
-enum BinaryArithmeticOp: String {
-	case Add = "+", Sub = "-", Mul = "*", Div = "/", Mod = "%"
-}
 
 protocol ASTNode: CustomStringConvertible {
 	
 }
+
+// MARK: Arithmetic Expression
 
 protocol ArithmeticExpression: ASTNode {
 	
@@ -25,7 +24,7 @@ struct ImmidiateArithmeticExpression: ArithmeticExpression {
 	
 	public var description: String {
 		get {
-			return "(\(value))"
+			return "\(value)"
 		}
 	}
 }
@@ -40,4 +39,8 @@ struct BinaryArithmeticExpression: ArithmeticExpression {
 			return "(\(lhs) \(op.rawValue) \(rhs))"
 		}
 	}
+}
+
+enum BinaryArithmeticOp: String {
+	case Add = "+", Sub = "-", Mul = "*", Div = "/", Mod = "%"
 }
