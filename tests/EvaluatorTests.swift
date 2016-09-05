@@ -88,7 +88,7 @@ class EvaluatorTests: XCTestCase {
 				15
 			)
 		].forEach { (string, target) in
-				let scanner = ArithmeticExpressionScanner(scanner: Scanner(string: string))
+				let scanner = ArithmeticValueExpressionScanner(scanner: Scanner(string: string))
 				print(string)
 				if let res = scanner.scanArithmeticExpression() {
 					let result = ArithmeticExpressionEvaluator.eval(expr: res)

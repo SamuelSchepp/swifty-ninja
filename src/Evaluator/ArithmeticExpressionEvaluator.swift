@@ -9,21 +9,21 @@
 import Foundation
 
 class ArithmeticExpressionEvaluator {
-	class func eval(expr: ArithmeticExpression) -> Int {
+	class func eval(expr: ArithmeticValueExpression) -> Int {
 		switch expr {
-		case let immidiate as ImmidiateArithmeticExpression:
+		case let immidiate as ArithmeticImmidiateValueExpression:
 			return eval(immidiateExpr: immidiate)
-		case let binary as BinaryArithmeticExpression:
+		case let binary as OperatedArithmeticValueExpression:
 			return eval(binaryExpr: binary)
 		default: return 0
 		}
 	}
 	
-	private class func eval(immidiateExpr: ImmidiateArithmeticExpression) -> Int {
+	private class func eval(immidiateExpr: ArithmeticImmidiateValueExpression) -> Int {
 		return immidiateExpr.value
 	}
 	
-	private class func eval(binaryExpr: BinaryArithmeticExpression) -> Int {
+	private class func eval(binaryExpr: OperatedArithmeticValueExpression) -> Int {
 		let lhs = eval(expr: binaryExpr.lhs)
 		let rhs = eval(expr: binaryExpr.rhs)
 		

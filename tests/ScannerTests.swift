@@ -9,6 +9,74 @@
 import XCTest
 
 class ScannerTests: XCTestCase {
+	func testBoolExpression() {
+		[
+			(
+				"true",
+				"true"
+			),
+			(
+				"false",
+				"false"
+			),
+			(
+				"false && false",
+				"(false && false)"
+			),
+			(
+				"false || false",
+				"(false || false)"
+			),
+			(
+				"6 <= 8",
+				"(6 <= 8)"
+			),
+			(
+				"5 > 8 && 6 <= 8",
+				"((5 > 8) && (6 <= 8))"
+			),
+			(
+				"false || false && true",
+				"(false || (false && true))"
+			),
+			(
+				"(false || false) && true",
+				"((false || false) && true)"
+			),
+			(
+				"5 > 8 || 6 <= 8 && 4 == 5 || false",
+				"(((5 > 8) || ((6 <= 8) && (4 == 5))) || false)"
+			)
+		].forEach { (string, target) in
+				let scanner = BoolValueExpressionScanner(scanner: Scanner(string: string))
+				print(string)
+				if let res = scanner.scanBoolValueExpression() {
+					XCTAssertEqual(res.description, target.description)
+					print(res)
+				}
+				else {
+					XCTFail()
+				}
+				print()
+		}
+	}
+	
+	func testSpecial() {
+		let string = "(false || false) && true"
+		let target = "((false || false) && true)"
+		
+		let scanner = BoolValueExpressionScanner(scanner: Scanner(string: string))
+		print(string)
+		if let res = scanner.scanBoolValueExpression() {
+			XCTAssertEqual(res.description, target)
+			print(res)
+		}
+		else {
+			XCTFail()
+		}
+		print()
+	}
+	
 	func testArithmeticExpression() {
 		[
 			(
@@ -88,7 +156,7 @@ class ScannerTests: XCTestCase {
 				"(5 * (5 - 2))"
 			)
 		].forEach { (string, target) in
-			let scanner = ArithmeticExpressionScanner(scanner: Scanner(string: string))
+			let scanner = ArithmeticValueExpressionScanner(scanner: Scanner(string: string))
 			print(string)
 			if let res = scanner.scanArithmeticExpression() {
 				XCTAssertEqual(res.description, target.description)

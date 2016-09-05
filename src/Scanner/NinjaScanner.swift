@@ -24,6 +24,13 @@ class NinjaScanner {
 	}
 	
 	func scanIdentifier(identifier: String) -> Bool {
-		return scanner.scanString(identifier, into: nil)
+		let location = scanner.scanLocation
+		if scanner.scanString(identifier, into: nil) {
+			return true
+		}
+		else {
+			scanner.scanLocation = location
+			return false
+		}
 	}
 }

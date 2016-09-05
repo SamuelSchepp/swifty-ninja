@@ -8,6 +8,15 @@
 
 import Foundation
 
+struct Verb {
+	let identifier: String
+	let run: () -> Void
+}
+
+enum ErrorType {
+	case IOError, CompilerError, RuntimeError
+}
+
 let commandLineStack = Stack(withList: CommandLine.arguments.dropFirst().reversed())
 
 let helpVerb = Verb(identifier: "help") {
