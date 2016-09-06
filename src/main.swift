@@ -35,7 +35,6 @@ let verbs = [helpVerb,
 			let url = URL(fileURLWithPath: pathString)
 			do {
 				let contents = try NSString(contentsOf: url, encoding: String.Encoding.utf8.rawValue)
-				
 			}
 			catch {
 				printError(message: "Cannot read input file", errorType: .IOError)
