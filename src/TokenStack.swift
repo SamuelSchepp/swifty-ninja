@@ -13,22 +13,27 @@ class TokenStack {
     
     init(tokens: [Token]) {
         stack = Stack<Token>(withList: tokens.reversed())
+	}
+	
+	func hasTokens() -> Bool {
+		return stack.hasElements()
+	}
+	
+	// MARK: Keywords
+	
+    func pop_BREAK() -> Bool {
+		if let peek = stack.peek(), case .BREAK = peek {
+			_ = stack.pop()
+			return true
+		}
+		return false
     }
-    
-    func pop(token: Token.Type) -> Bool {
-        if let peek = stack.peek() {
-            switch peek.Type {
-            case token:
-                _ = stack.pop()
-                return true
-            default:
-                return false
-            }
-        }
-        return false
-    }
-    
-    func hasTokens() -> Bool {
-        return stack.hasElements()
-    }
+	
+	func pop_DO() -> Bool {
+		if let peek = stack.peek(), case .DO = peek {
+			_ = stack.pop()
+			return true
+		}
+		return false
+	}
 }

@@ -9,6 +9,7 @@
 import Foundation
 
 enum Token { case
+	// MARK: Keywords
 	BREAK,
 	DO,
 	ELSE,
@@ -23,6 +24,7 @@ enum Token { case
 	VOID,
 	WHILE,
 	
+	// MARK: Arithmetics and Operators
 	LPAREN,
 	RPAREN,
 	LCURL,
@@ -48,8 +50,8 @@ enum Token { case
 	SLASH,
 	PERCENT,
 	
+	// MARK: Values
 	NIL,
-	
 	BOOLEANLIT(value: Bool),
 	INTEGERLIT(value: Int),
 	CHARACTERLIT(value: String),
@@ -58,9 +60,14 @@ enum Token { case
 }
 
 class TokenMap {
+	class func getToken(forString: String) -> Token? {
+		return map[forString]
+	}
+	
 	class var map: [String: Token] {
 		get {
 			return [
+				// MARK: Keywords
 				"break":	.BREAK,
 				"do":		.DO,
 				"else":		.ELSE,
@@ -75,6 +82,7 @@ class TokenMap {
 				"void":		.VOID,
 				"while":	.WHILE,
 				
+				// MARK: Arithmetics and Operators
 				"(":		.LPAREN,
 				")":		.RPAREN,
 				"{":		.LCURL,
@@ -100,11 +108,10 @@ class TokenMap {
 				"/":		.SLASH,
 				"%":		.PERCENT,
 				
+				// MARK: Values
 				"nil":		.NIL,
-				
 				"true":		.BOOLEANLIT(value: true),
 				"false":	.BOOLEANLIT(value: false),
-				
 				"'\n'":		.CHARACTERLIT(value: "\n"),
 				"'\r'":		.CHARACTERLIT(value: "\r"),
 				"'\t'":		.CHARACTERLIT(value: "\t"),
@@ -115,9 +122,5 @@ class TokenMap {
 				"'\\'":		.CHARACTERLIT(value: "\\")
 			]
 		}
-	}
-	
-	class func getToken(forString: String) -> Token? {
-		return map[forString]
 	}
 }

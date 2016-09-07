@@ -22,6 +22,7 @@
 		7E40CD171D7DFA6600D7880C /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF51D7DF90B00D7880C /* AST.swift */; };
 		7E91A83C1D804CAD0030EB43 /* TokenStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E91A83B1D804CAD0030EB43 /* TokenStack.swift */; };
 		7E91A83D1D804CAD0030EB43 /* TokenStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E91A83B1D804CAD0030EB43 /* TokenStack.swift */; };
+		7EBCCCDF1D80CAF000FCCAC9 /* TokenStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCCCDE1D80CAF000FCCAC9 /* TokenStackTests.swift */; };
 		7EE0CC361D7E0B150061D30B /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF51D7DF90B00D7880C /* AST.swift */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +87,7 @@
 		7E91A83B1D804CAD0030EB43 /* TokenStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStack.swift; sourceTree = "<group>"; };
 		7E9A31FC1D7E2ADA00718EAA /* Grammatik.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Grammatik.txt; sourceTree = "<group>"; };
 		7E9A31FD1D7E2C4A00718EAA /* Instruktionen.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Instruktionen.txt; sourceTree = "<group>"; };
+		7EBCCCDE1D80CAF000FCCAC9 /* TokenStackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStackTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +195,7 @@
 				7E40CD031D7DF90B00D7880C /* StackTests.swift */,
 				7E010A301D7F57A800264F38 /* TokenizerTests.swift */,
 				7E010A331D7F806A00264F38 /* ASTDescriptionTests.swift */,
+				7EBCCCDE1D80CAF000FCCAC9 /* TokenStackTests.swift */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				7E40CD121D7DF94400D7880C /* Stack.swift in Sources */,
 				7E91A83D1D804CAD0030EB43 /* TokenStack.swift in Sources */,
 				7E40CD0E1D7DF92700D7880C /* StackTests.swift in Sources */,
+				7EBCCCDF1D80CAF000FCCAC9 /* TokenStackTests.swift in Sources */,
 				7E40CD171D7DFA6600D7880C /* AST.swift in Sources */,
 				7E010A2F1D7F4AB500264F38 /* Tokenizer.swift in Sources */,
 				7E010A321D7F57A800264F38 /* TokenizerTests.swift in Sources */,
