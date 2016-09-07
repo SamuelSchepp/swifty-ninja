@@ -9,7 +9,7 @@
 import XCTest
 
 class ASTTests: XCTestCase {
-	func testStringExtansion() {
+	func testStringExtension() {
 		XCTAssertEqual("[]".repeated(times: 0), "")
 		XCTAssertEqual("[]".repeated(times: 1), "[]")
 		XCTAssertEqual("[]".repeated(times: 2), "[][]")

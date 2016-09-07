@@ -18,12 +18,14 @@ extension String {
 	}
 }
 
-extension Array {
-	static func mkString(from: [CustomStringConvertible], sep: String) -> String {
-		return from.reduce("", { (akku: String, current: CustomStringConvertible) in
-			return akku + current.description + sep
-		})
-	}
+func mkString(from: [CustomStringConvertible], sep: String) -> String {
+	var buffer = from.reduce("", { (akku: String, current: CustomStringConvertible) in
+		return akku + current.description + sep
+	})
+	
+	buffer.remove(at: buffer.characters.endIndex)
+	
+	return buffer
 }
 
 protocol ASTNode: CustomStringConvertible { }
@@ -32,7 +34,7 @@ protocol ASTNode: CustomStringConvertible { }
 struct Program: ASTNode {
 	let glob_decs: [Glob_Dec]
 	
-	var description: String { get { return Array.mkString(from: glob_decs, sep: "\n") } }
+	var description: String { get { return mkString(from: glob_decs, sep: "\n") } }
 }
 
 //
@@ -71,13 +73,13 @@ struct Func_Dec: Glob_Dec {
 	var description: String {
 		get {
 			let ty = type?.description ?? "void"
-			let pars = Array.mkString(from: par_decs, sep: ", ")
-			let lvars = Array.mkString(from: lvar_decs, sep: "\n")
-			let sts = Array.mkString(from: stms, sep: "\n")
+			let pars = mkString(from: par_decs, sep: ", ")
+			let lvars = mkString(from: lvar_decs, sep: "\n")
+			let sts = mkString(from: stms, sep: "\n")
 			
 			return "\(ty) \(ident)(\(pars)) {\n" +
-				"\(lvars)" +
-				"\(sts)" +
+				"\(lvars)\n" +
+				"\(sts)\n" +
 				"}\n"
 		}
 	}
@@ -114,7 +116,7 @@ struct RecordType: Type {
 	
 	var description: String {
 		get {
-			return memb_decs.reduce("", { return $0 + $1.description + "\n" })
+			return mkString(from: memb_decs, sep: "\n")
 		}
 	}
 }
@@ -171,7 +173,7 @@ struct Compound_Stm: Stm {
 	
 	var description: String {
 		get {
-			return stms.mkString("\n")
+			return mkString(from: stms, sep: "\n")
 		}
 	}
 }
@@ -179,39 +181,91 @@ struct Compound_Stm: Stm {
 struct Assign_Stm: Stm {
 	let _var: Var
 	let exp: Exp
+	
+	var description: String {
+		get {
+			return "\(_var) = \(exp);"
+		}
+	}
 }
 
 struct If_Stm: Stm {
 	let exp: Exp
 	let stm: Stm
 	let elseStm: Stm?
+	
+	var description: String {
+		get {
+			return "if (\(exp)) \(stm) \(elseStm)"
+		}
+	}
 }
 
 struct While_Stm: Stm {
 	let exp: Exp
 	let stm: Stm
+	
+	var description: String {
+		get {
+			return "while (\(exp)) \(stm)"
+		}
+	}
 }
 
 struct Do_Stm: Stm {
 	let stm: Stm
 	let exp: Exp
+	
+	var description: String {
+		get {
+			return "do \(stm) while (\(exp));"
+		}
+	}
 }
 
 struct Break_Stm: Stm {
-	
+	var description: String {
+		get {
+			return "break;"
+		}
+	}
 }
 
 struct Call_Stm: Stm {
 	let ident: Ident
 	let args: [Arg]
+	
+	var description: String {
+		get {
+			let argList = mkString(from: args, sep: ", ")
+			return "\(ident)(\(argList);"
+		}
+	}
 }
 
 struct Arg: ASTNode {
 	let exp: Exp
+	
+	var description: String {
+		get {
+			return "\(exp)"
+		}
+	}
 }
 
 struct Return_Stm: Stm {
 	let exp: Exp?
+	
+	var description: String {
+		get {
+			if let ex = exp {
+				return "return \(ex);"
+			}
+			else {
+				return "return;"
+			}
+		}
+	}
 }
 
 // MARK: Other
@@ -220,16 +274,34 @@ protocol Var: ASTNode { }
 
 struct Var_Ident: Var {
 	let ident: Ident
+	
+	var description: String {
+		get {
+			return "\(ident)"
+		}
+	}
 }
 
 struct Var_Array_Access: Var {
 	let primary_exp: Primary_Exp
 	let brack_exp: Exp
+	
+	var description: String {
+		get {
+			return "\(primary_exp)[\(brack_exp)]"
+		}
+	}
 }
 
 struct Var_Field_Access: Var {
 	let primary_exp: Primary_Exp
 	let ident: Ident
+	
+	var description: String {
+		get {
+			return "\(primary_exp).\(ident)"
+		}
+	}
 }
 
 // MARK: Expression Boolean
@@ -241,6 +313,12 @@ protocol Or_Exp: Exp { }
 struct Or_Exp_Binary: Or_Exp {
 	let lhs: Or_Exp
 	let rhs: And_Exp
+	
+	var description: String {
+		get {
+			return "\(lhs) || \(rhs)"
+		}
+	}
 }
 
 protocol And_Exp: Or_Exp { }
@@ -248,6 +326,12 @@ protocol And_Exp: Or_Exp { }
 struct And_Exp_Binary: Or_Exp {
 	let lhs: And_Exp
 	let rhs: Rel_Exp
+	
+	var description: String {
+		get {
+			return "\(lhs) && \(rhs)"
+		}
+	}
 }
 
 protocol Rel_Exp: And_Exp { }
@@ -256,10 +340,21 @@ struct Rel_Exp_Binary: Rel_Exp {
 	let lhs: Add_Exp
 	let rhs: Add_Exp
 	let op: Rel_Exp_Binary_Op
+	
+	var description: String {
+		get {
+			return "\(lhs) \(op) \(rhs)"
+		}
+	}
 }
 
-enum Rel_Exp_Binary_Op { case
-	EQ, NE, LT, LE, GT, GE
+enum Rel_Exp_Binary_Op: String { case
+	EQ = "==",
+	NE = "!=",
+	LT = "<",
+	LE = "<=",
+	GT = ">",
+	GE = ">="
 }
 
 // MARK: Expression Arithmetic
@@ -270,10 +365,17 @@ struct Add_Exp_Binary: Add_Exp {
 	let lhs: Add_Exp
 	let rhs: Mul_Exp
 	let op: Add_Exp_Binary_Op
+	
+	var description: String {
+		get {
+			return "\(lhs) \(op) \(rhs)"
+		}
+	}
 }
 
-enum Add_Exp_Binary_Op { case
-	PLUS, MINUS
+enum Add_Exp_Binary_Op: String { case
+	PLUS = "+",
+	MINUS = "-"
 }
 
 protocol Mul_Exp: Add_Exp { }
@@ -282,10 +384,18 @@ struct Mul_Exp_Binary: Mul_Exp {
 	let lhs: Mul_Exp
 	let rhs: Unary_Exp
 	let op: Mul_Exp_Binary_Op
+	
+	var description: String {
+		get {
+			return "\(lhs) \(op) \(rhs)"
+		}
+	}
 }
 
-enum Mul_Exp_Binary_Op { case
-	STAR, SLASH, PERCENT
+enum Mul_Exp_Binary_Op: String { case
+	STAR = "*",
+	SLASH = "/",
+	PERCENT = "%"
 }
 
 protocol Unary_Exp: Mul_Exp { }
@@ -293,42 +403,93 @@ protocol Unary_Exp: Mul_Exp { }
 struct Unary_Exp_Impl: Unary_Exp {
 	let op: Unary_Exp_Impl_Op
 	let rhs: Unary_Exp
+	
+	var description: String {
+		get {
+			return "\(op) \(rhs)"
+		}
+	}
 }
 
-enum Unary_Exp_Impl_Op { case
-	PLUS, MINUS, LOGNOT
+enum Unary_Exp_Impl_Op: String { case
+	PLUS = "+",
+	MINUS = "-",
+	LOGNOT = "~"
 }
 
 protocol Primary_Exp: Unary_Exp { }
 
-struct Primary_Exp_Nil: Primary_Exp { }
+struct Primary_Exp_Nil: Primary_Exp {
+	var description: String {
+		get {
+			return "nil"
+		}
+	}
+}
 
 struct Primary_Exp_Integer: Primary_Exp {
 	let value: Int
+	
+	var description: String {
+		get {
+			return "\(value)"
+		}
+	}
 }
 
 struct Primary_Exp_Character: Primary_Exp {
 	let value: String
+	
+	var description: String {
+		get {
+			return "'\(value)'"
+		}
+	}
 }
 
 struct Primary_Exp_Boolean: Primary_Exp {
 	let value: Bool
+	
+	var description: String {
+		get {
+			return "\(value)"
+		}
+	}
 }
 
 struct Primary_Exp_String: Primary_Exp {
 	let value: String
+	
+	var description: String {
+		get {
+			return "\"\(value)\""
+		}
+	}
 }
 
 protocol New_Obj_Spec: Primary_Exp { }
 
 struct New_Obj_Spec_Ident: New_Obj_Spec {
 	let ident: Ident
+	
+	var description: String {
+		get {
+			return "new(\(ident));"
+		}
+	}
 }
 
 struct New_Obj_Spec_Array: New_Obj_Spec {
 	let ident: Ident
 	let exp: Exp
 	let more_dims: Int
+	
+	var description: String {
+		get {
+			let mor = "[]".repeated(times: more_dims)
+			return "new(\(ident)[\(exp)]\(mor));"
+		}
+	}
 }
 
 
