@@ -9,7 +9,7 @@
 import Foundation
 
 class Tokenizer {
-	public class func tokenize(string: String) -> [Token] {
+	class func tokenize(string: String) -> [Token] {
 		let scanner = Scanner(string: string)
 		var tokens = [Token]()
 		
@@ -110,7 +110,7 @@ class Tokenizer {
 			return .none
 		}
 		
-		return .CHARACTERLIT(value: String(describing: buffer!))
+		return .CHARACTERLIT(value: buffer! as String)
 	}
 	
 	private class func scanStringLiteral(scanner: Scanner) -> Token? {
@@ -129,7 +129,7 @@ class Tokenizer {
 			return .none
 		}
 		
-		return .STRINGLIT(value: String(describing: buffer!))
+		return .STRINGLIT(value: buffer! as String)
 		
 	}
 	
@@ -142,7 +142,7 @@ class Tokenizer {
 			return .none
 		}
 		
-		return .IDENT(identifier: String(describing: buffer!))
+		return .IDENT(identifier: buffer! as String)
 		
 	}
 }

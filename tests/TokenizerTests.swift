@@ -61,7 +61,7 @@ class TokenizerTests: XCTestCase {
 		XCTAssertEqual(Tokenizer.tokenize(string: "'7'").description, [Token.CHARACTERLIT(value: "7")].description)
 		XCTAssertEqual(Tokenizer.tokenize(string: "'.'").description, [Token.CHARACTERLIT(value: ".")].description)
 		XCTAssertEqual(Tokenizer.tokenize(string: "'\\'").description, [Token.CHARACTERLIT(value: "\\")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "''").description, [].description)
+		XCTAssertEqual(Tokenizer.tokenize(string: "''").description, [Token]().description)
 		XCTAssertEqual(Tokenizer.tokenize(string: "('ß')").description, [Token.LPAREN, Token.CHARACTERLIT(value: "ß"), Token.RPAREN].description)
 	}
 	

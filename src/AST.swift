@@ -11,33 +11,20 @@ import Foundation
 extension String {
 	func repeated(times: Int) -> String {
 		var buffer = ""
-		for _ in 0...times {
+		for _ in 0..<times {
 			buffer += self
 		}
 		return buffer
 	}
 }
 
-func mkString(from: [CustomStringConvertible], sep: String) -> String {
-	var buffer = from.reduce("", { (akku: String, current: CustomStringConvertible) in
-		return akku + current.description + sep
-	})
-	
-	buffer.remove(at: buffer.characters.endIndex)
-	
-	return buffer
-}
-
 protocol ASTNode: CustomStringConvertible { }
-
 
 struct Program: ASTNode {
 	let glob_decs: [Glob_Dec]
 	
-	var description: String { get { return mkString(from: glob_decs, sep: "\n") } }
+	var description: String { get { return glob_decs.description } }
 }
-
-//
 
 struct Ident: ASTNode {
 	let value: String
@@ -73,9 +60,9 @@ struct Func_Dec: Glob_Dec {
 	var description: String {
 		get {
 			let ty = type?.description ?? "void"
-			let pars = mkString(from: par_decs, sep: ", ")
-			let lvars = mkString(from: lvar_decs, sep: "\n")
-			let sts = mkString(from: stms, sep: "\n")
+			let pars = par_decs.description
+			let lvars = lvar_decs.description
+			let sts = stms.description
 			
 			return "\(ty) \(ident)(\(pars)) {\n" +
 				"\(lvars)\n" +
@@ -116,7 +103,8 @@ struct RecordType: Type {
 	
 	var description: String {
 		get {
-			return mkString(from: memb_decs, sep: "\n")
+            let memb = memb_decs.reduce("", { return $0 + $1.description + "\n" })
+			return "record {\n\(memb)}"
 		}
 	}
 }
@@ -173,7 +161,7 @@ struct Compound_Stm: Stm {
 	
 	var description: String {
 		get {
-			return mkString(from: stms, sep: "\n")
+			return stms.description
 		}
 	}
 }
@@ -237,7 +225,7 @@ struct Call_Stm: Stm {
 	
 	var description: String {
 		get {
-			let argList = mkString(from: args, sep: ", ")
+			let argList = args.description
 			return "\(ident)(\(argList);"
 		}
 	}

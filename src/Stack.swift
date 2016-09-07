@@ -35,6 +35,10 @@ class Stack<T> {
 			return list.removeLast()
 		}
 	}
+    
+    func hasElements() -> Bool {
+        return list.count > 0
+    }
 	
 	func peek() -> T? {
 		return list.last

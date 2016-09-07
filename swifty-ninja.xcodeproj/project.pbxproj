@@ -12,7 +12,7 @@
 		7E010A2E1D7F4AB500264F38 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A2D1D7F4AB500264F38 /* Tokenizer.swift */; };
 		7E010A2F1D7F4AB500264F38 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A2D1D7F4AB500264F38 /* Tokenizer.swift */; };
 		7E010A321D7F57A800264F38 /* TokenizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A301D7F57A800264F38 /* TokenizerTests.swift */; };
-		7E010A341D7F806A00264F38 /* ASTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A331D7F806A00264F38 /* ASTTests.swift */; };
+		7E010A341D7F806A00264F38 /* ASTDescriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A331D7F806A00264F38 /* ASTDescriptionTests.swift */; };
 		7E40CD061D7DF91E00D7880C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF91D7DF90B00D7880C /* main.swift */; };
 		7E40CD0E1D7DF92700D7880C /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CD031D7DF90B00D7880C /* StackTests.swift */; };
 		7E40CD121D7DF94400D7880C /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCFD1D7DF90B00D7880C /* Stack.swift */; };
@@ -20,6 +20,8 @@
 		7E40CD151D7DF9DF00D7880C /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF81D7DF90B00D7880C /* Library.swift */; };
 		7E40CD161D7DFA2300D7880C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E40CD011D7DF90B00D7880C /* Info.plist */; };
 		7E40CD171D7DFA6600D7880C /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF51D7DF90B00D7880C /* AST.swift */; };
+		7E91A83C1D804CAD0030EB43 /* TokenStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E91A83B1D804CAD0030EB43 /* TokenStack.swift */; };
+		7E91A83D1D804CAD0030EB43 /* TokenStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E91A83B1D804CAD0030EB43 /* TokenStack.swift */; };
 		7EE0CC361D7E0B150061D30B /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF51D7DF90B00D7880C /* AST.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +42,7 @@
 		7E010A291D7F495000264F38 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		7E010A2D1D7F4AB500264F38 /* Tokenizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokenizer.swift; sourceTree = "<group>"; };
 		7E010A301D7F57A800264F38 /* TokenizerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizerTests.swift; sourceTree = "<group>"; };
-		7E010A331D7F806A00264F38 /* ASTTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTTests.swift; sourceTree = "<group>"; };
+		7E010A331D7F806A00264F38 /* ASTDescriptionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTDescriptionTests.swift; sourceTree = "<group>"; };
 		7E40CCD31D7DF90B00D7880C /* bruch.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bruch.nj; sourceTree = "<group>"; };
 		7E40CCD41D7DF90B00D7880C /* bruch2.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bruch2.nj; sourceTree = "<group>"; };
 		7E40CCD51D7DF90B00D7880C /* caesar.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = caesar.nj; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		7E40CD031D7DF90B00D7880C /* StackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
 		7E8BD9901D7CBC07003052DB /* swifty-ninja */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "swifty-ninja"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E8BD9A01D7CC5C9003052DB /* swift-ninja-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "swift-ninja-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E91A83B1D804CAD0030EB43 /* TokenStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStack.swift; sourceTree = "<group>"; };
 		7E9A31FC1D7E2ADA00718EAA /* Grammatik.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Grammatik.txt; sourceTree = "<group>"; };
 		7E9A31FD1D7E2C4A00718EAA /* Instruktionen.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Instruktionen.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,6 +112,7 @@
 				7E010A291D7F495000264F38 /* Token.swift */,
 				7E40CCF51D7DF90B00D7880C /* AST.swift */,
 				7E010A2D1D7F4AB500264F38 /* Tokenizer.swift */,
+				7E91A83B1D804CAD0030EB43 /* TokenStack.swift */,
 			);
 			name = Compiler;
 			sourceTree = "<group>";
@@ -188,7 +192,7 @@
 				7E40CD011D7DF90B00D7880C /* Info.plist */,
 				7E40CD031D7DF90B00D7880C /* StackTests.swift */,
 				7E010A301D7F57A800264F38 /* TokenizerTests.swift */,
-				7E010A331D7F806A00264F38 /* ASTTests.swift */,
+				7E010A331D7F806A00264F38 /* ASTDescriptionTests.swift */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -305,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E91A83C1D804CAD0030EB43 /* TokenStack.swift in Sources */,
 				7E010A2E1D7F4AB500264F38 /* Tokenizer.swift in Sources */,
 				7E40CD151D7DF9DF00D7880C /* Library.swift in Sources */,
 				7EE0CC361D7E0B150061D30B /* AST.swift in Sources */,
@@ -320,11 +325,12 @@
 			files = (
 				7E010A2B1D7F495000264F38 /* Token.swift in Sources */,
 				7E40CD121D7DF94400D7880C /* Stack.swift in Sources */,
+				7E91A83D1D804CAD0030EB43 /* TokenStack.swift in Sources */,
 				7E40CD0E1D7DF92700D7880C /* StackTests.swift in Sources */,
 				7E40CD171D7DFA6600D7880C /* AST.swift in Sources */,
 				7E010A2F1D7F4AB500264F38 /* Tokenizer.swift in Sources */,
 				7E010A321D7F57A800264F38 /* TokenizerTests.swift in Sources */,
-				7E010A341D7F806A00264F38 /* ASTTests.swift in Sources */,
+				7E010A341D7F806A00264F38 /* ASTDescriptionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
