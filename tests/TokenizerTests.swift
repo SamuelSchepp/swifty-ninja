@@ -10,76 +10,112 @@ import XCTest
 
 class TokenizerTests: XCTestCase {
 	func testKeywords() {
-		XCTAssertEqual(Tokenizer.tokenize(string: "break").description, [StdToken(identifier: "break")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "if").description, [StdToken(identifier: "if")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "local").description, [StdToken(identifier: "local")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "void").description, [StdToken(identifier: "void")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "while").description, [StdToken(identifier: "while")].description)
+		[
+			"break":	[BREAK()],
+			"if":		[IF()],
+			"local":	[LOCAL()],
+			"void":		[VOID()],
+			"while":	[WHILE()]
+			].forEach { key, value in
+				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+		}
 	}
 	
 	func testOperators() {
-		XCTAssertEqual(Tokenizer.tokenize(string: "()").description, [StdToken(identifier: "("), StdToken(identifier: ")")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "{}").description, [StdToken(identifier: "{"), StdToken(identifier: "}")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "||&&").description, [StdToken(identifier: "||"), StdToken(identifier: "&&")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "<=!=<").description, [StdToken(identifier: "<="), StdToken(identifier: "!="), StdToken(identifier: "<")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "<= != <").description, [StdToken(identifier: "<="), StdToken(identifier: "!="), StdToken(identifier: "<")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "/%").description, [StdToken(identifier: "/"), StdToken(identifier: "%")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "/ %").description, [StdToken(identifier: "/"), StdToken(identifier: "%")].description)
+		[
+			"()":		[LPAREN(), RPAREN()],
+			"{}":		[LCURL(), RCURL()],
+			"||&&":		[LOGOR(), LOGAND()],
+			"<=!=<":	[LE(), NE(), LT()],
+			"<= != <":	[LE(), NE(), LT()],
+			"/%":		[SLASH(), PERCENT()],
+			"/ %":		[SLASH(), PERCENT()]
+			].forEach { key, value in
+				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+		}
 	}
 	
 	func testNil() {
-		XCTAssertEqual(Tokenizer.tokenize(string: "nil").description, [StdToken(identifier: "nil")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "nilnil").description, [StdToken(identifier: "nil"), StdToken(identifier: "nil")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "nil nil").description, [StdToken(identifier: "nil"), StdToken(identifier: "nil")].description)
+		[
+			"nil":		[NIL()],
+			"nilnil":	[NIL(), NIL()],
+			"nil nil":	[NIL(), NIL()]
+			].forEach { key, value in
+				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+		}
 	}
 	
+	
 	func testBool() {
-		XCTAssertEqual(Tokenizer.tokenize(string: "true").description, [ValueToken<Bool>(identifier: "BOOLEANLIT", value: true)].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "false").description, [ValueToken<Bool>(identifier: "BOOLEANLIT", value: false)].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "truefalse").description, [ValueToken<Bool>(identifier: "BOOLEANLIT", value: true), ValueToken<Bool>(identifier: "BOOLEANLIT", value: false)].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "true false").description, [ValueToken<Bool>(identifier: "BOOLEANLIT", value: true), ValueToken<Bool>(identifier: "BOOLEANLIT", value: false)].description)
+		[
+			"true":			[BOOLEANLIT(value: true)],
+			"false":		[BOOLEANLIT(value: false)],
+			"true false":	[BOOLEANLIT(value: true), BOOLEANLIT(value: false)]
+			].forEach { key, value in
+				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+		}
 	}
 	
 	func testDecimalInteger() {
-		XCTAssertEqual(Tokenizer.tokenize(string: "234").description, [ValueToken<Int>(identifier: "INTEGERLIT", value: 234)].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "-2").description, [StdToken(identifier: "-"), ValueToken<Int>(identifier: "INTEGERLIT", value: 2)].description)
-		XCTAssertNotEqual(Tokenizer.tokenize(string: "0.5").description, [ValueToken<Int>(identifier: "INTEGERLIT", value: 0)].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "-27 45").description, [StdToken(identifier: "-"), ValueToken<Int>(identifier: "INTEGERLIT", value: 27), ValueToken<Int>(identifier: "INTEGERLIT", value: 45)].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "- 27 45").description, [StdToken(identifier: "-"), ValueToken<Int>(identifier: "INTEGERLIT", value: 27), ValueToken<Int>(identifier: "INTEGERLIT", value: 45)].description)
+		[
+			"234":		[INTEGERLIT(value: 234)],
+			"-2":		[MINUS(), INTEGERLIT(value: 2)],
+			"0.5":		[INTEGERLIT(value: 0), DOT(), INTEGERLIT(value: 5)],
+			"-27 45":	[MINUS(), INTEGERLIT(value: 27), INTEGERLIT(value: 45)],
+			"- 27 45":	[MINUS(), INTEGERLIT(value: 27), INTEGERLIT(value: 45)]
+			].forEach { key, value in
+				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+		}
 	}
 	
 	func testHexInteger() {
-		XCTAssertEqual(Tokenizer.tokenize(string: "0x123").description, [ValueToken<Int>(identifier: "INTEGERLIT", value: 291)].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "-0x123").description, [StdToken(identifier: "-"), ValueToken<Int>(identifier: "INTEGERLIT", value: 291)].description)
+		[
+			"0x123":	[INTEGERLIT(value: 291)],
+			"-0x123":	[MINUS(), INTEGERLIT(value: 291)]
+			].forEach { key, value in
+				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+		}
 	}
 	
 	func testCharacter() {
-		XCTAssertEqual(Tokenizer.tokenize(string: "'ä'").description, [ValueToken<String>(identifier: "CHARACTERLIT", value: "ä")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "'\\n'").description, [ValueToken<String>(identifier: "CHARACTERLIT", value: "\\n")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "'\\t'").description, [ValueToken<String>(identifier: "CHARACTERLIT", value: "\\t")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "'='").description, [ValueToken<String>(identifier: "CHARACTERLIT", value: "=")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "'7'").description, [ValueToken<String>(identifier: "CHARACTERLIT", value: "7")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "'.'").description, [ValueToken<String>(identifier: "CHARACTERLIT", value: ".")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "'\\'").description, [ValueToken<String>(identifier: "CHARACTERLIT", value: "\\")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "''").description, [Token]().description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "('ß')").description, [StdToken(identifier: "("), ValueToken<String>(identifier: "CHARACTERLIT", value: "ß"), StdToken(identifier: ")")].description)
+		[
+			"'ä'":		[CHARACTERLIT(value: "ä")],
+			"'\\n'":	[CHARACTERLIT(value: "\\n")],
+			"'\\t'":	[CHARACTERLIT(value: "\\t")],
+			"'='":		[CHARACTERLIT(value: "=")],
+			"'7'":		[CHARACTERLIT(value: "7")],
+			"'.'":		[CHARACTERLIT(value: ".")],
+			"'\\'":		[CHARACTERLIT(value: "\\")],
+			"''":		[],
+			"('ß')":	[LPAREN(), CHARACTERLIT(value: "ß"), RPAREN()]
+			].forEach { key, value in
+				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+		}
 	}
 	
 	func testString() {
-		XCTAssertEqual(Tokenizer.tokenize(string: "\"\"").description, [ValueToken<String>(identifier: "STRINGLIT", value: "")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "\"hello world!\"").description, [ValueToken<String>(identifier: "STRINGLIT", value: "hello world!")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "\"A\"").description, [ValueToken<String>(identifier: "STRINGLIT", value: "A")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "\"rgdgdrrhtf3857232§$%&/()+#äö-,;_:'ÄÖÄ*Ü\"").description, [ValueToken<String>(identifier: "STRINGLIT", value: "rgdgdrrhtf3857232§$%&/()+#äö-,;_:'ÄÖÄ*Ü")].description)
+		[
+			"\"\"":											[STRINGLIT(value: "")],
+			"\"Hello, World!\"":							[STRINGLIT(value: "Hello, World!")],
+			"\"A\"":										[STRINGLIT(value: "A")],
+			"\"rgdgdrrhtf3857232§$%&/()+#äö-,;_:'ÄÖÄ*Ü\"":	[STRINGLIT(value: "rgdgdrrhtf3857232§$%&/()+#äö-,;_:'ÄÖÄ*Ü")]
+			].forEach { key, value in
+				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+		}
 	}
 	
 	func testIdentifier() {
-		XCTAssertEqual(Tokenizer.tokenize(string: "main").description, [ValueToken<String>(identifier: "IDENT", value: "main")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "x").description, [ValueToken<String>(identifier: "IDENT", value: "x")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "y").description, [ValueToken<String>(identifier: "IDENT", value: "y")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "x y").description, [ValueToken<String>(identifier: "IDENT", value: "x"), ValueToken<String>(identifier: "IDENT", value: "y")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "test1").description, [ValueToken<String>(identifier: "IDENT", value: "test1")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "2test").description, [ValueToken<Int>(identifier: "INTEGERLIT", value: 2), ValueToken<String>(identifier: "IDENT", value: "test")].description)
-		XCTAssertEqual(Tokenizer.tokenize(string: "test-id").description, [ValueToken<String>(identifier: "IDENT", value: "test"), StdToken(identifier: "-"), ValueToken<String>(identifier: "IDENT", value: "id")].description)
+		[
+			"main":		[IDENT(value: "main")],
+			"x":		[IDENT(value: "x")],
+			"y":		[IDENT(value: "y")],
+			"x y":		[IDENT(value: "x"), IDENT(value: "y")],
+			"test1":	[IDENT(value: "test1")],
+			"2test":	[INTEGERLIT(value: 2), IDENT(value: "test")],
+			"test-id":	[IDENT(value: "test"), MINUS(), IDENT(value: "id")],
+			].forEach { key, value in
+				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+		}
 	}
 	
 	func testProgram1() {

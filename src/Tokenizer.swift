@@ -47,10 +47,10 @@ class Tokenizer {
 	}
 	
 	private class func scanKeywordsAndOperators(scanner: Scanner) -> Token? {
-		for token in TokenMap.keywordsAndOperators.sorted(by: {return $0.0.characters.count > $0.1.characters.count }) {
+		for token in TokenMap.map.keys {
 			let location = scanner.scanLocation
 			if scanner.scanString(token, into: nil) {
-				return StdToken(identifier: token)
+				return TokenMap.map[token]
 			}
 			else {
 				scanner.scanLocation = location
@@ -68,13 +68,13 @@ class Tokenizer {
 			return .none
 		}
 		
-		return ValueToken<Int>(identifier: "INTEGERLIT", value: buffer)
+		return INTEGERLIT(value: buffer)
 	}
 	
 	private class func scanBooleanLiteral(scanner: Scanner) -> Token? {
 		let location = scanner.scanLocation
 		if scanner.scanString("true", into: nil) {
-			return ValueToken<Bool>(identifier: "BOOLEANLIT", value: true)
+			return BOOLEANLIT(value: true)
 		}
 		else {
 			scanner.scanLocation = location
@@ -85,7 +85,7 @@ class Tokenizer {
 			return .none
 		}
 		
-		return ValueToken<Bool>(identifier: "BOOLEANLIT", value: false)
+		return BOOLEANLIT(value: false)
 	}
 
 	
@@ -102,7 +102,7 @@ class Tokenizer {
 			scanner.scanLocation = location
 			return .none
 		}
-		return ValueToken<Int>(identifier: "INTEGERLIT", value: Int(buffer))
+		return INTEGERLIT(value: Int(buffer))
 	}
 	
 	private class func scanCharacterLiteral(scanner: Scanner) -> Token? {
@@ -126,7 +126,7 @@ class Tokenizer {
 			return .none
 		}
 		
-		return ValueToken<String>(identifier: "CHARACTERLIT", value: buffer! as String)
+		return CHARACTERLIT(value: buffer! as String)
 	}
 	
 	private class func scanStringLiteral(scanner: Scanner) -> Token? {
@@ -145,7 +145,7 @@ class Tokenizer {
 			return .none
 		}
 		
-		return ValueToken<String>(identifier: "STRINGLIT", value: buffer! as String)
+		return STRINGLIT(value: buffer! as String)
 	}
 	
 	private class func scanIdentifier(scanner: Scanner) -> Token? {
@@ -157,6 +157,6 @@ class Tokenizer {
 			return .none
 		}
 		
-		return ValueToken<String>(identifier: "IDENT", value: buffer! as String)
+		return IDENT(value: buffer! as String)
 	}
 }
