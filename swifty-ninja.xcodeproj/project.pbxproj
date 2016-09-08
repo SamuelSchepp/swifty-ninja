@@ -12,7 +12,6 @@
 		7E010A2E1D7F4AB500264F38 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A2D1D7F4AB500264F38 /* Tokenizer.swift */; };
 		7E010A2F1D7F4AB500264F38 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A2D1D7F4AB500264F38 /* Tokenizer.swift */; };
 		7E010A321D7F57A800264F38 /* TokenizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A301D7F57A800264F38 /* TokenizerTests.swift */; };
-		7E010A341D7F806A00264F38 /* ASTDescriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A331D7F806A00264F38 /* ASTDescriptionTests.swift */; };
 		7E40CD061D7DF91E00D7880C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF91D7DF90B00D7880C /* main.swift */; };
 		7E40CD0E1D7DF92700D7880C /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CD031D7DF90B00D7880C /* StackTests.swift */; };
 		7E40CD121D7DF94400D7880C /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCFD1D7DF90B00D7880C /* Stack.swift */; };
@@ -22,7 +21,9 @@
 		7E40CD171D7DFA6600D7880C /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF51D7DF90B00D7880C /* AST.swift */; };
 		7EAB30A91D81A3F0009CAB4A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAB30A81D81A3F0009CAB4A /* Parser.swift */; };
 		7EAB30AA1D81A3F0009CAB4A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAB30A81D81A3F0009CAB4A /* Parser.swift */; };
-		7EBCCCDF1D80CAF000FCCAC9 /* TokenStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCCCDE1D80CAF000FCCAC9 /* TokenStackTests.swift */; };
+		7EB4E4451D81F0D80063AFA1 /* TokenStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB4E4441D81F0D80063AFA1 /* TokenStack.swift */; };
+		7EB4E4461D81F0D80063AFA1 /* TokenStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB4E4441D81F0D80063AFA1 /* TokenStack.swift */; };
+		7EBCCCDF1D80CAF000FCCAC9 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCCCDE1D80CAF000FCCAC9 /* Tests.swift */; };
 		7EE0CC361D7E0B150061D30B /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF51D7DF90B00D7880C /* AST.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,7 +44,6 @@
 		7E010A291D7F495000264F38 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		7E010A2D1D7F4AB500264F38 /* Tokenizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokenizer.swift; sourceTree = "<group>"; };
 		7E010A301D7F57A800264F38 /* TokenizerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizerTests.swift; sourceTree = "<group>"; };
-		7E010A331D7F806A00264F38 /* ASTDescriptionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTDescriptionTests.swift; sourceTree = "<group>"; };
 		7E40CCD31D7DF90B00D7880C /* bruch.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bruch.nj; sourceTree = "<group>"; };
 		7E40CCD41D7DF90B00D7880C /* bruch2.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bruch2.nj; sourceTree = "<group>"; };
 		7E40CCD51D7DF90B00D7880C /* caesar.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = caesar.nj; sourceTree = "<group>"; };
@@ -87,7 +87,8 @@
 		7E9A31FC1D7E2ADA00718EAA /* Grammatik.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Grammatik.txt; sourceTree = "<group>"; };
 		7E9A31FD1D7E2C4A00718EAA /* Instruktionen.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Instruktionen.txt; sourceTree = "<group>"; };
 		7EAB30A81D81A3F0009CAB4A /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		7EBCCCDE1D80CAF000FCCAC9 /* TokenStackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStackTests.swift; sourceTree = "<group>"; };
+		7EB4E4441D81F0D80063AFA1 /* TokenStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStack.swift; sourceTree = "<group>"; };
+		7EBCCCDE1D80CAF000FCCAC9 /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +116,7 @@
 				7E40CCF51D7DF90B00D7880C /* AST.swift */,
 				7E010A2D1D7F4AB500264F38 /* Tokenizer.swift */,
 				7EAB30A81D81A3F0009CAB4A /* Parser.swift */,
+				7EB4E4441D81F0D80063AFA1 /* TokenStack.swift */,
 			);
 			name = Compiler;
 			sourceTree = "<group>";
@@ -194,8 +196,7 @@
 				7E40CD011D7DF90B00D7880C /* Info.plist */,
 				7E40CD031D7DF90B00D7880C /* StackTests.swift */,
 				7E010A301D7F57A800264F38 /* TokenizerTests.swift */,
-				7E010A331D7F806A00264F38 /* ASTDescriptionTests.swift */,
-				7EBCCCDE1D80CAF000FCCAC9 /* TokenStackTests.swift */,
+				7EBCCCDE1D80CAF000FCCAC9 /* Tests.swift */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -314,6 +315,7 @@
 			files = (
 				7E010A2E1D7F4AB500264F38 /* Tokenizer.swift in Sources */,
 				7E40CD151D7DF9DF00D7880C /* Library.swift in Sources */,
+				7EB4E4451D81F0D80063AFA1 /* TokenStack.swift in Sources */,
 				7EE0CC361D7E0B150061D30B /* AST.swift in Sources */,
 				7E40CD131D7DF9C800D7880C /* Stack.swift in Sources */,
 				7E40CD061D7DF91E00D7880C /* main.swift in Sources */,
@@ -329,12 +331,12 @@
 				7E010A2B1D7F495000264F38 /* Token.swift in Sources */,
 				7E40CD121D7DF94400D7880C /* Stack.swift in Sources */,
 				7E40CD0E1D7DF92700D7880C /* StackTests.swift in Sources */,
-				7EBCCCDF1D80CAF000FCCAC9 /* TokenStackTests.swift in Sources */,
+				7EBCCCDF1D80CAF000FCCAC9 /* Tests.swift in Sources */,
 				7E40CD171D7DFA6600D7880C /* AST.swift in Sources */,
 				7EAB30AA1D81A3F0009CAB4A /* Parser.swift in Sources */,
 				7E010A2F1D7F4AB500264F38 /* Tokenizer.swift in Sources */,
 				7E010A321D7F57A800264F38 /* TokenizerTests.swift in Sources */,
-				7E010A341D7F806A00264F38 /* ASTDescriptionTests.swift in Sources */,
+				7EB4E4461D81F0D80063AFA1 /* TokenStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

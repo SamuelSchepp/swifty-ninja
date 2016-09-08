@@ -9,33 +9,38 @@
 import Foundation
 
 class Tokenizer {
-	class func tokenize(string: String) -> [Token] {
-		let scanner = Scanner(string: string)
+	let scanner: Scanner
+	
+	init(with: String) {
+		scanner = Scanner(string: with)
+	}
+	
+	func tokenize() -> [Token] {
 		var tokens = [Token]()
 		
 		while !scanner.isAtEnd {
-			guard let nT = scan(scanner: scanner) else { return tokens }
+			guard let nT = scan() else { return tokens }
 			tokens.append(nT)
 		}
 		
 		return tokens
 	}
 	
-	private class func scan(scanner: Scanner) -> Token? {
-		skipComments(scanner: scanner)
+	private func scan() -> Token? {
+		skipComments()
 		
-		if let token = scanKeywordsAndOperators		(scanner: scanner) { return token }
-		if let token = scanBooleanLiteral			(scanner: scanner) { return token }
-		if let token = scanHexIntegerLiteral		(scanner: scanner) { return token }
-		if let token = scanDecimalIntegerLiteral	(scanner: scanner) { return token }
-		if let token = scanCharacterLiteral			(scanner: scanner) { return token }
-		if let token = scanStringLiteral			(scanner: scanner) { return token }
-		if let token = scanIdentifier				(scanner: scanner) { return token }
+		if let token = scanKeywordsAndOperators		() { return token }
+		if let token = scanBooleanLiteral			() { return token }
+		if let token = scanHexIntegerLiteral		() { return token }
+		if let token = scanDecimalIntegerLiteral	() { return token }
+		if let token = scanCharacterLiteral			() { return token }
+		if let token = scanStringLiteral			() { return token }
+		if let token = scanIdentifier				() { return token }
 		
 		return .none
 	}
 	
-	private class func skipComments(scanner: Scanner) {
+	private func skipComments() {
 		if scanner.scanString("//", into: nil) {
 			scanner.scanUpTo("\n", into: nil)
 			scanner.scanString("\n", into: nil)
@@ -46,7 +51,7 @@ class Tokenizer {
 		}
 	}
 	
-	private class func scanKeywordsAndOperators(scanner: Scanner) -> Token? {
+	private func scanKeywordsAndOperators() -> Token? {
 		for token in TokenMap.map.keys {
 			let location = scanner.scanLocation
 			if scanner.scanString(token, into: nil) {
@@ -59,7 +64,7 @@ class Tokenizer {
 		return .none
 	}
 	
-	private class func scanDecimalIntegerLiteral(scanner: Scanner) -> Token? {
+	private func scanDecimalIntegerLiteral() -> Token? {
 		var buffer: Int = 0
 		let location = scanner.scanLocation
 		
@@ -71,7 +76,7 @@ class Tokenizer {
 		return INTEGERLIT(value: buffer)
 	}
 	
-	private class func scanBooleanLiteral(scanner: Scanner) -> Token? {
+	private func scanBooleanLiteral() -> Token? {
 		let location = scanner.scanLocation
 		if scanner.scanString("true", into: nil) {
 			return BOOLEANLIT(value: true)
@@ -89,7 +94,7 @@ class Tokenizer {
 	}
 
 	
-	private class func scanHexIntegerLiteral(scanner: Scanner) -> Token? {
+	private func scanHexIntegerLiteral() -> Token? {
 		var buffer: UInt32 = 0
 		let location = scanner.scanLocation
 		
@@ -105,7 +110,7 @@ class Tokenizer {
 		return INTEGERLIT(value: Int(buffer))
 	}
 	
-	private class func scanCharacterLiteral(scanner: Scanner) -> Token? {
+	private func scanCharacterLiteral() -> Token? {
 		var buffer: NSString? = ""
 		let location = scanner.scanLocation
 		
@@ -129,7 +134,7 @@ class Tokenizer {
 		return CHARACTERLIT(value: buffer! as String)
 	}
 	
-	private class func scanStringLiteral(scanner: Scanner) -> Token? {
+	private func scanStringLiteral() -> Token? {
 		var buffer: NSString? = ""
 		let location = scanner.scanLocation
 		
@@ -148,7 +153,7 @@ class Tokenizer {
 		return STRINGLIT(value: buffer! as String)
 	}
 	
-	private class func scanIdentifier(scanner: Scanner) -> Token? {
+	private func scanIdentifier() -> Token? {
 		var buffer: NSString? = ""
 		let location = scanner.scanLocation
 		

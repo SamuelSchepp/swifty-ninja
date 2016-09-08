@@ -17,7 +17,7 @@ class TokenizerTests: XCTestCase {
 			"void":		[VOID()],
 			"while":	[WHILE()]
 			].forEach { key, value in
-				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+				XCTAssertEqual(Tokenizer(with: key).tokenize().description, value.description)
 		}
 	}
 	
@@ -31,7 +31,7 @@ class TokenizerTests: XCTestCase {
 			"/%":		[SLASH(), PERCENT()],
 			"/ %":		[SLASH(), PERCENT()]
 			].forEach { key, value in
-				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+				XCTAssertEqual(Tokenizer(with: key).tokenize().description, value.description)
 		}
 	}
 	
@@ -41,7 +41,7 @@ class TokenizerTests: XCTestCase {
 			"nilnil":	[NIL(), NIL()],
 			"nil nil":	[NIL(), NIL()]
 			].forEach { key, value in
-				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+				XCTAssertEqual(Tokenizer(with: key).tokenize().description, value.description)
 		}
 	}
 	
@@ -52,7 +52,7 @@ class TokenizerTests: XCTestCase {
 			"false":		[BOOLEANLIT(value: false)],
 			"true false":	[BOOLEANLIT(value: true), BOOLEANLIT(value: false)]
 			].forEach { key, value in
-				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+				XCTAssertEqual(Tokenizer(with: key).tokenize().description, value.description)
 		}
 	}
 	
@@ -64,7 +64,7 @@ class TokenizerTests: XCTestCase {
 			"-27 45":	[MINUS(), INTEGERLIT(value: 27), INTEGERLIT(value: 45)],
 			"- 27 45":	[MINUS(), INTEGERLIT(value: 27), INTEGERLIT(value: 45)]
 			].forEach { key, value in
-				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+				XCTAssertEqual(Tokenizer(with: key).tokenize().description, value.description)
 		}
 	}
 	
@@ -73,7 +73,7 @@ class TokenizerTests: XCTestCase {
 			"0x123":	[INTEGERLIT(value: 291)],
 			"-0x123":	[MINUS(), INTEGERLIT(value: 291)]
 			].forEach { key, value in
-				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+				XCTAssertEqual(Tokenizer(with: key).tokenize().description, value.description)
 		}
 	}
 	
@@ -89,7 +89,7 @@ class TokenizerTests: XCTestCase {
 			"''":		[],
 			"('ß')":	[LPAREN(), CHARACTERLIT(value: "ß"), RPAREN()]
 			].forEach { key, value in
-				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+				XCTAssertEqual(Tokenizer(with: key).tokenize().description, value.description)
 		}
 	}
 	
@@ -100,7 +100,7 @@ class TokenizerTests: XCTestCase {
 			"\"A\"":										[STRINGLIT(value: "A")],
 			"\"rgdgdrrhtf3857232§$%&/()+#äö-,;_:'ÄÖÄ*Ü\"":	[STRINGLIT(value: "rgdgdrrhtf3857232§$%&/()+#äö-,;_:'ÄÖÄ*Ü")]
 			].forEach { key, value in
-				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+				XCTAssertEqual(Tokenizer(with: key).tokenize().description, value.description)
 		}
 	}
 	
@@ -114,26 +114,26 @@ class TokenizerTests: XCTestCase {
 			"2test":	[INTEGERLIT(value: 2), IDENT(value: "test")],
 			"test-id":	[IDENT(value: "test"), MINUS(), IDENT(value: "id")],
 			].forEach { key, value in
-				XCTAssertEqual(Tokenizer.tokenize(string: key).description, value.description)
+				XCTAssertEqual(Tokenizer(with: key).tokenize().description, value.description)
 		}
 	}
 	
 	func testProgram1() {
 		let program = "// Mein kleines Programm\nvoid main() { /* kommentar */ local Integer x; // Kommentar2\n local Integer y; x = readInteger(); y = readInteger(); while (x != y) { if (x > y) { x = x - y; } else { y = y - x; } } writeInteger(x); writeCharacter('\\n'); }"
-		let tokens = Tokenizer.tokenize(string: program)
+		let tokens = Tokenizer(with: program).tokenize()
 		tokens.forEach({ print($0) })
 		XCTAssertEqual(tokens.count, 67)
 	}
 	
 	func testProgram2() {
 		let program = "void main() { local Integer x; local Integer y; x = readInteger(); y = readInteger(); while (x != y) { if (x > y) { x = x - y; } else { y = y - x; } } writeInteger(x); writeCharacter('\\n'); }"
-		let tokens = Tokenizer.tokenize(string: program)
+		let tokens = Tokenizer(with: program).tokenize()
 		XCTAssertEqual(tokens.count, 67)
 	}
 	
 	func testProgram3() {
 		let program = "void main(){writeInteger(10%3);writeCharacter('\\n');}"
-		let tokens = Tokenizer.tokenize(string: program)
+		let tokens = Tokenizer(with: program).tokenize()
 		XCTAssertEqual(tokens.count, 18)
 	}
 }

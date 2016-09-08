@@ -40,6 +40,10 @@ class Stack<T> {
         return list.count > 0
     }
 	
+	func count() -> Int {
+		return list.count
+	}
+	
 	func peek() -> T? {
 		return list.last
 	}

@@ -26,18 +26,12 @@ struct Program: ASTNode {
 	var description: String { get { return glob_decs.description } }
 }
 
-struct Ident: ASTNode {
-	let value: String
-	
-	var description: String { get { return value } }
-}
-
 // MARK: Global Declarations
 
 protocol Glob_Dec: ASTNode { }
 
 struct Type_Dec: Glob_Dec {
-	let ident: Ident
+	let ident: String
 	let type: Type
 	
 	var description: String { get { return "type \(ident) = \(type);" } }
@@ -45,14 +39,14 @@ struct Type_Dec: Glob_Dec {
 
 struct Gvar_Dec: Glob_Dec {
 	let type: Type
-	let ident: Ident
+	let ident: String
 	
 	var description: String { get { return "global \(type) \(ident);" } }
 }
 
 struct Func_Dec: Glob_Dec {
 	let type: Type?
-	let ident: Ident
+	let ident: String
 	let par_decs: [Par_Dec]
 	let lvar_decs: [Lvar_Dec]
 	let stms: [Stm]
@@ -77,7 +71,7 @@ struct Func_Dec: Glob_Dec {
 protocol Type: ASTNode { }
 
 struct IdentifierType: Type {
-	let ident: Ident
+	let ident: String
 	
 	var description: String {
 		get {
@@ -87,7 +81,7 @@ struct IdentifierType: Type {
 }
 
 struct ArrayType: Type {
-	let ident: Ident
+	let ident: String
 	let dims: Int
 	
 	var description: String {
@@ -111,7 +105,7 @@ struct RecordType: Type {
 
 struct Memb_Dec: ASTNode {
 	let type: Type
-	let ident: Ident
+	let ident: String
 	
 	var description: String {
 		get {
@@ -124,7 +118,7 @@ struct Memb_Dec: ASTNode {
 
 struct Par_Dec: ASTNode {
 	let type: Type
-	let ident: Ident
+	let ident: String
 	
 	var description: String {
 		get {
@@ -135,7 +129,7 @@ struct Par_Dec: ASTNode {
 
 struct Lvar_Dec: ASTNode {
 	let type: Type
-	let ident: Ident
+	let ident: String
 	
 	var description: String {
 		get {
@@ -220,7 +214,7 @@ struct Break_Stm: Stm {
 }
 
 struct Call_Stm: Stm {
-	let ident: Ident
+	let ident: String
 	let args: [Arg]
 	
 	var description: String {
@@ -261,7 +255,7 @@ struct Return_Stm: Stm {
 protocol Var: ASTNode { }
 
 struct Var_Ident: Var {
-	let ident: Ident
+	let ident: String
 	
 	var description: String {
 		get {
@@ -283,7 +277,7 @@ struct Var_Array_Access: Var {
 
 struct Var_Field_Access: Var {
 	let primary_exp: Primary_Exp
-	let ident: Ident
+	let ident: String
 	
 	var description: String {
 		get {
@@ -458,7 +452,7 @@ struct Primary_Exp_String: Primary_Exp {
 protocol New_Obj_Spec: Primary_Exp { }
 
 struct New_Obj_Spec_Ident: New_Obj_Spec {
-	let ident: Ident
+	let ident: String
 	
 	var description: String {
 		get {
@@ -468,7 +462,7 @@ struct New_Obj_Spec_Ident: New_Obj_Spec {
 }
 
 struct New_Obj_Spec_Array: New_Obj_Spec {
-	let ident: Ident
+	let ident: String
 	let exp: Exp
 	let more_dims: Int
 	
