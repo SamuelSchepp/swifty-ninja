@@ -15,15 +15,19 @@ class Tokenizer {
 		scanner = Scanner(string: with)
 	}
 	
-	func tokenize() -> [Token] {
+	func tokenize() -> [Token]? {
 		var tokens = [Token]()
 		
 		while !scanner.isAtEnd {
-			guard let nT = scan() else { return tokens }
+			guard let nT = scan() else { return .none }
 			tokens.append(nT)
 		}
 		
 		return tokens
+	}
+	
+	func isDone() -> Bool {
+		return scanner.isAtEnd
 	}
 	
 	private func scan() -> Token? {

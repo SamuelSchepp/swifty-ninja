@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import SwiftyNinja
 
 class FullTests: XCTestCase {
 	func test_Type_Dec() {
@@ -25,7 +26,7 @@ class FullTests: XCTestCase {
 						]
 					)
 				),
-			"type Number = Integer;":
+			"type Number = Integer;;":
 				Type_Dec(
 					ident: "Number",
 					type: IdentifierType(
@@ -37,7 +38,7 @@ class FullTests: XCTestCase {
 			print(source)
 			
 			let tokenizer = Tokenizer(with: source)
-			let tokens = tokenizer.tokenize()
+			guard let tokens = tokenizer.tokenize() else { XCTFail(); return }
 			
 			print("==== Tokens ====")
 			tokens.forEach({ print($0) })
@@ -46,7 +47,7 @@ class FullTests: XCTestCase {
 			if let type_dec = parser.parse_Type_Dec() {
 				print("==== AST ====")
 				print(type_dec)
-				XCTAssertEqual(target.description, type_dec.description)
+				XCTAssertEqual(String(reflecting: target), String(reflecting: type_dec))
 			}
 			
 			print()

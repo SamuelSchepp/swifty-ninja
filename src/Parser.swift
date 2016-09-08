@@ -15,6 +15,10 @@ class Parser {
 		stack = TokenStack(with: with)
 	}
 	
+	func isDone() -> Bool {
+		return !stack.hasElements()
+	}
+	
 	func parse_Program() -> Program? {
 		var glob_decs = [Glob_Dec]()
 		

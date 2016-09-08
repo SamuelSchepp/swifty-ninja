@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7E8BD98F1D7CBC05003052DB"
-               BuildableName = "swifty-ninja"
-               BlueprintName = "swifty-ninja"
+               BuildableName = "swifty_ninja"
+               BlueprintName = "swifty_ninja"
                ReferencedContainer = "container:swifty-ninja.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7E8BD98F1D7CBC05003052DB"
-            BuildableName = "swifty-ninja"
-            BlueprintName = "swifty-ninja"
+            BuildableName = "swifty_ninja"
+            BlueprintName = "swifty_ninja"
             ReferencedContainer = "container:swifty-ninja.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -56,8 +56,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7E8BD98F1D7CBC05003052DB"
-            BuildableName = "swifty-ninja"
-            BlueprintName = "swifty-ninja"
+            BuildableName = "swifty_ninja"
+            BlueprintName = "swifty_ninja"
             ReferencedContainer = "container:swifty-ninja.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -81,8 +81,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7E8BD98F1D7CBC05003052DB"
-            BuildableName = "swifty-ninja"
-            BlueprintName = "swifty-ninja"
+            BuildableName = "swifty_ninja"
+            BlueprintName = "swifty_ninja"
             ReferencedContainer = "container:swifty-ninja.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

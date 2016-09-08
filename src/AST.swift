@@ -34,7 +34,11 @@ struct Type_Dec: Glob_Dec {
 	let ident: String
 	let type: Type
 	
-	var description: String { get { return "type \(ident) = \(type);" } }
+	var description: String {
+		get {
+			return "Type Declaration \(ident)\n\(type)"
+		}
+	}
 }
 
 struct Gvar_Dec: Glob_Dec {
@@ -75,7 +79,7 @@ struct IdentifierType: Type {
 	
 	var description: String {
 		get {
-			return ident.description
+			return "Identified Type Expression: \(ident.description)"
 		}
 	}
 }
@@ -86,8 +90,7 @@ struct ArrayType: Type {
 	
 	var description: String {
 		get {
-			let dim = "[]".repeated(times: dims)
-			return "\(ident)\(dim)"
+			return "Array Type Expression: \(ident.description), \(dims) dimensions"
 		}
 	}
 }
@@ -97,8 +100,8 @@ struct RecordType: Type {
 	
 	var description: String {
 		get {
-            let memb = memb_decs.reduce("", { return $0 + $1.description + "\n" })
-			return "record {\n\(memb)}"
+            return "Record Type Expression: \(memb_decs.count) Member"
+				+ memb_decs.reduce("",  { return $0 + "\n" + $1.description })
 		}
 	}
 }
@@ -109,7 +112,7 @@ struct Memb_Dec: ASTNode {
 	
 	var description: String {
 		get {
-			return "\(type) \(ident);"
+			return "Struct Member: \(ident)\n\(type)"
 		}
 	}
 }
