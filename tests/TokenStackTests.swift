@@ -9,31 +9,5 @@
 import XCTest
 
 class TokenStackTests: XCTestCase {
-	func testKeywords() {
-		let tokenStack = TokenStack(tokens: [.DO, .BREAK, .DO])
-		
-		if !tokenStack.hasTokens() {
-			XCTFail()
-		}
-		
-		if !tokenStack.pop_DO() {
-			XCTFail()
-		}
-		
-		if !tokenStack.pop_BREAK() {
-			XCTFail()
-		}
-		
-		if tokenStack.pop_BREAK() {
-			XCTFail()
-		}
-		
-		if !tokenStack.pop_DO() {
-			XCTFail()
-		}
-		
-		if(tokenStack.hasTokens()) {
-			XCTFail()
-		}
-	}
+	
 }

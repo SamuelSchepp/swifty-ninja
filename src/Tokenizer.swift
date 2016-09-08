@@ -24,7 +24,8 @@ class Tokenizer {
 	private class func scan(scanner: Scanner) -> Token? {
 		skipComments(scanner: scanner)
 		
-		if let token = scanMappedToken				(scanner: scanner) { return token }
+		if let token = scanKeywordsAndOperators		(scanner: scanner) { return token }
+		if let token = scanBooleanLiteral			(scanner: scanner) { return token }
 		if let token = scanHexIntegerLiteral		(scanner: scanner) { return token }
 		if let token = scanDecimalIntegerLiteral	(scanner: scanner) { return token }
 		if let token = scanCharacterLiteral			(scanner: scanner) { return token }
@@ -45,11 +46,11 @@ class Tokenizer {
 		}
 	}
 	
-	private class func scanMappedToken(scanner: Scanner) -> Token? {
-		for tokenString in TokenMap.map.keys {
+	private class func scanKeywordsAndOperators(scanner: Scanner) -> Token? {
+		for token in TokenMap.keywordsAndOperators.sorted(by: {return $0.0.characters.count > $0.1.characters.count }) {
 			let location = scanner.scanLocation
-			if scanner.scanString(tokenString, into: nil) {
-				return TokenMap.map[tokenString]!
+			if scanner.scanString(token, into: nil) {
+				return StdToken(identifier: token)
 			}
 			else {
 				scanner.scanLocation = location
@@ -61,29 +62,47 @@ class Tokenizer {
 	private class func scanDecimalIntegerLiteral(scanner: Scanner) -> Token? {
 		var buffer: Int = 0
 		let location = scanner.scanLocation
-		if scanner.scanInt(&buffer) {
-			return .INTEGERLIT(value: buffer)
-		}
-		else {
+		
+		if !scanner.scanInt(&buffer) {
 			scanner.scanLocation = location
 			return .none
 		}
+		
+		return ValueToken<Int>(identifier: "INTEGERLIT", value: buffer)
 	}
+	
+	private class func scanBooleanLiteral(scanner: Scanner) -> Token? {
+		let location = scanner.scanLocation
+		if scanner.scanString("true", into: nil) {
+			return ValueToken<Bool>(identifier: "BOOLEANLIT", value: true)
+		}
+		else {
+			scanner.scanLocation = location
+		}
+		
+		if !scanner.scanString("false", into: nil) {
+			scanner.scanLocation = location
+			return .none
+		}
+		
+		return ValueToken<Bool>(identifier: "BOOLEANLIT", value: false)
+	}
+
 	
 	private class func scanHexIntegerLiteral(scanner: Scanner) -> Token? {
 		var buffer: UInt32 = 0
 		let location = scanner.scanLocation
+		
 		if !scanner.scanString("0x", into: nil) {
 			scanner.scanLocation = location
 			return .none
 		}
-		if scanner.scanHexInt32(&buffer) {
-			return .INTEGERLIT(value: Int(buffer))
-		}
-		else {
+		
+		if !scanner.scanHexInt32(&buffer) {
 			scanner.scanLocation = location
 			return .none
 		}
+		return ValueToken<Int>(identifier: "INTEGERLIT", value: Int(buffer))
 	}
 	
 	private class func scanCharacterLiteral(scanner: Scanner) -> Token? {
@@ -95,12 +114,9 @@ class Tokenizer {
 			return .none
 		}
 		
-		if !scanner.scanUpTo("'", into: &buffer) {
-			scanner.scanLocation = location
-			return .none
-		}
+		scanner.scanUpTo("'", into: &buffer)
 		
-		if (buffer!.length != 1) {
+		if (buffer!.length != 1 && !["\\n", "\\r", "\\t", "\\b", "\\a", "\\'", "\"", "\\"].contains(buffer! as String)) {
 			scanner.scanLocation = location
 			return .none
 		}
@@ -110,7 +126,7 @@ class Tokenizer {
 			return .none
 		}
 		
-		return .CHARACTERLIT(value: buffer! as String)
+		return ValueToken<String>(identifier: "CHARACTERLIT", value: buffer! as String)
 	}
 	
 	private class func scanStringLiteral(scanner: Scanner) -> Token? {
@@ -129,8 +145,7 @@ class Tokenizer {
 			return .none
 		}
 		
-		return .STRINGLIT(value: buffer! as String)
-		
+		return ValueToken<String>(identifier: "STRINGLIT", value: buffer! as String)
 	}
 	
 	private class func scanIdentifier(scanner: Scanner) -> Token? {
@@ -142,7 +157,6 @@ class Tokenizer {
 			return .none
 		}
 		
-		return .IDENT(identifier: buffer! as String)
-		
+		return ValueToken<String>(identifier: "IDENT", value: buffer! as String)
 	}
 }
