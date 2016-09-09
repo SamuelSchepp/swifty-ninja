@@ -7,37 +7,11 @@
 //
 
 import XCTest
-import swifty_ninja
 
-class FullTests: XCTestCase {
-	func check(parserFunction: (Parser) -> ASTNode?, map: [String: ASTNode]) {
-		map.forEach { source, target in
-			print("==== Source ====")
-			print(source)
-			
-			let tokenizer = Tokenizer(with: source)
-			guard let tokens = tokenizer.tokenize() else { XCTFail(); return }
-			
-			// print("==== Tokens ====")
-			// tokens.forEach({ print($0) })
-			
-			let parser = Parser(with: tokens)
-			
-			if let type_dec = parserFunction(parser) {
-				if !parser.isDone() { XCTFail() }
-				print("==== AST ====")
-				print(type_dec)
-				print()
-				XCTAssertEqual(String(reflecting: target), String(reflecting: type_dec))
-			}
-			else {
-				XCTFail()
-			}
-		}
-	}
+class TypeTests: XCTestCase {
 	
 	func test_Type_Dec() {
-		check(parserFunction: { return $0.parse_Type_Dec() }, map: [
+		Helper.check({ return $0.parse_Type_Dec() }, map: [
 			"type Fraction = record { Integer num; Integer den; };":
 				Type_Dec(
 					ident: "Fraction",
@@ -72,7 +46,7 @@ class FullTests: XCTestCase {
 	}
 	
 	func test_ArrayType() {
-		check(parserFunction: { return $0.parse_Type() }, map: [
+		Helper.check({ return $0.parse_Type() }, map: [
 			"Integer[]":
 				ArrayType(
 					ident: "Integer",
@@ -93,7 +67,7 @@ class FullTests: XCTestCase {
 	}
 	
 	func test_RecordType() {
-		check(parserFunction: { return $0.parse_Type() }, map: [
+		Helper.check({ return $0.parse_Type() }, map: [
 			"record { Integer zähler; Integer nenner; }":
 				RecordType(
 					memb_decs: [

@@ -7,24 +7,17 @@
 //
 
 import XCTest
-import swifty_ninja
 
 class TokenizerTests: XCTestCase {
-	var check: ([String: [Token]]) -> Void = {_ in}
-	
-	override func setUp() {
-		super.setUp()
-		
-		check = { map in
-			map.forEach { key, value in
-				if let tokens = Tokenizer(with: key).tokenize() {
-					// print(String(describing: value))
-					// print(String(describing: tokens))
-					XCTAssertEqual(String(describing: tokens), String(describing: value))
-				}
-				else {
-					XCTFail()
-				}
+	func check(_ map: [String: [Token]]) {
+		map.forEach { key, value in
+			if let tokens = Tokenizer(with: key).tokenize() {
+				// print(String(describing: value))
+				// print(String(describing: tokens))
+				XCTAssertEqual(String(describing: tokens), String(describing: value))
+			}
+			else {
+				XCTFail()
 			}
 		}
 	}

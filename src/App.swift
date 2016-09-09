@@ -52,6 +52,12 @@ class App {
 	}
 	
 	private func parse(parser: Parser) -> ASTNode? {
+		if let exp = parser.parse_Exp() {
+			if parser.isDone() {
+				return exp
+			}
+		}
+		
 		if let type_dec = parser.parse_Type_Dec() {
 			if parser.isDone() {
 				return type_dec

@@ -254,14 +254,14 @@ struct Return_Stm: Stm {
 
 // MARK: Other
 
-protocol Var: ASTNode { }
+protocol Var: Primary_Exp { }
 
 struct Var_Ident: Var {
 	let ident: String
 	
 	var description: String {
 		get {
-			return "\(ident)"
+			return "Var_Ident(\(ident))"
 		}
 	}
 }
@@ -307,7 +307,7 @@ struct Or_Exp_Binary: Or_Exp {
 
 protocol And_Exp: Or_Exp { }
 
-struct And_Exp_Binary: Or_Exp {
+struct And_Exp_Binary: And_Exp {
 	let lhs: And_Exp
 	let rhs: Rel_Exp
 	
@@ -411,6 +411,16 @@ struct Primary_Exp_Nil: Primary_Exp {
 	}
 }
 
+struct Primary_Exp_Exp: Primary_Exp {
+	let exp: Exp
+	
+	var description: String {
+		get {
+			return "(\(exp))"
+		}
+	}
+}
+
 struct Primary_Exp_Integer: Primary_Exp {
 	let value: Int
 	
@@ -447,6 +457,27 @@ struct Primary_Exp_String: Primary_Exp {
 	var description: String {
 		get {
 			return "\"\(value)\""
+		}
+	}
+}
+
+struct Primary_Exp_Sizeof: Primary_Exp {
+	let exp: Exp
+	
+	var description: String {
+		get {
+			return "sizeof(\(exp))"
+		}
+	}
+}
+
+struct Primary_Exp_Call: Primary_Exp {
+	let ident: String
+	let args: [Arg]
+	
+	var description: String {
+		get {
+			return "\(ident)(...)"
 		}
 	}
 }
