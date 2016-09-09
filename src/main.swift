@@ -8,5 +8,5 @@
 
 import Foundation
 
-App().run()
+App.run()
 

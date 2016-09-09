@@ -10,25 +10,18 @@ import Foundation
 import XCTest
 
 class Helper {
-	class func check(_ parserFunction: (Parser) -> ASTNode?, map: [String: ASTNode]) {
+	class func check(_ parserFunction: (Parser) -> ASTNode?, map: [String: String]) {
 		map.forEach { source, target in
 			print("==== Source ====")
 			print(source)
 			
-			let tokenizer = Tokenizer(with: source)
-			guard let tokens = tokenizer.tokenize() else { XCTFail(); return }
+			print("==== Handler ====")
+			if let result = App.handle(input: source) {
 			
-			print("==== Tokens ====")
-			tokens.forEach({ print($0) })
+				print("==== Result ====")
+				print(result)
 			
-			let parser = Parser(with: tokens)
-			
-			if let type_dec = parserFunction(parser) {
-				if !parser.isDone() { XCTFail() }
-				print("==== AST ====")
-				print(type_dec)
-				print()
-				XCTAssertEqual(String(reflecting: target), String(reflecting: type_dec))
+				XCTAssertEqual(target.description, String(describing: result))
 			}
 			else {
 				XCTFail()

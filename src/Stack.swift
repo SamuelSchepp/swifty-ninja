@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Stack<T> {
+struct Stack<T> {
 	private var list: [T]
 	
 	init(withList: [T]) {
@@ -19,15 +19,15 @@ class Stack<T> {
 		list = [T](withList)
 	}
 	
-	convenience init() {
+	init() {
 		self.init(withList: [])
 	}
 	
-	func push(value: T) {
+	mutating func push(value: T) {
 		list.append(value)
 	}
 	
-	func pop() -> T? {
+	mutating func pop() -> T? {
 		if(list.count == 0) {
 			return .none
 		}

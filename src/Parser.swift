@@ -9,14 +9,15 @@
 import Foundation
 
 class Parser {
-	let stack: TokenStack
+	var stack: TokenStack
 	
 	init(with: [Token]) {
 		stack = TokenStack(with: with)
 	}
 	
 	func isDone() -> Bool {
-		return !stack.hasElements()
+		let done = !stack.hasElements()
+		return done
 	}
 	
 	func parse_Program() -> Program? {
@@ -59,7 +60,7 @@ class Parser {
 		else {
 			guard let _: RECORD = stack.pop() else { return .none }
 			guard let _: LCURL = stack.pop() else { return .none }
-			let memb_dec_list = parse_Mem_Dec_List()
+			guard let memb_dec_list = parse_Mem_Dec_List() else { return .none }
 			guard let _: RCURL = stack.pop() else { return .none }
 			
 			return RecordType(memb_decs: memb_dec_list)
@@ -76,7 +77,7 @@ class Parser {
 		return dims
 	}
 	
-	func parse_Mem_Dec_List() -> [Memb_Dec] {
+	func parse_Mem_Dec_List() -> [Memb_Dec]? {
 		var memb_dec_list = [Memb_Dec]()
 		
 		while(true) {
@@ -98,80 +99,108 @@ class Parser {
 		return or_exp
 	}
 	
+	// MARK: Or
+	
 	func parse_Or_Exp() -> Or_Exp? {
-		if let and_exp = parse_And_Exp() {
-			if let _: LOGOR = stack.pop() {
-				guard let and_exp2 = parse_And_Exp() else { return .none }
-				return Or_Exp_Binary(lhs: and_exp, rhs: and_exp2)
-			}
-			return and_exp
+		guard let lhs = parse_And_Exp() else { return .none }
+		if let rest = parse_Or_Exp_Tail(currentExp: lhs) {
+			return rest
 		}
 		else {
-			guard let or_exp = parse_Or_Exp() else { return .none }
-			guard let _: LOGOR = stack.pop() else { return .none }
-			guard let and_exp = parse_And_Exp() else { return .none }
-			return Or_Exp_Binary(lhs: or_exp, rhs: and_exp)
+			return lhs
 		}
 	}
+	
+	func parse_Or_Exp_Tail(currentExp: Or_Exp) -> Or_Exp? {
+		guard let _: LOGOR = stack.pop() else { return .none }
+		guard let rhs = parse_And_Exp() else { return .none }
+		
+		let current = Or_Exp_Binary(lhs: currentExp, rhs: rhs)
+		
+		guard let tailed = parse_Or_Exp_Tail(currentExp: current) else { return current }
+		return tailed
+	}
+	
+	// MARK: And
 	
 	func parse_And_Exp() -> And_Exp? {
-		if let rel_exp = parse_Rel_Exp() {
-			if let _: LOGAND = stack.pop() {
-				guard let rel_exp2 = parse_Rel_Exp() else { return .none }
-				return And_Exp_Binary(lhs: rel_exp, rhs: rel_exp2)
-			}
-			return rel_exp
+		guard let lhs = parse_Rel_Exp() else { return .none }
+		if let rest = parse_And_Exp_Tail(currentExp: lhs) {
+			return rest
 		}
 		else {
-			guard let and_exp = parse_And_Exp() else { return .none }
-			guard let _: LOGAND = stack.pop() else { return .none }
-			guard let rel_exp = parse_Rel_Exp() else { return .none }
-			return And_Exp_Binary(lhs: and_exp, rhs: rel_exp)
+			return lhs
 		}
 	}
+	
+	func parse_And_Exp_Tail(currentExp: And_Exp) -> And_Exp? {
+		guard let _: LOGAND = stack.pop() else { return .none }
+		guard let rhs = parse_Rel_Exp() else { return .none }
+		
+		let current = And_Exp_Binary(lhs: currentExp, rhs: rhs)
+		
+		guard let tailed = parse_And_Exp_Tail(currentExp: current) else { return current }
+		return tailed
+	}
+	
+	// MARK: Rel
 	
 	func parse_Rel_Exp() -> Rel_Exp? {
-		guard let add_exp = parse_Add_Exp() else { return .none }
+		guard let lhs = parse_Add_Exp() else { return .none }
 		if let op = stack.pop_Rel_Exp_Binary_Op() {
-			guard let add_exp2 = parse_Add_Exp() else { return .none }
-			return Rel_Exp_Binary(lhs: add_exp, rhs: add_exp2, op: op)
+			guard let rhs = parse_Add_Exp() else { return .none }
+			return Rel_Exp_Binary(lhs: lhs, rhs: rhs, op: op)
 		}
 		else {
-			return add_exp
+			return lhs
 		}
 	}
+	
+	// MARK: Add
 	
 	func parse_Add_Exp() -> Add_Exp? {
-		if let mul_exp = parse_Mul_Exp() {
-			if let op = stack.pop_Add_Exp_Binary_Op() {
-				guard let mul_exp2 = parse_Mul_Exp() else { return .none }
-				return Add_Exp_Binary(lhs: mul_exp, rhs: mul_exp2, op: op)
-			}
-			return mul_exp
+		guard let lhs = parse_Mul_Exp() else { return .none }
+		if let rest = parse_Add_Exp_Tail(currentExp: lhs) {
+			return rest
 		}
 		else {
-			guard let add_exp = parse_Add_Exp() else { return .none }
-			guard let op = stack.pop_Add_Exp_Binary_Op() else { return .none }
-			guard let mul_exp = parse_Mul_Exp() else { return .none }
-			return Add_Exp_Binary(lhs: add_exp, rhs: mul_exp, op: op)
+			return lhs
 		}
 	}
 	
+	func parse_Add_Exp_Tail(currentExp: Add_Exp) -> Add_Exp? {
+		guard let op = stack.pop_Add_Exp_Binary_Op() else { return .none }
+		guard let rhs = parse_Mul_Exp() else { return .none	}
+		
+		let current = Add_Exp_Binary(lhs: currentExp, rhs: rhs, op: op)
+		
+		guard let tailed = parse_Add_Exp_Tail(currentExp: current) else { return current }
+		return tailed
+	}
+	
+	// MARK: Mul
+	
 	func parse_Mul_Exp() -> Mul_Exp? {
-		if let unary_exp = parse_Unary_Exp() {
-			if let op = stack.pop_Mul_Exp_Binary_Op() {
-				guard let unary_exp2 = parse_Unary_Exp() else { return .none }
-				return Mul_Exp_Binary(lhs: unary_exp, rhs: unary_exp2, op: op)
-			}
-			return unary_exp
+		guard let lhs = parse_Unary_Exp() else { return .none }
+		if let rest = parse_Mul_Exp_Tail(currentExp: lhs) {
+			return rest
 		}
 		else {
-			guard let mul_exp = parse_Mul_Exp() else { return .none }
-			guard let op = stack.pop_Mul_Exp_Binary_Op() else { return .none }
-			guard let unary_exp = parse_Unary_Exp() else { return .none }
-			return Mul_Exp_Binary(lhs: mul_exp, rhs: unary_exp, op: op)
+			return lhs
 		}
 	}
+	
+	func parse_Mul_Exp_Tail(currentExp: Mul_Exp) -> Mul_Exp? {
+		guard let op = stack.pop_Mul_Exp_Binary_Op() else { return .none }
+		guard let rhs = parse_Unary_Exp() else { return .none }
+		
+		let current = Mul_Exp_Binary(lhs: currentExp, rhs: rhs, op: op)
+		
+		guard let tailed = parse_Mul_Exp_Tail(currentExp: current) else { return current }
+		return tailed
+	}
+	
+	// MARK: Unary
 	
 	func parse_Unary_Exp() -> Unary_Exp? {
 		if let primary_exp = parse_Primary_Exp() {
@@ -246,6 +275,7 @@ class Parser {
 			return Var_Ident(ident: ident.value)
 		}
 		else {
+			if !stack.check_Primary_Exp() { return .none }
 			guard let primary_exp = parse_Primary_Exp() else { return .none }
 			if let _: LBRACK = stack.pop() {
 				guard let exp = parse_Exp() else { return .none }

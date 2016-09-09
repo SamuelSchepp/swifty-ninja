@@ -11,7 +11,7 @@ import XCTest
 class StackTests: XCTestCase {
 
 	func testNormal() {
-		let stack = Stack<Int>()
+		var stack = Stack<Int>()
 		stack.push(value: 1)
 		stack.push(value: 2)
 		stack.push(value: 3)
@@ -25,7 +25,7 @@ class StackTests: XCTestCase {
 	}
 	
 	func testInit() {
-		let stack = Stack(withList: [1, 2, 3])
+		var stack = Stack(withList: [1, 2, 3])
 
 		XCTAssertEqual(stack.pop(), 3)
 		XCTAssertEqual(stack.pop(), 2)

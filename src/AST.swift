@@ -36,7 +36,7 @@ struct Type_Dec: Glob_Dec {
 	
 	var description: String {
 		get {
-			return "Type declaration \(ident)\n\(type)"
+			return "type \(ident) = \(type);"
 		}
 	}
 }
@@ -79,7 +79,7 @@ struct IdentifierType: Type {
 	
 	var description: String {
 		get {
-			return "Identified type expression: \(ident.description)"
+			return "\(ident)"
 		}
 	}
 }
@@ -90,7 +90,8 @@ struct ArrayType: Type {
 	
 	var description: String {
 		get {
-			return "Array type expression: \(ident.description), \(dims) dimensions"
+			let d = "[]".repeated(times: dims)
+			return "\(ident)\(d)"
 		}
 	}
 }
@@ -100,7 +101,8 @@ struct RecordType: Type {
 	
 	var description: String {
 		get {
-            return "Record type expression: \(memb_decs.count) member"
+			let mem = memb_decs.reduce("", { return $0 + $1.description + " " })
+            return "record { \(mem)}"
 		}
 	}
 }
@@ -111,7 +113,7 @@ struct Memb_Dec: ASTNode {
 	
 	var description: String {
 		get {
-			return "Struct Member: \(ident)\n\(type)"
+			return "\(type) \(ident);"
 		}
 	}
 }
@@ -221,8 +223,7 @@ struct Call_Stm: Stm {
 	
 	var description: String {
 		get {
-			let argList = args.description
-			return "\(ident)(\(argList);"
+			return "\(ident)(\(args);"
 		}
 	}
 }
@@ -261,7 +262,7 @@ struct Var_Ident: Var {
 	
 	var description: String {
 		get {
-			return "Var_Ident(\(ident))"
+			return "\(ident)"
 		}
 	}
 }
@@ -300,7 +301,7 @@ struct Or_Exp_Binary: Or_Exp {
 	
 	var description: String {
 		get {
-			return "\(lhs) || \(rhs)"
+			return "(\(lhs) || \(rhs))"
 		}
 	}
 }
@@ -313,7 +314,7 @@ struct And_Exp_Binary: And_Exp {
 	
 	var description: String {
 		get {
-			return "\(lhs) && \(rhs)"
+			return "(\(lhs) && \(rhs))"
 		}
 	}
 }
@@ -327,7 +328,7 @@ struct Rel_Exp_Binary: Rel_Exp {
 	
 	var description: String {
 		get {
-			return "\(lhs) \(op) \(rhs)"
+			return "(\(lhs) \(op.rawValue) \(rhs))"
 		}
 	}
 }
@@ -352,7 +353,7 @@ struct Add_Exp_Binary: Add_Exp {
 	
 	var description: String {
 		get {
-			return "\(lhs) \(op) \(rhs)"
+			return "(\(lhs) \(op.rawValue) \(rhs))"
 		}
 	}
 }
@@ -371,7 +372,7 @@ struct Mul_Exp_Binary: Mul_Exp {
 	
 	var description: String {
 		get {
-			return "\(lhs) \(op) \(rhs)"
+			return "(\(lhs) \(op.rawValue) \(rhs))"
 		}
 	}
 }
@@ -390,7 +391,7 @@ struct Unary_Exp_Impl: Unary_Exp {
 	
 	var description: String {
 		get {
-			return "\(op) \(rhs)"
+			return "(\(op.rawValue)\(rhs))"
 		}
 	}
 }
@@ -416,7 +417,7 @@ struct Primary_Exp_Exp: Primary_Exp {
 	
 	var description: String {
 		get {
-			return "(\(exp))"
+			return "\(exp)"
 		}
 	}
 }
@@ -477,7 +478,7 @@ struct Primary_Exp_Call: Primary_Exp {
 	
 	var description: String {
 		get {
-			return "\(ident)(...)"
+			return "\(ident)(\(args))"
 		}
 	}
 }

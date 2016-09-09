@@ -9,7 +9,7 @@
 import Foundation
 
 class App {
-	func run() {
+	static func run() {
 		hello()
 		
 		var quit = false
@@ -26,11 +26,12 @@ class App {
 			if let input = readLine() {
 				if(input == "") {
 					buffer = ""
+					print("Aborted")
 				}
 				else {
 					buffer += input
-					if let astNode = handle(input: buffer) {
-						print(astNode)
+					if let node = App.handle(input: buffer) {
+						print(node)
 						buffer = ""
 					}
 				}
@@ -41,40 +42,39 @@ class App {
 		}
 	}
 	
-	private func handle(input: String) -> ASTNode? {
-		let tokenizer = Tokenizer(with: input)
-		guard let tokens = tokenizer.tokenize() else { return .none }
-		
-		// print(tokens)
-		
-		let parser = Parser(with: tokens)
-		return parse(parser: parser)
-	}
-	
-	private func parse(parser: Parser) -> ASTNode? {
-		if let exp = parser.parse_Exp() {
-			if parser.isDone() {
-				return exp
-			}
+	static func handle(input: String) -> ASTNode? {
+		// Type_Dec
+		if let ast = parseWithFunction(string: input, function: { return $0.parse_Type_Dec() }) {
+			return ast
 		}
 		
-		if let type_dec = parser.parse_Type_Dec() {
-			if parser.isDone() {
-				return type_dec
-			}
+		// Exp
+		if let ast = parseWithFunction(string: input, function: { return $0.parse_Exp() }) {
+			return ast
 		}
 		
-		if let type = parser.parse_Type() {
-			if parser.isDone() {
-				return type
-			}
+		// Type
+		if let ast = parseWithFunction(string: input, function: { return $0.parse_Type() }) {
+			return ast
 		}
 		
 		return .none
 	}
 	
-	private func hello() {
-		print("Hello to swifty-ninja (v0.1) REPL.")
-		print("Press ^C or ^D to quit. Enter empty line to abort current evaluation.")
+	static func parseWithFunction(string: String, function: (Parser) -> ASTNode?) -> ASTNode? {
+		let tokenizer = Tokenizer(with: string)
+		guard let tokens = tokenizer.tokenize() else { return .none }
+		
+		let parser = Parser(with: tokens)
+		
+		guard let ast = function(parser) else { return .none }
+		if !parser.isDone() { return .none }
+		
+		return ast
+	}
+	
+	static func hello() {
+		print("swifty-ninja (v0.1) REPL")
+		print("Press ^C or ^D to quit. Enter an empty line to abort the current evaluation.")
 	}
 }

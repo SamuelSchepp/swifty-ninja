@@ -13,34 +13,11 @@ class TypeTests: XCTestCase {
 	func test_Type_Dec() {
 		Helper.check({ return $0.parse_Type_Dec() }, map: [
 			"type Fraction = record { Integer num; Integer den; };":
-				Type_Dec(
-					ident: "Fraction",
-					type: RecordType(
-						memb_decs: [
-							Memb_Dec(
-								type: IdentifierType(ident: "Integer"),
-								ident: "num"),
-							Memb_Dec(
-								type: IdentifierType(ident: "Integer"),
-								ident: "den")
-						]
-					)
-				),
+				"type Fraction = record { Integer num; Integer den; };",
 			"type Number = Integer;":
-				Type_Dec(
-					ident: "Number",
-					type: IdentifierType(
-						ident: "Integer"
-					)
-				),
+				"type Number = Integer;",
 			"type NumberArray = Integer[][][];":
-				Type_Dec(
-					ident: "NumberArray",
-					type: ArrayType(
-						ident: "Integer",
-						dims: 3
-					)
-				)
+				"type NumberArray = Integer[][][];"
 			]
 		)
 	}
@@ -48,20 +25,11 @@ class TypeTests: XCTestCase {
 	func test_ArrayType() {
 		Helper.check({ return $0.parse_Type() }, map: [
 			"Integer[]":
-				ArrayType(
-					ident: "Integer",
-					dims: 1
-				),
+				"Integer[]",
 			"Bool[][]":
-				ArrayType(
-					ident: "Bool",
-					dims: 2
-				),
+				"Bool[][]",
 			"MyType[][][]":
-				ArrayType(
-					ident: "MyType",
-					dims: 3
-				)
+				"MyType[][][]"
 			]
 		)
 	}
@@ -69,36 +37,9 @@ class TypeTests: XCTestCase {
 	func test_RecordType() {
 		Helper.check({ return $0.parse_Type() }, map: [
 			"record { Integer zähler; Integer nenner; }":
-				RecordType(
-					memb_decs: [
-						Memb_Dec(
-							type: IdentifierType(ident: "Integer"),
-							ident: "zähler"),
-						Memb_Dec(
-							type: IdentifierType(ident: "Integer"),
-							ident: "nenner")
-					]
-				),
+				"record { Integer zähler; Integer nenner; }",
 			"record { Integer[] zählerListe; record { Integer lel; } nenner; }":
-				RecordType(
-					memb_decs: [
-						Memb_Dec(
-							type: ArrayType(
-								ident: "Integer",
-								dims: 1
-							),
-							ident: "zählerListe"),
-						Memb_Dec(
-							type: RecordType(
-								memb_decs: [
-									Memb_Dec(
-										type: IdentifierType(ident: "Integer"),
-										ident: "lel")
-								]
-							),
-							ident: "nenner")
-					]
-				)
+				"record { Integer[] zählerListe; record { Integer lel; } nenner; }"
 			]
 		)
 	}
