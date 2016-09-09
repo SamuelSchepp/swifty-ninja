@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import swifty_ninja
+import swifty_ninja
 
 class TokenizerTests: XCTestCase {
 	var check: ([String: [Token]]) -> Void = {_ in}
@@ -18,6 +18,8 @@ class TokenizerTests: XCTestCase {
 		check = { map in
 			map.forEach { key, value in
 				if let tokens = Tokenizer(with: key).tokenize() {
+					// print(String(describing: value))
+					// print(String(describing: tokens))
 					XCTAssertEqual(String(describing: tokens), String(describing: value))
 				}
 				else {
@@ -92,7 +94,6 @@ class TokenizerTests: XCTestCase {
 			"'7'":		[CHARACTERLIT(value: "7")],
 			"'.'":		[CHARACTERLIT(value: ".")],
 			"'\\'":		[CHARACTERLIT(value: "\\")],
-			"''":		[],
 			"('ß')":	[LPAREN(), CHARACTERLIT(value: "ß"), RPAREN()]
 		])
 	}

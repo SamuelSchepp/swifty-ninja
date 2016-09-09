@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>swift-ninja-tests.xcscheme</key>
+		<key>swifty-ninja-tests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
@@ -17,6 +17,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>7E8A02B71D82BB4D006C6AE3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7E8BD98F1D7CBC05003052DB</key>
 		<dict>
 			<key>primary</key>

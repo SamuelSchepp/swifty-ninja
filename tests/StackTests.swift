@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import SwiftyNinja
 
 class StackTests: XCTestCase {
 

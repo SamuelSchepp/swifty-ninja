@@ -36,7 +36,7 @@ struct Type_Dec: Glob_Dec {
 	
 	var description: String {
 		get {
-			return "Type Declaration \(ident)\n\(type)"
+			return "Type declaration \(ident)\n\(type)"
 		}
 	}
 }
@@ -79,7 +79,7 @@ struct IdentifierType: Type {
 	
 	var description: String {
 		get {
-			return "Identified Type Expression: \(ident.description)"
+			return "Identified type expression: \(ident.description)"
 		}
 	}
 }
@@ -90,7 +90,7 @@ struct ArrayType: Type {
 	
 	var description: String {
 		get {
-			return "Array Type Expression: \(ident.description), \(dims) dimensions"
+			return "Array type expression: \(ident.description), \(dims) dimensions"
 		}
 	}
 }
@@ -100,8 +100,7 @@ struct RecordType: Type {
 	
 	var description: String {
 		get {
-            return "Record Type Expression: \(memb_decs.count) Member"
-				+ memb_decs.reduce("",  { return $0 + "\n" + $1.description })
+            return "Record type expression: \(memb_decs.count) member"
 		}
 	}
 }

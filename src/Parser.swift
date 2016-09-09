@@ -49,7 +49,13 @@ class Parser {
 		if let ident: IDENT = stack.pop() {
 			if let _: LBRACK = stack.pop() {
 				guard let _: RBRACK = stack.pop() else { return .none }
-				return ArrayType(ident: ident.value, dims: 1)
+				var dims = 1
+				while(true) {
+					guard let _: LBRACK = stack.pop() else { break }
+					guard let _: RBRACK = stack.pop() else { return .none }
+					dims += 1
+				}
+				return ArrayType(ident: ident.value, dims: dims)
 			}
 			else {
 				return IdentifierType(ident: ident.value)
