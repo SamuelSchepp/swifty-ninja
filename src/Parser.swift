@@ -272,10 +272,18 @@ class Parser {
 	
 	func parse_Var() -> Var? {
 		if let ident: IDENT = stack.pop() {
+			if let _: LBRACK = stack.pop() {
+				guard let exp = parse_Exp() else { return .none }
+				guard let _: RBRACK = stack.pop() else { return .none }
+				return Var_Array_Access(primary_exp: Var_Ident(ident: ident.value), brack_exp: exp)
+			}
+			if let _: DOT = stack.pop() {
+				guard let ident2: IDENT = stack.pop() else { return .none }
+				return Var_Field_Access(primary_exp: Var_Ident(ident: ident.value), ident: ident2.value)
+			}
 			return Var_Ident(ident: ident.value)
 		}
 		else {
-			if !stack.check_Primary_Exp() { return .none }
 			guard let primary_exp = parse_Primary_Exp() else { return .none }
 			if let _: LBRACK = stack.pop() {
 				guard let exp = parse_Exp() else { return .none }

@@ -81,8 +81,8 @@ class TokenizerTests: XCTestCase {
 	func testCharacter() {
 		check([
 			"'ä'":		[CHARACTERLIT(value: "ä")],
-			"'\\n'":	[CHARACTERLIT(value: "\\n")],
-			"'\\t'":	[CHARACTERLIT(value: "\\t")],
+			"'\\n'":	[CHARACTERLIT(value: "\n")],
+			"'\\t'":	[CHARACTERLIT(value: "\t")],
 			"'='":		[CHARACTERLIT(value: "=")],
 			"'7'":		[CHARACTERLIT(value: "7")],
 			"'.'":		[CHARACTERLIT(value: ".")],

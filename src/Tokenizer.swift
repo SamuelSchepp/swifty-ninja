@@ -125,7 +125,7 @@ class Tokenizer {
 		
 		scanner.scanUpTo("'", into: &buffer)
 		
-		if (buffer!.length != 1 && !["\\n", "\\r", "\\t", "\\b", "\\a", "\\'", "\"", "\\"].contains(buffer! as String)) {
+		if (buffer!.length != 1 && !["\\n", "\\r", "\\t"].contains(buffer! as String)) {
 			scanner.scanLocation = location
 			return .none
 		}
@@ -135,7 +135,20 @@ class Tokenizer {
 			return .none
 		}
 		
-		return CHARACTERLIT(value: buffer! as String)
+		var character: Character
+		let s = buffer! as String
+		switch s {
+		case "\\n":
+			character = "\n"
+		case "\\r":
+			character = "\r"
+		case "\\t":
+			character = "\t"
+		default:
+			character = s.characters.first!
+		}
+		
+		return CHARACTERLIT(value: character)
 	}
 	
 	private func scanStringLiteral() -> Token? {

@@ -11,7 +11,7 @@ import XCTest
 
 class ExpressionTests: XCTestCase {
 	func testArithmetic() {
-		Helper.check({ return $0.parse_Exp() }, map: [
+		Helper.check(map: [
 			"a + b":
 			"(a + b)",
 			

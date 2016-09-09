@@ -31,7 +31,10 @@ class App {
 				else {
 					buffer += input
 					if let node = App.handle(input: buffer) {
-						print(node)
+						print("AST: \(node)")
+						if let eval = Evaluator.evaluate(node: node) {
+							print("Eval: \(eval)")
+						}
 						buffer = ""
 					}
 				}

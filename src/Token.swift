@@ -57,7 +57,7 @@ struct INTEGERLIT: Token {
 	let value: Int
 }
 struct CHARACTERLIT: Token {
-	let value: String
+	let value: Character
 }
 struct STRINGLIT: Token {
 	let value: String

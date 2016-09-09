@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 
 class Helper {
-	class func check(_ parserFunction: (Parser) -> ASTNode?, map: [String: String]) {
+	class func check(map: [String: String]) {
 		map.forEach { source, target in
 			print("==== Source ====")
 			print(source)

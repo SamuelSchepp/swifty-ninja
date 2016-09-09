@@ -36,7 +36,7 @@ struct Type_Dec: Glob_Dec {
 	
 	var description: String {
 		get {
-			return "type \(ident) = \(type);"
+			return "Type_Dec(\(ident) = \(type))"
 		}
 	}
 }
@@ -45,7 +45,11 @@ struct Gvar_Dec: Glob_Dec {
 	let type: Type
 	let ident: String
 	
-	var description: String { get { return "global \(type) \(ident);" } }
+	var description: String {
+		get {
+			return "Gvar_Dec(\(type) \(ident))"
+		}
+	}
 }
 
 struct Func_Dec: Glob_Dec {
@@ -57,15 +61,7 @@ struct Func_Dec: Glob_Dec {
 	
 	var description: String {
 		get {
-			let ty = type?.description ?? "void"
-			let pars = par_decs.description
-			let lvars = lvar_decs.description
-			let sts = stms.description
-			
-			return "\(ty) \(ident)(\(pars)) {\n" +
-				"\(lvars)\n" +
-				"\(sts)\n" +
-				"}\n"
+			return "Func_Dec(\(type) \(ident))"
 		}
 	}
 }
@@ -79,7 +75,7 @@ struct IdentifierType: Type {
 	
 	var description: String {
 		get {
-			return "\(ident)"
+			return "IdentifierType(\(ident))"
 		}
 	}
 }
@@ -91,7 +87,7 @@ struct ArrayType: Type {
 	var description: String {
 		get {
 			let d = "[]".repeated(times: dims)
-			return "\(ident)\(d)"
+			return "ArrayType(\(ident)\(d))"
 		}
 	}
 }
@@ -102,7 +98,7 @@ struct RecordType: Type {
 	var description: String {
 		get {
 			let mem = memb_decs.reduce("", { return $0 + $1.description + " " })
-            return "record { \(mem)}"
+            return "RecordType( \(mem))"
 		}
 	}
 }
@@ -149,7 +145,7 @@ protocol Stm: ASTNode { }
 struct Empty_Stm: Stm {
 	var description: String {
 		get {
-			return ";"
+			return "Empty_Stm()"
 		}
 	}
 }
@@ -159,7 +155,7 @@ struct Compound_Stm: Stm {
 	
 	var description: String {
 		get {
-			return stms.description
+			return "Compound_Stm(...)"
 		}
 	}
 }
@@ -170,7 +166,7 @@ struct Assign_Stm: Stm {
 	
 	var description: String {
 		get {
-			return "\(_var) = \(exp);"
+			return "Assign_Stm(\(_var) = \(exp))"
 		}
 	}
 }
@@ -182,7 +178,7 @@ struct If_Stm: Stm {
 	
 	var description: String {
 		get {
-			return "if (\(exp)) \(stm) \(elseStm)"
+			return "If_Stm(\(exp) \(stm) \(elseStm))"
 		}
 	}
 }
@@ -193,7 +189,7 @@ struct While_Stm: Stm {
 	
 	var description: String {
 		get {
-			return "while (\(exp)) \(stm)"
+			return "While_Stm(\(exp) \(stm))"
 		}
 	}
 }
@@ -262,7 +258,7 @@ struct Var_Ident: Var {
 	
 	var description: String {
 		get {
-			return "\(ident)"
+			return "Var_Ident(\(ident))"
 		}
 	}
 }
@@ -273,7 +269,7 @@ struct Var_Array_Access: Var {
 	
 	var description: String {
 		get {
-			return "\(primary_exp)[\(brack_exp)]"
+			return "Var_Array_Access(\(primary_exp)[\(brack_exp)])"
 		}
 	}
 }
@@ -284,7 +280,7 @@ struct Var_Field_Access: Var {
 	
 	var description: String {
 		get {
-			return "\(primary_exp).\(ident)"
+			return "Var_Field_Access(\(primary_exp).\(ident))"
 		}
 	}
 }
@@ -407,17 +403,7 @@ protocol Primary_Exp: Unary_Exp { }
 struct Primary_Exp_Nil: Primary_Exp {
 	var description: String {
 		get {
-			return "nil"
-		}
-	}
-}
-
-struct Primary_Exp_Exp: Primary_Exp {
-	let exp: Exp
-	
-	var description: String {
-		get {
-			return "\(exp)"
+			return "Primary_Exp_Nil"
 		}
 	}
 }
@@ -427,17 +413,17 @@ struct Primary_Exp_Integer: Primary_Exp {
 	
 	var description: String {
 		get {
-			return "\(value)"
+			return "Primary_Exp_Integer(\(value))"
 		}
 	}
 }
 
 struct Primary_Exp_Character: Primary_Exp {
-	let value: String
+	let value: Character
 	
 	var description: String {
 		get {
-			return "'\(value)'"
+			return "Primary_Exp_Character('\(value)')"
 		}
 	}
 }
@@ -447,7 +433,7 @@ struct Primary_Exp_Boolean: Primary_Exp {
 	
 	var description: String {
 		get {
-			return "\(value)"
+			return "Primary_Exp_Boolean(\(value))"
 		}
 	}
 }
@@ -457,7 +443,7 @@ struct Primary_Exp_String: Primary_Exp {
 	
 	var description: String {
 		get {
-			return "\"\(value)\""
+			return "Primary_Exp_String(\"\(value)\")"
 		}
 	}
 }
@@ -467,7 +453,17 @@ struct Primary_Exp_Sizeof: Primary_Exp {
 	
 	var description: String {
 		get {
-			return "sizeof(\(exp))"
+			return "Primary_Exp_Sizeof(\(exp))"
+		}
+	}
+}
+
+struct Primary_Exp_Exp: Primary_Exp {
+	let exp: Exp
+	
+	var description: String {
+		get {
+			return "Primary_Exp_Exp(\(exp))"
 		}
 	}
 }
@@ -478,7 +474,7 @@ struct Primary_Exp_Call: Primary_Exp {
 	
 	var description: String {
 		get {
-			return "\(ident)(\(args))"
+			return "Primary_Exp_Call(\(ident)(\(args)))"
 		}
 	}
 }
@@ -490,7 +486,7 @@ struct New_Obj_Spec_Ident: New_Obj_Spec {
 	
 	var description: String {
 		get {
-			return "new(\(ident));"
+			return "New_Obj_Spec_Ident(new(\(ident)))"
 		}
 	}
 }
