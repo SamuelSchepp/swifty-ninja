@@ -9,26 +9,35 @@
 import Foundation
 
 enum REPLResult: CustomStringConvertible { case
-	SuccessObject(Object),
-	UnresolvableIdentifier(String),
+    SuccessObject(object: Object),
+	
+    UnresolvableIdentifier(ident: String),
 	TypeMissmatch,
+    WrongOperator(op: String, object: Object),
+    
 	NotImplemented,
 	NotExhaustive,
-	ParseError([Token]),
+    
+    ParseError(tokens: [Token]),
 	TokenError
 	
 	var description : String {
 		switch self {
 		case .SuccessObject(let obj):
 			return "\(obj)"
+            
 		case .UnresolvableIdentifier(let id):
 			return "Unresolvable identifier \"\(id)\""
 		case .TypeMissmatch:
 			return "Type missmatch"
+        case .WrongOperator(let op, let obj):
+            return "Wrong operator: \(op) on \(obj)"
+            
 		case .NotImplemented:
 			return "Not implemented"
 		case .NotExhaustive:
 			return "Not exhaustive"
+            
 		case .ParseError(let tokens):
 			return "Parse error\n\(tokens)"
 		case .TokenError:
@@ -45,7 +54,7 @@ class REPL {
 		
 		guard let tokens = tokenizer.tokenize() else { return REPLResult.TokenError }
 		
-		guard let node = parse(tokens: tokens) else { return REPLResult.ParseError(tokens) }
+		guard let node = parse(tokens: tokens) else { return REPLResult.ParseError(tokens: tokens) }
 		
 		return evaluator.evaluate(node: node)
 		

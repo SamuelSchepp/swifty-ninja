@@ -14,7 +14,7 @@ class TokenizerTests: XCTestCase {
 			if let tokens = Tokenizer(with: key).tokenize() {
 				// print(String(describing: value))
 				// print(String(describing: tokens))
-				XCTAssertEqual(String(describing: tokens), String(describing: value))
+                XCTAssertEqual(String(reflecting: tokens), String(reflecting: value))
 			}
 			else {
 				XCTFail()

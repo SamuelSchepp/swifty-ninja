@@ -395,7 +395,7 @@ struct Unary_Exp_Impl: Unary_Exp {
 enum Unary_Exp_Impl_Op: String { case
 	PLUS = "+",
 	MINUS = "-",
-	LOGNOT = "~"
+	LOGNOT = "!"
 }
 
 protocol Primary_Exp: Unary_Exp { }

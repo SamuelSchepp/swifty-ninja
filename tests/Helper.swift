@@ -19,8 +19,8 @@ class Helper {
 			let repl = REPL()
 			let result = repl.handle(input: source)
 			
-			let resultString = String(describing: result)
-			let targetString = String(describing: target)
+			let resultString = String(reflecting: result)
+			let targetString = String(reflecting: target)
 			
 			print(resultString)
 			

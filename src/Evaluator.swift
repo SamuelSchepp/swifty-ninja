@@ -66,7 +66,7 @@ class Evaluator {
 			return any
 		}
 		
-		return .SuccessObject(BooleanObject(value: (lhs.value || rhs.value)))
+		return .SuccessObject(object: (BooleanObject(value: (lhs.value || rhs.value))))
 	}
 	
 	// MARK: And
@@ -104,7 +104,7 @@ class Evaluator {
 			return any
 		}
 		
-		return .SuccessObject(BooleanObject(value: (lhs.value && rhs.value)))
+		return .SuccessObject(object: BooleanObject(value: (lhs.value && rhs.value)))
 	}
 	
 	// MARK: Rel
@@ -158,7 +158,7 @@ class Evaluator {
 			value = lhs.value >= rhs.value
 		}
 		
-		return .SuccessObject(BooleanObject(value: value))
+		return .SuccessObject(object: BooleanObject(value: value))
 	}
 	
 	// MARK: Add
@@ -204,7 +204,7 @@ class Evaluator {
 			value = lhs.value - rhs.value
 		}
 		
-		return .SuccessObject(IntegerObject(value: value))
+		return .SuccessObject(object: IntegerObject(value: value))
 	}
 	
 	// MARK: Mul
@@ -252,7 +252,7 @@ class Evaluator {
 			value = lhs.value % rhs.value
 		}
 		
-		return .SuccessObject(IntegerObject(value: value))
+		return .SuccessObject(object: IntegerObject(value: value))
 	}
 	
 	// MARK: Unary
@@ -269,28 +269,31 @@ class Evaluator {
 	}
 	
 	func evaluate(node: Unary_Exp_Impl) -> REPLResult {
-		var rhs: IntegerObject
-		
-		switch evaluate(node: node.rhs) {
-		case let .SuccessObject(node as IntegerObject):
-			rhs = node
-		case .SuccessObject(_):
-			return .TypeMissmatch
-		case let any:
-			return any
-		}
-		
-		var value: Int
-		switch node.op {
-		case .PLUS:
-			value = rhs.value
-		case .MINUS:
-			value = -rhs.value
-		case .LOGNOT:
-			value = ~rhs.value
-		}
-		
-		return .SuccessObject(IntegerObject(value: value))
+        let eval = evaluate(node: node.rhs)
+        
+        if case .SuccessObject(let obj) = eval {
+            if let intObj = obj as? IntegerObject {
+                switch node.op {
+                case .PLUS:
+                    return .SuccessObject(object: intObj)
+                case .MINUS:
+                    return .SuccessObject(object: IntegerObject(value: -intObj.value))
+                default:
+                    return .WrongOperator(op: node.op.rawValue, object: intObj)
+                }
+            }
+            if let boolObj = obj as? BooleanObject {
+                switch node.op {
+                case .LOGNOT:
+                    return .SuccessObject(object: BooleanObject(value: !boolObj.value))
+                default:
+                    return .WrongOperator(op: node.op.rawValue, object: boolObj)
+                }
+            }
+            return .TypeMissmatch
+        }
+        
+        return eval
 	}
 	
 	// MARK: Primary
@@ -331,26 +334,26 @@ class Evaluator {
 	}
 	
 	func evaluate(node: Primary_Exp_Nil) -> REPLResult {
-		return .SuccessObject(ReferenceObject(value: nil))
+		return .SuccessObject(object: ReferenceObject(value: nil))
 	}
 	
 	func evaluate(node: Primary_Exp_Exp) -> REPLResult {
 		return evaluate(node: node.exp)
 	}
 	func evaluate(node: Primary_Exp_Integer) -> REPLResult {
-		return .SuccessObject(IntegerObject(value: node.value))
+		return .SuccessObject(object: IntegerObject(value: node.value))
 	}
 	
 	func evaluate(node: Primary_Exp_Character) -> REPLResult {
-		return .SuccessObject(CharacterObject(value: node.value))
+		return .SuccessObject(object: CharacterObject(value: node.value))
 	}
 	
 	func evaluate(node: Primary_Exp_Boolean) -> REPLResult {
-		return .SuccessObject(BooleanObject(value: node.value))
+		return .SuccessObject(object: BooleanObject(value: node.value))
 	}
 	
 	func evaluate(node: Primary_Exp_String) -> REPLResult {
-		return .SuccessObject(StringObject(value: node.value))
+		return .SuccessObject(object: StringObject(value: node.value))
 	}
 	
 	func evaluate(node: Primary_Exp_Sizeof) -> REPLResult {
@@ -385,7 +388,7 @@ class Evaluator {
 	}
 	
 	func evaluate(node: Var_Ident) -> REPLResult {
-		return .UnresolvableIdentifier(node.ident)
+        return .UnresolvableIdentifier(ident: node.ident)
 	}
 	
 	func evaluate(node: Var_Field_Access) -> REPLResult {
