@@ -14,6 +14,7 @@ class App {
 		
 		var quit = false
 		var buffer = ""
+		let repl = REPL()
 		
 		while !quit {
 			if buffer.characters.count == 0 {
@@ -30,11 +31,18 @@ class App {
 				}
 				else {
 					buffer += input
-					if let node = App.handle(input: buffer) {
-						print("AST: \(node)")
-						if let eval = Evaluator.evaluate(node: node) {
-							print("Eval: \(eval)")
-						}
+					let result = repl.handle(input: buffer)
+					
+					switch result {
+					case .SuccessObject(_):
+						print("\(result)")
+						buffer = ""
+					case .TokenError:
+						break
+					case .ParseError(_):
+						break
+					default:
+						print(result)
 						buffer = ""
 					}
 				}
@@ -43,37 +51,6 @@ class App {
 				quit = true
 			}
 		}
-	}
-	
-	static func handle(input: String) -> ASTNode? {
-		// Type_Dec
-		if let ast = parseWithFunction(string: input, function: { return $0.parse_Type_Dec() }) {
-			return ast
-		}
-		
-		// Exp
-		if let ast = parseWithFunction(string: input, function: { return $0.parse_Exp() }) {
-			return ast
-		}
-		
-		// Type
-		if let ast = parseWithFunction(string: input, function: { return $0.parse_Type() }) {
-			return ast
-		}
-		
-		return .none
-	}
-	
-	static func parseWithFunction(string: String, function: (Parser) -> ASTNode?) -> ASTNode? {
-		let tokenizer = Tokenizer(with: string)
-		guard let tokens = tokenizer.tokenize() else { return .none }
-		
-		let parser = Parser(with: tokens)
-		
-		guard let ast = function(parser) else { return .none }
-		if !parser.isDone() { return .none }
-		
-		return ast
 	}
 	
 	static func hello() {

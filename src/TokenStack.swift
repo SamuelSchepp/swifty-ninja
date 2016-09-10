@@ -96,6 +96,15 @@ struct TokenStack {
 		return false
 	}
 	
+	var context: [Token] {
+		get {
+			return stack.context
+		}
+		set {
+			stack.context = newValue
+		}
+	}
+	
 	func hasElements() -> Bool {
 		return stack.hasElements()
 	}

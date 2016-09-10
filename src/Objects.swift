@@ -13,7 +13,7 @@ protocol ObjectWrapper { }
 protocol Object: CustomStringConvertible, ObjectWrapper { }
 
 struct IntegerObject: Object {
-	let value: Int
+	var value: Int
 	
 	var description: String {
 		get {
@@ -24,7 +24,7 @@ struct IntegerObject: Object {
 }
 
 struct BooleanObject: Object {
-	let value: Bool
+	var value: Bool
 	
 	var description: String {
 		get {
@@ -34,7 +34,7 @@ struct BooleanObject: Object {
 }
 
 struct StringObject: Object {
-	let value: String
+	var value: String
 	
 	var description: String {
 		get {
@@ -44,7 +44,7 @@ struct StringObject: Object {
 }
 
 struct CharacterObject: Object {
-	let value: Character
+	var value: Character
 	
 	var description: String {
 		get {
@@ -53,12 +53,32 @@ struct CharacterObject: Object {
 	}
 }
 
-struct ReferenceObject: Object {
-	let value: Object?
+struct RecordObject: Object {
+	let idents: [String: ReferenceObject]
 	
 	var description: String {
 		get {
-			return "[Reference] \(value)"
+			return "[Record]"
+		}
+	}
+}
+
+struct ArrayObject: Object {
+	let idents: [ReferenceObject]
+	
+	var description: String {
+		get {
+			return "[Record]"
+		}
+	}
+}
+
+struct ReferenceObject: Object {
+	var value: UnsafePointer<Object>?
+	
+	var description: String {
+		get {
+			return "[Reference] \(value) -> \((value?.pointee.description ?? "NULL"))"
 		}
 	}
 }

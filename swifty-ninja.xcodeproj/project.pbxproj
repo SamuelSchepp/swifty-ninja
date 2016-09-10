@@ -28,6 +28,8 @@
 		7E8A02C01D82BB52006C6AE3 /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CD031D7DF90B00D7880C /* StackTests.swift */; };
 		7E8A02C11D82BB55006C6AE3 /* TokenizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A301D7F57A800264F38 /* TokenizerTests.swift */; };
 		7E8A02C21D82BB58006C6AE3 /* TypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCCCDE1D80CAF000FCCAC9 /* TypeTests.swift */; };
+		7E8DD5E01D84308D006E5AF6 /* REPL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8DD5DF1D84308D006E5AF6 /* REPL.swift */; };
+		7E8DD5E11D84308D006E5AF6 /* REPL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8DD5DF1D84308D006E5AF6 /* REPL.swift */; };
 		7EAB30A91D81A3F0009CAB4A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAB30A81D81A3F0009CAB4A /* Parser.swift */; };
 		7EB4E4451D81F0D80063AFA1 /* TokenStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB4E4441D81F0D80063AFA1 /* TokenStack.swift */; };
 		7EE0CC361D7E0B150061D30B /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF51D7DF90B00D7880C /* AST.swift */; };
@@ -104,6 +106,7 @@
 		7E8A02B81D82BB4D006C6AE3 /* swifty-ninja-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "swifty-ninja-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E8A02BC1D82BB4D006C6AE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E8BD9901D7CBC07003052DB /* swifty_ninja */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swifty_ninja; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E8DD5DF1D84308D006E5AF6 /* REPL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = REPL.swift; sourceTree = "<group>"; };
 		7E9A31FC1D7E2ADA00718EAA /* Grammatik.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Grammatik.txt; sourceTree = "<group>"; };
 		7E9A31FD1D7E2C4A00718EAA /* Instruktionen.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Instruktionen.txt; sourceTree = "<group>"; };
 		7EAB30A81D81A3F0009CAB4A /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -192,6 +195,7 @@
 			children = (
 				7E40CCF91D7DF90B00D7880C /* main.swift */,
 				7E3A8FA71D82235700093087 /* App.swift */,
+				7E8DD5DF1D84308D006E5AF6 /* REPL.swift */,
 				7E40CCFD1D7DF90B00D7880C /* Stack.swift */,
 				7E010A291D7F495000264F38 /* Token.swift */,
 				7E40CCF51D7DF90B00D7880C /* AST.swift */,
@@ -350,6 +354,7 @@
 				7E4CAA251D833C0400636BC2 /* App.swift in Sources */,
 				7E8A02C21D82BB58006C6AE3 /* TypeTests.swift in Sources */,
 				7E4CAA2B1D83851300636BC2 /* Objects.swift in Sources */,
+				7E8DD5E11D84308D006E5AF6 /* REPL.swift in Sources */,
 				7E8A02C01D82BB52006C6AE3 /* StackTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,6 +371,7 @@
 				7E3A8FA81D82235700093087 /* App.swift in Sources */,
 				7E4CAA2A1D83851300636BC2 /* Objects.swift in Sources */,
 				7E010A2A1D7F495000264F38 /* Token.swift in Sources */,
+				7E8DD5E01D84308D006E5AF6 /* REPL.swift in Sources */,
 				7EAB30A91D81A3F0009CAB4A /* Parser.swift in Sources */,
 				7E4CAA271D83430000636BC2 /* Evaluator.swift in Sources */,
 			);

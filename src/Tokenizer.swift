@@ -23,7 +23,12 @@ class Tokenizer {
 			tokens.append(nT)
 		}
 		
-		return tokens
+		if isDone() {
+			return tokens
+		}
+		else {
+			return .none
+		}
 	}
 	
 	func isDone() -> Bool {

@@ -8,19 +8,12 @@
 
 import Foundation
 
-enum EvalResult{ case
-	Success(Object),
-	UnresolvableIdentifier(String),
-	TypeMissmatch,
-	NotImplemented,
-	NotExhaustive
-}
 
 class Evaluator {
 	
 	// MARK: Global
 	
-	static func evaluate(node: ASTNode) -> EvalResult {
+	func evaluate(node: ASTNode) -> REPLResult {
 		if let exp = node as? Exp {
 			return evaluate(node: exp)
 		}
@@ -30,7 +23,7 @@ class Evaluator {
 	
 	// MARK: Exp
 	
-	static func evaluate(node: Exp) -> EvalResult {
+	func evaluate(node: Exp) -> REPLResult {
 		if let or_exp = node as? Or_Exp {
 			return evaluate(node: or_exp)
 		}
@@ -40,7 +33,7 @@ class Evaluator {
 	
 	// MARK: Or
 	
-	static func evaluate(node: Or_Exp) -> EvalResult {
+	func evaluate(node: Or_Exp) -> REPLResult {
 		if let or_exp_binary = node as? Or_Exp_Binary {
 			return evaluate(node: or_exp_binary)
 		}
@@ -51,30 +44,34 @@ class Evaluator {
 		return .NotExhaustive
 	}
 	
-	static func evaluate(node: Or_Exp_Binary) -> EvalResult {
+	func evaluate(node: Or_Exp_Binary) -> REPLResult {
 		var lhs: BooleanObject
 		var rhs: BooleanObject
 		
 		switch evaluate(node: node.lhs) {
-		case let .Success(node as BooleanObject):
+		case let .SuccessObject(node as BooleanObject):
 			lhs = node
-		default:
+		case .SuccessObject(_):
 			return .TypeMissmatch
+		case let any:
+			return any
 		}
 		
 		switch evaluate(node: node.rhs) {
-		case let .Success(node as BooleanObject):
+		case let .SuccessObject(node as BooleanObject):
 			rhs = node
-		default:
+		case .SuccessObject(_):
 			return .TypeMissmatch
+		case let any:
+			return any
 		}
 		
-		return .Success(BooleanObject(value: (lhs.value || rhs.value)))
+		return .SuccessObject(BooleanObject(value: (lhs.value || rhs.value)))
 	}
 	
 	// MARK: And
 	
-	static func evaluate(node: And_Exp) -> EvalResult {
+	func evaluate(node: And_Exp) -> REPLResult {
 		if let and_exp_binary = node as? And_Exp_Binary {
 			return evaluate(node: and_exp_binary)
 		}
@@ -85,30 +82,34 @@ class Evaluator {
 		return .NotExhaustive
 	}
 	
-	static func evaluate(node: And_Exp_Binary) -> EvalResult {
+	func evaluate(node: And_Exp_Binary) -> REPLResult {
 		var lhs: BooleanObject
 		var rhs: BooleanObject
 		
 		switch evaluate(node: node.lhs) {
-		case let .Success(node as BooleanObject):
+		case let .SuccessObject(node as BooleanObject):
 			lhs = node
-		default:
+		case .SuccessObject(_):
 			return .TypeMissmatch
+		case let any:
+			return any
 		}
 		
 		switch evaluate(node: node.rhs) {
-		case let .Success(node as BooleanObject):
+		case let .SuccessObject(node as BooleanObject):
 			rhs = node
-		default:
+		case .SuccessObject(_):
 			return .TypeMissmatch
+		case let any:
+			return any
 		}
 		
-		return .Success(BooleanObject(value: (lhs.value && rhs.value)))
+		return .SuccessObject(BooleanObject(value: (lhs.value && rhs.value)))
 	}
 	
 	// MARK: Rel
 	
-	static func evaluate(node: Rel_Exp) -> EvalResult {
+	func evaluate(node: Rel_Exp) -> REPLResult {
 		if let rel_exp_binary = node as? Rel_Exp_Binary {
 			return evaluate(node: rel_exp_binary)
 		}
@@ -119,22 +120,26 @@ class Evaluator {
 		return .NotExhaustive
 	}
 	
-	static func evaluate(node: Rel_Exp_Binary) -> EvalResult {
+	func evaluate(node: Rel_Exp_Binary) -> REPLResult {
 		var lhs: IntegerObject
 		var rhs: IntegerObject
 		
 		switch evaluate(node: node.lhs) {
-		case let .Success(node as IntegerObject):
+		case let .SuccessObject(node as IntegerObject):
 			lhs = node
-		default:
+		case .SuccessObject(_):
 			return .TypeMissmatch
+		case let any:
+			return any
 		}
 		
 		switch evaluate(node: node.rhs) {
-		case let .Success(node as IntegerObject):
+		case let .SuccessObject(node as IntegerObject):
 			rhs = node
-		default:
+		case .SuccessObject(_):
 			return .TypeMissmatch
+		case let any:
+			return any
 		}
 		
 		var value: Bool
@@ -153,12 +158,12 @@ class Evaluator {
 			value = lhs.value >= rhs.value
 		}
 		
-		return .Success(BooleanObject(value: value))
+		return .SuccessObject(BooleanObject(value: value))
 	}
 	
 	// MARK: Add
 	
-	static func evaluate(node: Add_Exp) -> EvalResult {
+	func evaluate(node: Add_Exp) -> REPLResult {
 		if let add_exp_binary = node as? Add_Exp_Binary {
 			return evaluate(node: add_exp_binary)
 		}
@@ -166,12 +171,30 @@ class Evaluator {
 			return evaluate(node: mul_exp)
 		}
 		
-		return .none
+		return .NotExhaustive
 	}
 	
-	static func evaluate(node: Add_Exp_Binary) -> EvalResult {
-		guard let lhs = evaluate(node: node.lhs) as? IntegerObject else { return .none }
-		guard let rhs = evaluate(node: node.rhs) as? IntegerObject else { return .none }
+	func evaluate(node: Add_Exp_Binary) -> REPLResult {
+		var lhs: IntegerObject
+		var rhs: IntegerObject
+		
+		switch evaluate(node: node.lhs) {
+		case let .SuccessObject(node as IntegerObject):
+			lhs = node
+		case .SuccessObject(_):
+			return .TypeMissmatch
+		case let any:
+			return any
+		}
+		
+		switch evaluate(node: node.rhs) {
+		case let .SuccessObject(node as IntegerObject):
+			rhs = node
+		case .SuccessObject(_):
+			return .TypeMissmatch
+		case let any:
+			return any
+		}
 		
 		var value: Int
 		switch node.op {
@@ -181,12 +204,12 @@ class Evaluator {
 			value = lhs.value - rhs.value
 		}
 		
-		return IntegerObject(value: value)
+		return .SuccessObject(IntegerObject(value: value))
 	}
 	
 	// MARK: Mul
 	
-	static func evaluate(node: Mul_Exp) -> EvalResult {
+	func evaluate(node: Mul_Exp) -> REPLResult {
 		if let mul_exp_binary = node as? Mul_Exp_Binary {
 			return evaluate(node: mul_exp_binary)
 		}
@@ -194,12 +217,30 @@ class Evaluator {
 			return evaluate(node: unary_exp)
 		}
 		
-		return .none
+		return .NotExhaustive
 	}
 	
-	static func evaluate(node: Mul_Exp_Binary) -> EvalResult {
-		guard let lhs = evaluate(node: node.lhs) as? IntegerObject else { return .none }
-		guard let rhs = evaluate(node: node.rhs) as? IntegerObject else { return .none }
+	func evaluate(node: Mul_Exp_Binary) -> REPLResult {
+		var lhs: IntegerObject
+		var rhs: IntegerObject
+		
+		switch evaluate(node: node.lhs) {
+		case let .SuccessObject(node as IntegerObject):
+			lhs = node
+		case .SuccessObject(_):
+			return .TypeMissmatch
+		case let any:
+			return any
+		}
+		
+		switch evaluate(node: node.rhs) {
+		case let .SuccessObject(node as IntegerObject):
+			rhs = node
+		case .SuccessObject(_):
+			return .TypeMissmatch
+		case let any:
+			return any
+		}
 		
 		var value: Int
 		switch node.op {
@@ -211,12 +252,12 @@ class Evaluator {
 			value = lhs.value % rhs.value
 		}
 		
-		return IntegerObject(value: value)
+		return .SuccessObject(IntegerObject(value: value))
 	}
 	
 	// MARK: Unary
 	
-	static func evaluate(node: Unary_Exp) -> EvalResult {
+	func evaluate(node: Unary_Exp) -> REPLResult {
 		if let unary_exp_impl = node as? Unary_Exp_Impl {
 			return evaluate(node: unary_exp_impl)
 		}
@@ -224,11 +265,20 @@ class Evaluator {
 			return evaluate(node: primary_exp)
 		}
 		
-		return .none
+		return .NotExhaustive
 	}
 	
-	static func evaluate(node: Unary_Exp_Impl) -> EvalResult{
-		guard let rhs = evaluate(node: node.rhs) as? IntegerObject else { return .none }
+	func evaluate(node: Unary_Exp_Impl) -> REPLResult {
+		var rhs: IntegerObject
+		
+		switch evaluate(node: node.rhs) {
+		case let .SuccessObject(node as IntegerObject):
+			rhs = node
+		case .SuccessObject(_):
+			return .TypeMissmatch
+		case let any:
+			return any
+		}
 		
 		var value: Int
 		switch node.op {
@@ -240,12 +290,12 @@ class Evaluator {
 			value = ~rhs.value
 		}
 		
-		return IntegerObject(value: value)
+		return .SuccessObject(IntegerObject(value: value))
 	}
 	
 	// MARK: Primary
 	
-	static func evaluate(node: Primary_Exp) -> EvalResult {
+	func evaluate(node: Primary_Exp) -> REPLResult {
 		if let primary_exp_nil = node as? Primary_Exp_Nil {
 			return evaluate(node: primary_exp_nil)
 		}
@@ -277,37 +327,37 @@ class Evaluator {
 			return evaluate(node: new_obj_spec)
 		}
 		
-		return .none
+		return .NotExhaustive
 	}
 	
-	static func evaluate(node: Primary_Exp_Nil) -> EvalResult {
-		return ReferenceObject(value: .none)
+	func evaluate(node: Primary_Exp_Nil) -> REPLResult {
+		return .SuccessObject(ReferenceObject(value: nil))
 	}
 	
-	static func evaluate(node: Primary_Exp_Exp) -> EvalResult {
+	func evaluate(node: Primary_Exp_Exp) -> REPLResult {
 		return evaluate(node: node.exp)
 	}
-	static func evaluate(node: Primary_Exp_Integer) -> EvalResult {
-		return IntegerObject(value: node.value)
+	func evaluate(node: Primary_Exp_Integer) -> REPLResult {
+		return .SuccessObject(IntegerObject(value: node.value))
 	}
 	
-	static func evaluate(node: Primary_Exp_Character) -> EvalResult {
-		return CharacterObject(value: node.value)
+	func evaluate(node: Primary_Exp_Character) -> REPLResult {
+		return .SuccessObject(CharacterObject(value: node.value))
 	}
 	
-	static func evaluate(node: Primary_Exp_Boolean) -> EvalResult {
-		return BooleanObject(value: node.value)
+	func evaluate(node: Primary_Exp_Boolean) -> REPLResult {
+		return .SuccessObject(BooleanObject(value: node.value))
 	}
 	
-	static func evaluate(node: Primary_Exp_String) -> EvalResult {
-		return StringObject(value: node.value)
+	func evaluate(node: Primary_Exp_String) -> REPLResult {
+		return .SuccessObject(StringObject(value: node.value))
 	}
 	
-	static func evaluate(node: Primary_Exp_Sizeof) -> EvalResult {
-		return .none
+	func evaluate(node: Primary_Exp_Sizeof) -> REPLResult {
+		return .NotImplemented
 	}
 	
-	static func evaluate(node: Var) -> EvalResult {
+	func evaluate(node: Var) -> REPLResult {
 		if let var_array_access = node as? Var_Array_Access {
 			return evaluate(node: var_array_access)
 		}
@@ -317,33 +367,28 @@ class Evaluator {
 		if let var_field_access = node as? Var_Field_Access {
 			return evaluate(node: var_field_access)
 		}
-		return .none
+		return .NotExhaustive
 	}
 	
-	static func evaluate(node: Primary_Exp_Call) -> EvalResult {
-		return .none
+	func evaluate(node: Primary_Exp_Call) -> REPLResult {
+		return .NotImplemented
 	}
 	
-	static func evaluate(node: New_Obj_Spec) -> EvalResult {
-		return .none
+	func evaluate(node: New_Obj_Spec) -> REPLResult {
+		return .NotImplemented
 	}
 	
 	// MARK: Var
 	
-	static func evaluate(node: Var_Array_Access) -> EvalResult {
-		_ = evaluate(node: node.primary_exp)
-		_ = evaluate(node: node.brack_exp)
-		return .none
+	func evaluate(node: Var_Array_Access) -> REPLResult {
+		return .NotImplemented
 	}
 	
-	static func evaluate(node: Var_Ident) -> EvalResult {
-		print("Unresolvable identifier: \(node.ident)")
-		return .none
+	func evaluate(node: Var_Ident) -> REPLResult {
+		return .UnresolvableIdentifier(node.ident)
 	}
 	
-	static func evaluate(node: Var_Field_Access) -> EvalResult {
-		_ = evaluate(node: node.primary_exp)
-		print("Unresolvable identifier: \(node.ident)")
-		return .none
+	func evaluate(node: Var_Field_Access) -> REPLResult {
+		return .NotImplemented
 	}
 }

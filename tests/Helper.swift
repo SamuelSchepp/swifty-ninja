@@ -10,22 +10,21 @@ import Foundation
 import XCTest
 
 class Helper {
-	class func check(map: [String: String]) {
+	class func check(map: [String: REPLResult]) {
 		map.forEach { source, target in
 			print("==== Source ====")
 			print(source)
 			
-			print("==== Handler ====")
-			if let result = App.handle(input: source) {
+			print("==== Result ====")
+			let repl = REPL()
+			let result = repl.handle(input: source)
 			
-				print("==== Result ====")
-				print(result)
+			let resultString = String(describing: result)
+			let targetString = String(describing: target)
 			
-				XCTAssertEqual(target.description, String(describing: result))
-			}
-			else {
-				XCTFail()
-			}
+			print(resultString)
+			
+			XCTAssertEqual(targetString, resultString)
 		}
 	}
 }

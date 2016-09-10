@@ -13,11 +13,11 @@ class TypeTests: XCTestCase {
 	func test_Type_Dec() {
 		Helper.check(map: [
 			"type Fraction = record { Integer num; Integer den; };":
-				"type Fraction = record { Integer num; Integer den; };",
+				.NotExhaustive,
 			"type Number = Integer;":
-				"type Number = Integer;",
+				.NotExhaustive,
 			"type NumberArray = Integer[][][];":
-				"type NumberArray = Integer[][][];"
+				.NotExhaustive
 			]
 		)
 	}
@@ -25,21 +25,23 @@ class TypeTests: XCTestCase {
 	func test_ArrayType() {
 		Helper.check(map: [
 			"Integer[]":
-				"Integer[]",
+				.NotExhaustive,
 			"Bool[][]":
-				"Bool[][]",
+				.NotExhaustive,
 			"MyType[][][]":
-				"MyType[][][]"
+				.NotExhaustive
 			]
 		)
 	}
 	
 	func test_RecordType() {
 		Helper.check(map: [
+			"record { }":
+				.NotExhaustive,
 			"record { Integer zähler; Integer nenner; }":
-				"record { Integer zähler; Integer nenner; }",
+				.NotExhaustive,
 			"record { Integer[] zählerListe; record { Integer lel; } nenner; }":
-				"record { Integer[] zählerListe; record { Integer lel; } nenner; }"
+				.NotExhaustive
 			]
 		)
 	}

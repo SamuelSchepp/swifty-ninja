@@ -47,4 +47,13 @@ struct Stack<T> {
 	func peek() -> T? {
 		return list.last
 	}
+	
+	var context: [T] {
+		get {
+			return list
+		}
+		set {
+			list = newValue
+		}
+	}
 }
