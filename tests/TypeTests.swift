@@ -13,11 +13,11 @@ class TypeTests: XCTestCase {
 	func test_Type_Dec() {
 		Helper.check(map: [
 			"type Fraction = record { Integer num; Integer den; };":
-				.NotExhaustive,
+				.SuccessVoid,
 			"type Number = Integer;":
-				.NotExhaustive,
+				.SuccessVoid,
 			"type NumberArray = Integer[][][];":
-				.NotExhaustive
+				.SuccessVoid
 			]
 		)
 	}
@@ -25,11 +25,11 @@ class TypeTests: XCTestCase {
 	func test_ArrayType() {
 		Helper.check(map: [
 			"Integer[]":
-				.NotExhaustive,
-			"Bool[][]":
-				.NotExhaustive,
+                .SuccessType(type: ArrayType(base: IntegerType(), dims: 1)),
+			"Boolean[][]":
+                .SuccessType(type: ArrayType(base: BooleanType(), dims: 2)),
 			"MyType[][][]":
-				.NotExhaustive
+				.Unresolvable(ident: "MyType")
 			]
 		)
 	}
@@ -37,11 +37,21 @@ class TypeTests: XCTestCase {
 	func test_RecordType() {
 		Helper.check(map: [
 			"record { }":
-				.NotExhaustive,
+                .SuccessType(type: RecordType(fields: [:])),
 			"record { Integer zähler; Integer nenner; }":
-				.NotExhaustive,
+                .SuccessType(type: RecordType(fields: ["zähler": IntegerType(), "nenner": IntegerType()])),
 			"record { Integer[] zählerListe; record { Integer lel; } nenner; }":
-				.NotExhaustive
+				.SuccessType(type:
+                    RecordType(fields: [
+                        "zählerListe": ArrayType(
+                            base: IntegerType(),
+                            dims: 1
+                        ),
+                        "nenner": RecordType(
+                            fields: ["lel": IntegerType()]
+                        )
+                    ])
+                )
 			]
 		)
 	}

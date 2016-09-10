@@ -10,16 +10,98 @@ import Foundation
 
 
 class Evaluator {
-	
+	let globalEnvironment = GlobalEnvironment()
+    
 	// MARK: Global
 	
 	func evaluate(node: ASTNode) -> REPLResult {
+        if let typeDec = node as? Type_Dec {
+            return evaluate(node: typeDec)
+        }
+        if let typeExp = node as? TypeExpression {
+            return evaluate(node: typeExp)
+        }
 		if let exp = node as? Exp {
 			return evaluate(node: exp)
 		}
 		
 		return .NotExhaustive
 	}
+    
+    // MARK: Type Dec
+    
+    func evaluate(node: Type_Dec) -> REPLResult {
+        if globalEnvironment.identifierExists(ident: node.ident) {
+            return .Redeclaration(ident: node.ident)
+        }
+        
+        let typeEval = evaluate(node: node.type)
+        switch typeEval {
+        case .SuccessType(let type):
+            globalEnvironment.typeDecMap[node.ident] = type
+            return .SuccessVoid
+        default:
+            return typeEval
+        }
+    }
+    
+    // MARK: Type
+    
+    func evaluate(node: TypeExpression) -> REPLResult {
+        if let identType = node as? IdentifierTypeExpression {
+            return evaluate(node: identType)
+        }
+        if let arrayType = node as? ArrayTypeExpression {
+            return evaluate(node: arrayType)
+        }
+        if let recordType = node as? RecordTypeExpression {
+            return evaluate(node: recordType)
+        }
+        
+        return .NotExhaustive
+    }
+    
+    func evaluate(node: IdentifierTypeExpression) -> REPLResult {
+        return evaluate(identifier: node.ident)
+    }
+    
+    func evaluate(node: ArrayTypeExpression) -> REPLResult {
+        let identEval = evaluate(identifier: node.ident)
+        switch identEval {
+        case .SuccessType(let type):
+            return .SuccessType(type: ArrayType(base: type, dims: node.dims))
+        default:
+            return identEval
+        }
+    }
+    
+    func evaluate(node: RecordTypeExpression) -> REPLResult {
+        var memb = [String: Type]()
+        var error: REPLResult? = .none
+        
+        node.memb_decs.forEach({memb_dec in
+            let eval = evaluate(node: memb_dec.type)
+            switch eval {
+            case .SuccessType(let t):
+                memb[memb_dec.ident] = t
+            default:
+                error = eval
+            }
+        })
+        
+        return error ?? .SuccessType(type: RecordType(fields: memb))
+    }
+    
+    func evaluate(identifier: String) -> REPLResult {
+        if let ty = globalEnvironment.typeDecMap[identifier] {
+            return .SuccessType(type: ty)
+        }
+        if let obj = globalEnvironment.variables[identifier] {
+            return .SuccessObject(object: obj)
+        }
+        
+        return .Unresolvable(ident: identifier)
+    }
 	
 	// MARK: Exp
 	
@@ -388,7 +470,7 @@ class Evaluator {
 	}
 	
 	func evaluate(node: Var_Ident) -> REPLResult {
-        return .UnresolvableIdentifier(ident: node.ident)
+        return evaluate(identifier: node.ident)
 	}
 	
 	func evaluate(node: Var_Field_Access) -> REPLResult {

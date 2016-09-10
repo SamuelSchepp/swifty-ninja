@@ -12,6 +12,10 @@
 		7E3A8FA81D82235700093087 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A8FA71D82235700093087 /* App.swift */; };
 		7E40CD061D7DF91E00D7880C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF91D7DF90B00D7880C /* main.swift */; };
 		7E40CD131D7DF9C800D7880C /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCFD1D7DF90B00D7880C /* Stack.swift */; };
+		7E4A7FEF1D845E27008968E2 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4A7FEE1D845E27008968E2 /* Types.swift */; };
+		7E4A7FF01D845E27008968E2 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4A7FEE1D845E27008968E2 /* Types.swift */; };
+		7E4A7FF21D846852008968E2 /* GlobalEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4A7FF11D846852008968E2 /* GlobalEnvironment.swift */; };
+		7E4A7FF31D846852008968E2 /* GlobalEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4A7FF11D846852008968E2 /* GlobalEnvironment.swift */; };
 		7E4CAA221D82FCB800636BC2 /* ExpressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4CAA211D82FCB800636BC2 /* ExpressionTests.swift */; };
 		7E4CAA241D82FE2B00636BC2 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4CAA231D82FE2B00636BC2 /* Helper.swift */; };
 		7E4CAA251D833C0400636BC2 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A8FA71D82235700093087 /* App.swift */; };
@@ -99,6 +103,8 @@
 		7E40CCF91D7DF90B00D7880C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		7E40CCFD1D7DF90B00D7880C /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		7E40CD031D7DF90B00D7880C /* StackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
+		7E4A7FEE1D845E27008968E2 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
+		7E4A7FF11D846852008968E2 /* GlobalEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalEnvironment.swift; sourceTree = "<group>"; };
 		7E4CAA211D82FCB800636BC2 /* ExpressionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionTests.swift; sourceTree = "<group>"; };
 		7E4CAA231D82FE2B00636BC2 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		7E4CAA261D83430000636BC2 /* Evaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
@@ -204,6 +210,8 @@
 				7EAB30A81D81A3F0009CAB4A /* Parser.swift */,
 				7E4CAA261D83430000636BC2 /* Evaluator.swift */,
 				7E4CAA291D83851300636BC2 /* Objects.swift */,
+				7E4A7FEE1D845E27008968E2 /* Types.swift */,
+				7E4A7FF11D846852008968E2 /* GlobalEnvironment.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -352,9 +360,11 @@
 				7E4CAA281D83430000636BC2 /* Evaluator.swift in Sources */,
 				7E8A02C11D82BB55006C6AE3 /* TokenizerTests.swift in Sources */,
 				7E4CAA251D833C0400636BC2 /* App.swift in Sources */,
+				7E4A7FF01D845E27008968E2 /* Types.swift in Sources */,
 				7E8A02C21D82BB58006C6AE3 /* TypeTests.swift in Sources */,
 				7E4CAA2B1D83851300636BC2 /* Objects.swift in Sources */,
 				7E8DD5E11D84308D006E5AF6 /* REPL.swift in Sources */,
+				7E4A7FF31D846852008968E2 /* GlobalEnvironment.swift in Sources */,
 				7E8A02C01D82BB52006C6AE3 /* StackTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,6 +376,8 @@
 				7E010A2E1D7F4AB500264F38 /* Tokenizer.swift in Sources */,
 				7EB4E4451D81F0D80063AFA1 /* TokenStack.swift in Sources */,
 				7EE0CC361D7E0B150061D30B /* AST.swift in Sources */,
+				7E4A7FEF1D845E27008968E2 /* Types.swift in Sources */,
+				7E4A7FF21D846852008968E2 /* GlobalEnvironment.swift in Sources */,
 				7E40CD131D7DF9C800D7880C /* Stack.swift in Sources */,
 				7E40CD061D7DF91E00D7880C /* main.swift in Sources */,
 				7E3A8FA81D82235700093087 /* App.swift in Sources */,

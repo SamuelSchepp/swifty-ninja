@@ -13,10 +13,10 @@ class ExpressionTests: XCTestCase {
 	func testArithmetic() {
 		Helper.check(map: [
 			"a + b":
-				.UnresolvableIdentifier(ident: "a"),
+				.Unresolvable(ident: "a"),
 			
 			"(4 - 6) * (x + 7)":
-				.UnresolvableIdentifier(ident: "x"),
+				.Unresolvable(ident: "x"),
 			
 			"(4 - 6) * (1 + 7)":
 				.SuccessObject(object: IntegerObject(value: -16)),

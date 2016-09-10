@@ -10,8 +10,11 @@ import Foundation
 
 enum REPLResult: CustomStringConvertible { case
     SuccessObject(object: Object),
+    SuccessType(type: Type),
+    SuccessVoid,
 	
-    UnresolvableIdentifier(ident: String),
+    Unresolvable(ident: String),
+    Redeclaration(ident: String),
 	TypeMissmatch,
     WrongOperator(op: String, object: Object),
     
@@ -25,9 +28,15 @@ enum REPLResult: CustomStringConvertible { case
 		switch self {
 		case .SuccessObject(let obj):
 			return "\(obj)"
+        case .SuccessType(let ty):
+            return "\(ty)"
+        case .SuccessVoid:
+            return "<Void>"
             
-		case .UnresolvableIdentifier(let id):
-			return "Unresolvable identifier \"\(id)\""
+		case .Unresolvable(let ident):
+			return "Unresolvable identifier \"\(ident)\""
+        case .Redeclaration(let ident):
+            return "Redeclaration of identifier \"\(ident)\""
 		case .TypeMissmatch:
 			return "Type missmatch"
         case .WrongOperator(let op, let obj):

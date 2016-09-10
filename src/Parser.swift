@@ -48,17 +48,17 @@ class Parser {
 		return Type_Dec(ident: ident.value, type: type)
 	}
 	
-	func parse_Type() -> Type? {
+	func parse_Type() -> TypeExpression? {
 		let context = stack.context
 		
 		if let ident: IDENT = stack.pop() {
 			if let _: LBRACK = stack.pop() {
 				guard let _: RBRACK = stack.pop() else { stack.context = context; return .none }
 				guard let more_dims = parse_More_Dims() else { stack.context = context; return .none }
-				return ArrayType(ident: ident.value, dims: more_dims + 1)
+				return ArrayTypeExpression(ident: ident.value, dims: more_dims + 1)
 			}
 			else {
-				return IdentifierType(ident: ident.value)
+				return IdentifierTypeExpression(ident: ident.value)
 			}
 		}
 		else {
@@ -67,7 +67,7 @@ class Parser {
 			guard let memb_dec_list = parse_Mem_Dec_List() else { stack.context = context; return .none }
 			guard let _: RCURL = stack.pop() else { stack.context = context; return .none }
 			
-			return RecordType(memb_decs: memb_dec_list)
+			return RecordTypeExpression(memb_decs: memb_dec_list)
 		}
 	}
 	

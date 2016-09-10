@@ -17,10 +17,9 @@ struct IntegerObject: Object {
 	
 	var description: String {
 		get {
-			return "[Integer] \(value)"
+			return "\(value)"
 		}
 	}
-	
 }
 
 struct BooleanObject: Object {
@@ -28,7 +27,7 @@ struct BooleanObject: Object {
 	
 	var description: String {
 		get {
-			return "[Boolean] \(value)"
+			return "\(value)"
 		}
 	}
 }
@@ -38,7 +37,7 @@ struct StringObject: Object {
 	
 	var description: String {
 		get {
-			return "[String] \(value)"
+			return "\(value)"
 		}
 	}
 }
@@ -48,7 +47,7 @@ struct CharacterObject: Object {
 	
 	var description: String {
 		get {
-			return "[Character] \(value)"
+			return "\(value)"
 		}
 	}
 }
@@ -58,7 +57,7 @@ struct RecordObject: Object {
 	
 	var description: String {
 		get {
-			return "[Record]"
+			return ""
 		}
 	}
 }
@@ -68,7 +67,7 @@ struct ArrayObject: Object {
 	
 	var description: String {
 		get {
-			return "[Record]"
+			return ""
 		}
 	}
 }
@@ -78,7 +77,7 @@ struct ReferenceObject: Object {
 	
 	var description: String {
 		get {
-			return "[Reference] \(value) -> \((value?.pointee.description ?? "NULL"))"
+			return "\(value) -> \((value?.pointee.description ?? "<Null>"))"
 		}
 	}
 }

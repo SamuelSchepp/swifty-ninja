@@ -32,7 +32,7 @@ protocol Glob_Dec: ASTNode { }
 
 struct Type_Dec: Glob_Dec {
 	let ident: String
-	let type: Type
+	let type: TypeExpression
 	
 	var description: String {
 		get {
@@ -42,7 +42,7 @@ struct Type_Dec: Glob_Dec {
 }
 
 struct Gvar_Dec: Glob_Dec {
-	let type: Type
+	let type: TypeExpression
 	let ident: String
 	
 	var description: String {
@@ -53,7 +53,7 @@ struct Gvar_Dec: Glob_Dec {
 }
 
 struct Func_Dec: Glob_Dec {
-	let type: Type?
+	let type: TypeExpression?
 	let ident: String
 	let par_decs: [Par_Dec]
 	let lvar_decs: [Lvar_Dec]
@@ -68,9 +68,9 @@ struct Func_Dec: Glob_Dec {
 
 // MARK: Types
 
-protocol Type: ASTNode { }
+protocol TypeExpression: ASTNode { }
 
-struct IdentifierType: Type {
+struct IdentifierTypeExpression: TypeExpression {
 	let ident: String
 	
 	var description: String {
@@ -80,7 +80,7 @@ struct IdentifierType: Type {
 	}
 }
 
-struct ArrayType: Type {
+struct ArrayTypeExpression: TypeExpression {
 	let ident: String
 	let dims: Int
 	
@@ -92,7 +92,7 @@ struct ArrayType: Type {
 	}
 }
 
-struct RecordType: Type {
+struct RecordTypeExpression: TypeExpression {
 	let memb_decs: [Memb_Dec]
 	
 	var description: String {
@@ -104,7 +104,7 @@ struct RecordType: Type {
 }
 
 struct Memb_Dec: ASTNode {
-	let type: Type
+	let type: TypeExpression
 	let ident: String
 	
 	var description: String {
@@ -117,7 +117,7 @@ struct Memb_Dec: ASTNode {
 // MARK: Function
 
 struct Par_Dec: ASTNode {
-	let type: Type
+	let type: TypeExpression
 	let ident: String
 	
 	var description: String {
@@ -128,7 +128,7 @@ struct Par_Dec: ASTNode {
 }
 
 struct Lvar_Dec: ASTNode {
-	let type: Type
+	let type: TypeExpression
 	let ident: String
 	
 	var description: String {
