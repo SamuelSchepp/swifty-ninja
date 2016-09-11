@@ -25,16 +25,19 @@ class App {
 			}
 			
 			if let input = readLine() {
-				if(input == "") {
+				if input == "" {
 					buffer = ""
 					print("Aborted")
+				}
+				else if input == "#dump" {
+					repl.dump()
 				}
 				else {
 					buffer += input
 					let result = repl.handle(input: buffer)
 					
 					switch result {
-					case .SuccessObject(_):
+					case .SuccessValue(_):
 						print("\(result)")
 						buffer = ""
 					case .TokenError:

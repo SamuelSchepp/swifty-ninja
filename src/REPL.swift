@@ -9,14 +9,20 @@
 import Foundation
 
 enum REPLResult: CustomStringConvertible { case
-    SuccessObject(object: Object),
+	SuccessValue(value: Value, type: Type),
     SuccessType(type: Type),
     SuccessVoid,
 	
-    Unresolvable(ident: String),
+    UnresolvableValue(ident: String),
+	UnresolvableReference(ident: String),
+	UnresolvableType(ident: String),
+	
+	NullPointer,
+	HeapBoundsFault,
+	
     Redeclaration(ident: String),
 	TypeMissmatch,
-    WrongOperator(op: String, object: Object),
+    WrongOperator(op: String, type: Type),
     
 	NotImplemented,
 	NotExhaustive,
@@ -26,21 +32,31 @@ enum REPLResult: CustomStringConvertible { case
 	
 	var description : String {
 		switch self {
-		case .SuccessObject(let obj):
-			return "\(obj)"
+		case .SuccessValue(let val, let ty):
+			return "\(val) (\(ty))"
         case .SuccessType(let ty):
             return "\(ty)"
         case .SuccessVoid:
             return "<Void>"
             
-		case .Unresolvable(let ident):
-			return "Unresolvable identifier \"\(ident)\""
+		case .UnresolvableValue(let ident):
+			return "Unresolvable value of identifier \"\(ident)\""
+		case .UnresolvableReference(let ident):
+			return "Unresolvable reference of identifier \"\(ident)\""
+		case .UnresolvableType(let ident):
+			return "Unresolvable type of identifier \"\(ident)\""
+			
+		case .NullPointer:
+			return "Null Reference"
+		case .HeapBoundsFault:
+			return "Heap Bounds Fault"
+			
         case .Redeclaration(let ident):
             return "Redeclaration of identifier \"\(ident)\""
 		case .TypeMissmatch:
 			return "Type missmatch"
-        case .WrongOperator(let op, let obj):
-            return "Wrong operator: \(op) on \(obj)"
+        case .WrongOperator(let op, let val):
+            return "Wrong operator: \(op) on \(val)"
             
 		case .NotImplemented:
 			return "Not implemented"
@@ -56,22 +72,27 @@ enum REPLResult: CustomStringConvertible { case
 }
 
 class REPL {
-	private let evaluator = Evaluator()
+	let evaluator = Evaluator()
 	
 	func handle(input: String) -> REPLResult {
 		let tokenizer = Tokenizer(with: input)
 		
 		guard let tokens = tokenizer.tokenize() else { return REPLResult.TokenError }
 		
-		guard let node = parse(tokens: tokens) else { return REPLResult.ParseError(tokens: tokens) }
+		guard let ast = parse(tokens: tokens) else { return REPLResult.ParseError(tokens: tokens) }
 		
-		return evaluator.evaluate(node: node)
+		return evaluator.evaluate(ast: ast)
 		
 	}
 	
 	private func parse(tokens: [Token]) -> ASTNode? {
-		// Type_Dec
-		if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Type_Dec() }) {
+		// Program
+		if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Program() }) {
+			return ast
+		}
+		
+		// Stm
+		if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Stm() }) {
 			return ast
 		}
 		
@@ -95,5 +116,9 @@ class REPL {
 		if !parser.isDone() { return .none }
 		
 		return ast
+	}
+	
+	func dump() {
+		evaluator.dump()
 	}
 }

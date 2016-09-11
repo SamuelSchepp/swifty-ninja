@@ -29,7 +29,7 @@ class TypeTests: XCTestCase {
 			"Boolean[][]":
                 .SuccessType(type: ArrayType(base: BooleanType(), dims: 2)),
 			"MyType[][][]":
-				.Unresolvable(ident: "MyType")
+				.UnresolvableType(ident: "MyType")
 			]
 		)
 	}

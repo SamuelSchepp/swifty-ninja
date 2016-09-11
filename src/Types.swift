@@ -10,6 +10,7 @@ import Foundation
 
 protocol Type: CustomStringConvertible { }
 
+
 struct IntegerType: Type {
     var description: String {
         get {
@@ -18,12 +19,20 @@ struct IntegerType: Type {
     }
 }
 
+struct ReferenceType: Type {
+	var description: String {
+		get {
+			return "Reference"
+		}
+	}
+}
+
 struct BooleanType: Type {
     var description: String {
         get {
             return "Boolean"
         }
-    }
+	}
 }
 
 struct StringType: Type {
