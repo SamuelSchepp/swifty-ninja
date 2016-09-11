@@ -140,7 +140,7 @@ extension Parser {
 		
 		guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
 		guard let _: LPAREN = stack.pop() else { stack.context = context; return .none }
-		guard let arg_list = parse_Arg_List() else { stack.context = context; return .none }
+		let arg_list = parse_Arg_List()
 		guard let _: RPAREN = stack.pop() else { stack.context = context; return .none }
 		guard let _: SEMIC = stack.pop() else { stack.context = context; return .none }
 		

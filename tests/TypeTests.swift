@@ -13,11 +13,11 @@ class TypeTests: XCTestCase {
 	func test_Type_Dec() {
 		Helper.check(map: [
 			"type Fraction = record { Integer num; Integer den; };":
-				.SuccessVoid,
+				.SuccessDeclaration,
 			"type Number = Integer;":
-				.SuccessVoid,
+				.SuccessDeclaration,
 			"type NumberArray = Integer[][][];":
-				.SuccessVoid
+				.SuccessDeclaration
 			]
 		)
 	}

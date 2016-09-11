@@ -350,7 +350,7 @@ extension Evaluator {
 	}
 	
 	func evaluateValue(primary_exp_call: Primary_Exp_Call) -> REPLResult {
-		return .NotImplemented
+		return evaluateStm(call_stm: Call_Stm(ident: primary_exp_call.ident, args: primary_exp_call.args))
 	}
 	
 	func evaluateValue(new_obj_spec: New_Obj_Spec) -> REPLResult {
@@ -372,8 +372,8 @@ extension Evaluator {
 	}
 	
 	func evaluateValue(identifier: String) -> REPLResult {
-		if let ref = globalEnvironment.variables[identifier] {
-			if let ty = globalEnvironment.varTypeMap[identifier] {
+		if let ref = globalEnvironment.findReferenceOfVariable(ident: identifier) {
+			if let ty = globalEnvironment.findTypeOfVariable(ident: identifier) {
 				if ref.value != ReferenceValue.null().value {
 					if let val = globalEnvironment.heapGet(addr: ref) {
 						return .SuccessValue(value: val, type: ty)

@@ -59,6 +59,9 @@ class Evaluator {
 		if let gvar_dec = glob_dec as? Gvar_Dec {
 			return evaluate(gvar_dec: gvar_dec)
 		}
+		if let func_dec = glob_dec as? Func_Dec {
+			return evaluate(func_dec: func_dec)
+		}
 		// func_dec
 		
 		return .NotExhaustive
@@ -75,7 +78,7 @@ class Evaluator {
 		if case .SuccessType(let ty) = tyEval {
 			globalEnvironment.varTypeMap[gvar_dec.ident] = ty
 			globalEnvironment.variables[gvar_dec.ident] = ReferenceValue.null()
-			return .SuccessVoid
+			return .SuccessDeclaration
 		}
 		
 		return tyEval
@@ -92,9 +95,21 @@ class Evaluator {
         switch typeEval {
         case .SuccessType(let type):
             globalEnvironment.typeDecMap[type_dec.ident] = type
-            return .SuccessVoid
+            return .SuccessDeclaration
         default:
             return typeEval
         }
     }
+	
+	// MARK: Func Dec
+	
+	func evaluate(func_dec: Func_Dec) -> REPLResult {
+		if globalEnvironment.identifierExists(ident: func_dec.ident) {
+			return .Redeclaration(ident: func_dec.ident)
+		}
+		
+		globalEnvironment.functions[func_dec.ident] = func_dec
+		
+		return .SuccessDeclaration
+	}
 }

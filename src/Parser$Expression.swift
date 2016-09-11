@@ -188,14 +188,35 @@ extension Parser {
 			guard let _: RPAREN = stack.pop() else { stack.context = context; return .none }
 			return Primary_Exp_Exp(exp: exp)
 		}
-		if let _var = parse_Var() {
-			return _var
-		}
 		if let ident: IDENT = stack.pop() {
-			guard let _: LPAREN = stack.pop() else { stack.context = context; return .none }
-			guard let arg_list = parse_Arg_List() else { stack.context = context; return .none }
-			guard let _: RPAREN = stack.pop() else { stack.context = context; return .none }
-			return Primary_Exp_Call(ident: ident.value, args: arg_list)
+			if let _: LBRACK = stack.pop() {
+				guard let exp = parse_Exp() else { stack.context = context; return .none }
+				guard let _: RBRACK = stack.pop() else { stack.context = context; return .none }
+				return Var_Array_Access(primary_exp: Var_Ident(ident: ident.value), brack_exp: exp)
+			}
+			if let _: DOT = stack.pop() {
+				guard let ident2: IDENT = stack.pop() else { stack.context = context; return .none }
+				return Var_Field_Access(primary_exp: Var_Ident(ident: ident.value), ident: ident2.value)
+			}
+			if let _: LPAREN = stack.pop() { // Call Exp
+				let arg_list = parse_Arg_List()
+				guard let _: RPAREN = stack.pop() else { stack.context = context; return .none }
+				return Primary_Exp_Call(ident: ident.value, args: arg_list)
+			}
+			return Var_Ident(ident: ident.value)
+		}
+		else {
+			if !stack.check_Primary_Exp() { stack.context = context; return .none }
+			guard let primary_exp = parse_Primary_Exp() else { stack.context = context; return .none }
+			if let _: LBRACK = stack.pop() {
+				guard let exp = parse_Exp() else { stack.context = context; return .none }
+				guard let _: RBRACK = stack.pop() else { stack.context = context; return .none }
+				return Var_Array_Access(primary_exp: primary_exp, brack_exp: exp)
+			}
+			if let _: DOT = stack.pop() {
+				guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
+				return Var_Field_Access(primary_exp: primary_exp, ident: ident.value)
+			}
 		}
 		return .none
 	}
@@ -245,15 +266,12 @@ extension Parser {
 		return .none
 	}
 	
-	func parse_Arg_List() -> [Arg]? {
-		let context = stack.context
-		
+	func parse_Arg_List() -> [Arg] {
 		var list = [Arg]()
 		if let exp = parse_Exp() {
 			list.append(Arg(exp: exp))
 			if let _: COMMA = stack.pop() {
-				guard let rest_List = parse_Arg_List() else { stack.context = context; return .none }
-				list.append(contentsOf: rest_List)
+				list += parse_Arg_List()
 				return list
 			}
 		}

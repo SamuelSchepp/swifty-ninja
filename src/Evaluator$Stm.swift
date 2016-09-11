@@ -14,7 +14,7 @@ extension Evaluator {
 	
 	func evaluateStm(stm: Stm) -> REPLResult {
 		if let stms = stm as? Stms {
-			return evaluateStm(compound_stm: Compound_Stm(stms: stms))
+			return evaluateStm(stms: stms)
 		}
 		if let empty_stm = stm as? Empty_Stm {
 			return evaluateStm(empty_stm: empty_stm)
@@ -31,10 +31,18 @@ extension Evaluator {
 		if let while_stm = stm as? While_Stm {
 			return evaluateStm(while_stm: while_stm)
 		}
+		if let do_stm = stm as? Do_Stm {
+			return evaluateStm(do_stm: do_stm)
+		}
 		if let break_stm = stm as? Break_Stm {
 			return evaluateStm(break_stm: break_stm)
 		}
-		
+		if let call_stm = stm as? Call_Stm {
+			return evaluateStm(call_stm: call_stm)
+		}
+		if let return_stm = stm as? Return_Stm {
+			return evaluateStm(return_stm: return_stm)
+		}
 		return .NotExhaustive
 	}
 	
@@ -43,19 +51,21 @@ extension Evaluator {
 	}
 	
 	func evaluateStm(compound_stm: Compound_Stm) -> REPLResult {
-		var lastEval: REPLResult = .SuccessVoid
 		for i in 0..<compound_stm.stms.stms.count {
 			let stm = compound_stm.stms.stms[i]
 			let eval = evaluateStm(stm: stm)
-			lastEval = eval
 			if case .SuccessVoid = eval {
 				/* OK */
 			}
 			else {
-				return lastEval
+				return eval
 			}
 		}
-		return lastEval
+		return .SuccessVoid
+	}
+	
+	func evaluateStm(stms: Stms) -> REPLResult {
+		return evaluateStm(compound_stm: Compound_Stm(stms: stms))
 	}
 	
 	func evaluateStm(assign_stm: Assign_Stm) -> REPLResult {
@@ -90,7 +100,7 @@ extension Evaluator {
 		if !success {
 			return .HeapBoundsFault
 		}
-		globalEnvironment.variables[var_ident.ident] = newAddr
+		globalEnvironment.setVarRef(ident: var_ident.ident, value: newAddr)
 		
 		return .SuccessVoid
 	}
@@ -116,28 +126,142 @@ extension Evaluator {
 	}
 	
 	func evaluateStm(while_stm: While_Stm) -> REPLResult {
-		var lastEval = REPLResult.SuccessVoid
 		while(true) {
-			lastEval = evaluateValue(exp: while_stm.exp)
-			if case .SuccessValue(let val as BooleanValue, _ as BooleanType) = lastEval {
-				lastEval = .SuccessVoid
-				if(val.value) {
-					lastEval = evaluateStm(stm: while_stm.stm)
-					if case .BreakInstr = lastEval {
-						return .SuccessVoid
-					}
-				}
-				else {
-					return lastEval
+			let condiEval = evaluateValue(exp: while_stm.exp)
+			if case .SuccessValue(let val as BooleanValue, _ as BooleanType) = condiEval {
+				if(!val.value) {
+					return .SuccessVoid
 				}
 			}
 			else {
-				return lastEval
+				return condiEval
+			}
+			
+			let eval = evaluateStm(stm: while_stm.stm)
+			if case .BreakInstr = eval {
+				return .SuccessVoid
+			}
+			if case .ReturnValue(_, _) = eval {
+				return eval
+			}
+			if case .ReturnVoid = eval {
+				return eval
+			}
+		}
+	}
+	
+	func evaluateStm(do_stm: Do_Stm) -> REPLResult {
+		while(true) {
+			let eval = evaluateStm(stm: do_stm.stm)
+			if case .BreakInstr = eval {
+				return .SuccessVoid
+			}
+			if case .ReturnValue(_, _) = eval {
+				return eval
+			}
+			if case .ReturnVoid = eval {
+				return eval
+			}
+			
+			let condiEval = evaluateValue(exp: do_stm.exp)
+			if case .SuccessValue(let val as BooleanValue, _ as BooleanType) = condiEval {
+				if(!val.value) {
+					return .SuccessVoid
+				}
+			}
+			else {
+				return condiEval
 			}
 		}
 	}
 	
 	func evaluateStm(break_stm: Break_Stm) -> REPLResult {
 		return .BreakInstr
+	}
+	
+	func evaluateStm(return_stm: Return_Stm) -> REPLResult {
+		if let exp = return_stm.exp {
+			return evaluateValue(exp: exp)
+		}
+		return .ReturnVoid
+	}
+	
+	func evaluateStm(call_stm: Call_Stm) -> REPLResult {
+		guard let func_dec = globalEnvironment.functions[call_stm.ident] else { return .UnresolvableReference(ident: call_stm.ident) }
+		if call_stm.args.count != func_dec.par_decs.count { return .ParameterMissmatch }
+		
+		let localEnvironment = LocalEnvironment()
+		
+		/* check parameter */
+		for i in 0..<call_stm.args.count {
+			
+			/* evaluate value and type of parameter */
+			let callExpEval = evaluateValue(exp: call_stm.args[i].exp)
+			if case .SuccessValue(let val, let ty) = callExpEval {
+				
+				/* evaluate type of parameter declaration */
+				let decTypeEval = evaluateType(typeExpression: func_dec.par_decs[i].type)
+				if case .SuccessType(let ty2) = decTypeEval {
+					
+					/* check types */
+					if ty.description == ty2.description {
+						/* put value in local environment */
+						let ref = globalEnvironment.malloc(size: 1)
+						if !globalEnvironment.heapSet(value: val, addr: ref) { return .HeapBoundsFault }
+						localEnvironment.variables[func_dec.par_decs[i].ident] = ref
+						
+						/* put type in local environment */
+						localEnvironment.varTypeMap[func_dec.par_decs[i].ident] = ty
+					}
+					else {
+						return .TypeMissmatch
+					}
+				}
+				else {
+					return decTypeEval
+				}
+			}
+			else {
+				return callExpEval
+			}
+		}
+		
+		globalEnvironment.localStack.push(value: localEnvironment)
+		
+		let result = runFunction(func_dec: func_dec)
+		
+		_ = globalEnvironment.localStack.pop()
+		
+		if case .ReturnValue(let val, let ty) = result {
+			return .SuccessValue(value: val, type: ty)
+		}
+		if case .ReturnVoid = result {
+			return .SuccessVoid
+		}
+		
+		return result
+	}
+	
+	func runFunction(func_dec: Func_Dec) -> REPLResult {
+		func_dec.lvar_decs.forEach { lvar_dec in
+			_ = evaluate(lvar_dec: lvar_dec)
+		}
+		
+		return evaluateStm(stms: func_dec.stms)
+	}
+	
+	func evaluate(lvar_dec: Lvar_Dec) -> REPLResult {
+		let typeEval = evaluateType(typeExpression: lvar_dec.type)
+		if case .SuccessType(let ty) = typeEval {
+			if globalEnvironment.localStack.hasElements() {
+				globalEnvironment.localStack.peek()!.varTypeMap[lvar_dec.ident] = ty
+				globalEnvironment.localStack.peek()!.variables[lvar_dec.ident] = ReferenceValue.null()
+				return .SuccessDeclaration
+			}
+			else {
+				return .LocalVarDeclareInGlobalContext
+			}
+		}
+		return typeEval
 	}
 }

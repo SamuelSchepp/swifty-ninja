@@ -57,11 +57,17 @@ struct Func_Dec: Glob_Dec {
 	let ident: String
 	let par_decs: [Par_Dec]
 	let lvar_decs: [Lvar_Dec]
-	let stms: [Stm]
+	let stms: Stms
 	
 	var description: String {
 		get {
-			return "Func_Dec(\(type) \(ident))"
+			return "Func_Dec(\(type) \(ident) (\(par_decs)) { \(lvar_decs) \n \(stms) }"
+		}
+	}
+	
+	var signature: String {
+		get {
+			return "\(type) \(ident)(\(par_decs)) { ... }"
 		}
 	}
 }

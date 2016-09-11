@@ -13,8 +13,9 @@ class GlobalEnvironment {
     var varTypeMap: [String: Type]
     var variables: [String: ReferenceValue]
     var functions: [String: Func_Dec]
+	var localStack: Stack<LocalEnvironment>
 	
-	var heap: [Value]
+	private var heap: [Value]
     
     init() {
         typeDecMap = [
@@ -27,6 +28,8 @@ class GlobalEnvironment {
         varTypeMap = [:]
         variables = [:]
         functions = [:]
+		
+		localStack = Stack()
 		
 		heap = [UninitializedValue()]
     }
@@ -48,6 +51,37 @@ class GlobalEnvironment {
 		}
 	}
 	
+	func setVarRef(ident: String, value: ReferenceValue) {
+		if variables.keys.contains(ident) {
+			variables[ident] = value
+		}
+		if localStack.hasElements() {
+			if localStack.peek()!.variables.keys.contains(ident) {
+				localStack.peek()!.variables[ident] = value
+			}
+		}
+	}
+	
+	func findReferenceOfVariable(ident: String) -> ReferenceValue? {
+		if let ref = variables[ident] {
+			return ref
+		}
+		if let ref = localStack.peek()?.variables[ident] {
+			return ref
+		}
+		return .none
+	}
+	
+	func findTypeOfVariable(ident: String) -> Type? {
+		if let ty = varTypeMap[ident] {
+			return ty
+		}
+		if let ty = localStack.peek()?.varTypeMap[ident] {
+			return ty
+		}
+		return .none
+	}
+	
 	private func checkBounds(addr: ReferenceValue) -> Bool {
 		return addr.value < heap.count && addr.value > 0
 	}
@@ -56,7 +90,7 @@ class GlobalEnvironment {
         return typeDecMap.keys.contains(ident) ||
             varTypeMap.keys.contains(ident) ||
             variables.keys.contains(ident) ||
-            functions.keys.contains(ident)
+            functions.keys.contains(ident) || localStack.peek()?.identifierExists(ident: ident) ?? false
     }
 	
 	func malloc(size: Int) -> ReferenceValue {
@@ -95,7 +129,7 @@ class GlobalEnvironment {
 		print("==== Functions ====")
 		functions.forEach { key, value in
 			let left = String.padding("\"\(key)\":")(toLength: width, withPad: " ", startingAt: 0)
-			print("\(left)\(value.ident)(...)")
+			print("\(left)\(value.signature)")
 		}
 		print()
 		print("==== Heap ====")

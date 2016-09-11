@@ -37,9 +37,6 @@ class App {
 					let result = repl.handle(input: buffer)
 					
 					switch result {
-					case .SuccessValue(_):
-						print("\(result)")
-						buffer = ""
 					case .TokenError:
 						break
 					case .ParseError(_):

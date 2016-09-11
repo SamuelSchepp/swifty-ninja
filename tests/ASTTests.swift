@@ -19,10 +19,17 @@ class ASTTests: XCTestCase {
 			let targetString = String(describing: targetAST)
 			
 			XCTAssertEqual(isString, targetString)
+			return
 		}
-		else {
-			XCTFail()
+		if let ast = parser.parse_Func_Dec() {
+			let isString = String(describing: ast)
+			let targetString = String(describing: targetAST)
+			
+			XCTAssertEqual(isString, targetString)
+			return
 		}
+		
+		XCTFail()
 	}
 	
 	func testAssign() {
@@ -87,6 +94,37 @@ class ASTTests: XCTestCase {
 					])
 				)
 			)
+		)
+	}
+	
+	func testFuncDec() {
+		check(input: "Integer add(Integer in) { return in + 1; }", targetAST:
+			Func_Dec(
+				type: IdentifierTypeExpression(ident: "Integer"),
+				ident: "add",
+				par_decs: [
+					Par_Dec(
+					type: IdentifierTypeExpression(
+						ident: "Integer"),
+					ident: "in")
+					],
+				lvar_decs: [],
+				stms: Stms(stms: [
+					Return_Stm(
+						exp: Add_Exp_Binary(
+							lhs: Var_Ident(ident: "in"),
+							rhs: Primary_Exp_Integer(value: 1),
+							op: .PLUS
+						)
+					)
+				])
+			)
+		)
+	}
+	
+	func testCall() {
+		check(input: "res = call(4);", targetAST:
+			Assign_Stm(_var: Var_Ident(ident: "res"), exp: Primary_Exp_Call(ident: "call", args: [Arg(exp: Primary_Exp_Integer(value: 4))]))
 		)
 	}
 }

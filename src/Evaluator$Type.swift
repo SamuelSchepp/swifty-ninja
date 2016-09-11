@@ -74,7 +74,7 @@ extension Evaluator {
 	}
 	
 	func evaluateType(var_ident: Var_Ident) -> REPLResult {
-		if let ty = globalEnvironment.varTypeMap[var_ident.ident] {
+		if let ty = globalEnvironment.findTypeOfVariable(ident: var_ident.ident) {
 			return .SuccessType(type: ty)
 		}
 		return .UnresolvableType(ident: var_ident.ident)

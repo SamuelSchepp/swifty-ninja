@@ -25,7 +25,7 @@ struct Compound_Stm: Stm {
 	
 	var description: String {
 		get {
-			return "Compound_Stm(...)"
+			return "Compound_Stm(\(stms))"
 		}
 	}
 }
@@ -35,7 +35,7 @@ struct Stms: ASTNode {
 	
 	var description: String {
 		get {
-			return "Stms"
+			return "Stms(\(stms))"
 		}
 	}
 }
@@ -119,12 +119,7 @@ struct Return_Stm: Stm {
 	
 	var description: String {
 		get {
-			if let ex = exp {
-				return "return \(ex);"
-			}
-			else {
-				return "return;"
-			}
+			return "return \(exp);"
 		}
 	}
 }
