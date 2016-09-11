@@ -17,6 +17,9 @@ enum REPLResult: CustomStringConvertible { case
 	UnresolvableReference(ident: String),
 	UnresolvableType(ident: String),
 	
+	BreakInstr,
+	ReturnInstr(value: Value, type: Type),
+	
 	NullPointer,
 	HeapBoundsFault,
 	
@@ -29,7 +32,7 @@ enum REPLResult: CustomStringConvertible { case
 	
 	ParseError(tokens: [Token]),
 	TokenError
-	
+
 	var description : String {
 		switch self {
 		case .SuccessValue(let val, let ty):
@@ -45,6 +48,11 @@ enum REPLResult: CustomStringConvertible { case
 			return "Unresolvable reference of identifier \"\(ident)\""
 		case .UnresolvableType(let ident):
 			return "Unresolvable type of identifier \"\(ident)\""
+			
+		case .BreakInstr:
+			return "Break instruction"
+		case .ReturnInstr(_, _):
+			return "Return instruction"
 			
 		case .NullPointer:
 			return "Null Reference"

@@ -31,6 +31,9 @@ extension Evaluator {
 		if let while_stm = stm as? While_Stm {
 			return evaluateStm(while_stm: while_stm)
 		}
+		if let break_stm = stm as? Break_Stm {
+			return evaluateStm(break_stm: break_stm)
+		}
 		
 		return .NotExhaustive
 	}
@@ -41,14 +44,15 @@ extension Evaluator {
 	
 	func evaluateStm(compound_stm: Compound_Stm) -> REPLResult {
 		var lastEval: REPLResult = .SuccessVoid
-		compound_stm.stms.stms.forEach { stm in
+		for i in 0..<compound_stm.stms.stms.count {
+			let stm = compound_stm.stms.stms[i]
 			let eval = evaluateStm(stm: stm)
 			lastEval = eval
 			if case .SuccessVoid = eval {
 				/* OK */
 			}
 			else {
-				return
+				return lastEval
 			}
 		}
 		return lastEval
@@ -119,6 +123,9 @@ extension Evaluator {
 				lastEval = .SuccessVoid
 				if(val.value) {
 					lastEval = evaluateStm(stm: while_stm.stm)
+					if case .BreakInstr = lastEval {
+						return .SuccessVoid
+					}
 				}
 				else {
 					return lastEval
@@ -128,5 +135,9 @@ extension Evaluator {
 				return lastEval
 			}
 		}
+	}
+	
+	func evaluateStm(break_stm: Break_Stm) -> REPLResult {
+		return .BreakInstr
 	}
 }
