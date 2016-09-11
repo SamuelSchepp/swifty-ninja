@@ -60,7 +60,7 @@ class StmTests: XCTestCase {
 		_ = repl.handle(input: "global Integer index;")
 		_ = repl.handle(input: "akku = 1;")
 		_ = repl.handle(input: "index = 0;")
-		_ = repl.handle(input: "while(index < 100) { if(index == 5) return; akku = akku * 2; index = index + 1; }")
+		_ = repl.handle(input: "while(index < 10) { if(index == 6) break; akku = akku * 2; index = index + 1; }")
 		let result = repl.handle(input: "akku")
 		
 		print(result)
