@@ -22,6 +22,9 @@ class Evaluator {
         if let program = ast as? Program {
             return evaluate(program: program)
         }
+		if let stms = ast as? Stms {
+			return evaluateStm(stm: Compound_Stm(stms: stms))
+		}
 		if let stm = ast as? Stm {
 			return evaluateStm(stm: stm)
 		}

@@ -28,19 +28,20 @@ class GlobalVarTests: XCTestCase {
 		
 		XCTAssertEqual(String(reflecting: envi.typeDecMap["IntList"]!), String(reflecting: ArrayType(base: IntegerType(), dims: 1)))
 		
-		let res = repl.handle(input: "myNumber = 4 * 6;")
+		_ = repl.handle(input: "myNumber = 4 * 6;")
 		
 		envi.dump()
 		
-		let isValue = envi.heapGet(addr: ReferenceValue(value: 1))!
-		let shouldValue = IntegerValue(value: 4 * 6)
-		
-		let isString = String(describing: isValue)
-		let shouldString = String(describing: shouldValue)
-		
-		print(isString)
-		print(shouldString)
-		
-		XCTAssertEqual(isString, shouldString)
+		if let isValue = envi.heapGet(addr: ReferenceValue(value: 1)) {
+			let shouldValue = IntegerValue(value: 4 * 6)
+			
+			let isString = String(describing: isValue)
+			let shouldString = String(describing: shouldValue)
+			
+			print(isString)
+			print(shouldString)
+			
+			XCTAssertEqual(isString, shouldString)
+		}
 	}
 }

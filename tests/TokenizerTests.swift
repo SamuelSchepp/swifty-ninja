@@ -28,7 +28,7 @@ class TokenizerTests: XCTestCase {
 			"if":		[IF()],
 			"local":	[LOCAL()],
 			"void":		[VOID()],
-			"while":	[WHILE()]
+			"while () {}":	[WHILE(), LPAREN(), RPAREN(), LCURL(), RCURL()]
 		])
 	}
 	
@@ -38,6 +38,7 @@ class TokenizerTests: XCTestCase {
 			"{}":		[LCURL(), RCURL()],
 			"||&&":		[LOGOR(), LOGAND()],
 			"<=!=<":	[LE(), NE(), LT()],
+			"==":		[EQ()],
 			"<= != <":	[LE(), NE(), LT()],
 			"/%":		[SLASH(), PERCENT()],
 			"/ %":		[SLASH(), PERCENT()]

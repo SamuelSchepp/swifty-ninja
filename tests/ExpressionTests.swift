@@ -15,6 +15,12 @@ class ExpressionTests: XCTestCase {
 			"a + b":
 				.UnresolvableReference(ident: "a"),
 			
+			"1 == 1":
+				.SuccessValue(value: BooleanValue(value: true), type: BooleanType()),
+			
+			"1 >= 0":
+				.SuccessValue(value: BooleanValue(value: true), type: BooleanType()),
+			
 			"(4 - 6) * (x + 7)":
 				.UnresolvableReference(ident: "x"),
 			

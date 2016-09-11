@@ -14,12 +14,15 @@ class ASTTests: XCTestCase {
 		let tokenizer = Tokenizer(with: input)
 		let tokens = tokenizer.tokenize()
 		let parser = Parser(with: tokens!)
-		let ast = parser.parse_Stm()
-		
-		let isString = String(describing: ast!)
-		let targetString = String(describing: targetAST)
-		
-		XCTAssertEqual(isString, targetString)
+		if let ast = parser.parse_Stm() {
+			let isString = String(describing: ast)
+			let targetString = String(describing: targetAST)
+			
+			XCTAssertEqual(isString, targetString)
+		}
+		else {
+			XCTFail()
+		}
 	}
 	
 	func testAssign() {
@@ -34,5 +37,56 @@ class ASTTests: XCTestCase {
 					op: .PLUS)
 				)
 			)
+	}
+	
+	func testIf() {
+		check(input: "if ( a == 4) { b = b + a; } else { b = 0; }", targetAST:
+			If_Stm(
+				exp: Rel_Exp_Binary(
+					lhs: Var_Ident(ident: "a"),
+					rhs: Primary_Exp_Integer(value: 4),
+					op: .EQ
+				),
+				stm: Compound_Stm(stms: Stms(stms: [
+					Assign_Stm(
+						_var: Var_Ident(ident: "b"),
+						exp: Add_Exp_Binary(
+							lhs: Var_Ident(ident: "b"),
+							rhs: Var_Ident(ident: "a"),
+							op: .PLUS
+						)
+					)
+				])),
+				elseStm: Compound_Stm(stms: Stms(stms: [
+					Assign_Stm(
+						_var: Var_Ident(ident: "b"),
+						exp: Primary_Exp_Integer(value: 0)
+					)
+				]))
+			)
+		)
+	}
+	
+	func testWhile() {
+		check(input: "while ( a == 4) { b = b + a; }", targetAST:
+			While_Stm(
+				exp: Rel_Exp_Binary(
+					lhs: Var_Ident(ident: "a"),
+					rhs: Primary_Exp_Integer(value: 4),
+					op: .EQ
+				),
+				stm: Compound_Stm(stms: Stms(stms: [
+					Assign_Stm(
+						_var: Var_Ident(ident: "b"),
+						exp: Add_Exp_Binary(
+							lhs: Var_Ident(ident: "b"),
+							rhs: Var_Ident(ident: "a"),
+							op: .PLUS
+						)
+					)
+					])
+				)
+			)
+		)
 	}
 }
