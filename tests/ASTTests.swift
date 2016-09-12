@@ -15,15 +15,15 @@ class ASTTests: XCTestCase {
 		let tokens = tokenizer.tokenize()
 		let parser = Parser(with: tokens!)
 		if let ast = parser.parse_Stm() {
-			let isString = String(describing: ast)
-			let targetString = String(describing: targetAST)
+			let isString = ast.description
+			let targetString = targetAST.description
 			
 			XCTAssertEqual(isString, targetString)
 			return
 		}
 		if let ast = parser.parse_Func_Dec() {
-			let isString = String(describing: ast)
-			let targetString = String(describing: targetAST)
+            let isString = ast.description
+            let targetString = targetAST.description
 			
 			XCTAssertEqual(isString, targetString)
 			return

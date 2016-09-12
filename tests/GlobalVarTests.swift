@@ -35,8 +35,8 @@ class GlobalVarTests: XCTestCase {
 		if let isValue = envi.heapGet(addr: ReferenceValue(value: 1)) {
 			let shouldValue = IntegerValue(value: 4 * 6)
 			
-			let isString = String(describing: isValue)
-			let shouldString = String(describing: shouldValue)
+			let isString = isValue.description
+			let shouldString = shouldValue.description
 			
 			print(isString)
 			print(shouldString)
