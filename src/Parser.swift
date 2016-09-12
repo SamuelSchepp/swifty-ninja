@@ -83,6 +83,10 @@ class Parser {
 		
 		let type = parse_Type()
 		
+		if let _ = type { } else {
+			guard let _: VOID = stack.pop() else { stack.context = context; return .none }
+		}
+		
 		guard let ident: IDENT	= stack.pop() else { stack.context = context; return .none }
 		guard let _: LPAREN		= stack.pop() else { stack.context = context; return .none }
 		let par_decs			= parse_Par_Decs()

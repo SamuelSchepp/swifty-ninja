@@ -122,6 +122,30 @@ class ASTTests: XCTestCase {
 		)
 	}
 	
+	func testFuncDec2() {
+		check(input: "void doNothing() { }", targetAST:
+			Func_Dec(
+				type: .none,
+				ident: "doNothing",
+				par_decs: [],
+				lvar_decs: [],
+				stms: Stms(stms: [])
+			)
+		)
+	}
+	
+	func testFuncDec3() {
+		check(input: "void main() { }", targetAST:
+			Func_Dec(
+				type: .none,
+				ident: "main",
+				par_decs: [],
+				lvar_decs: [],
+				stms: Stms(stms: [])
+			)
+		)
+	}
+	
 	func testCall() {
 		check(input: "res = call(4);", targetAST:
 			Assign_Stm(_var: Var_Ident(ident: "res"), exp: Primary_Exp_Call(ident: "call", args: [Arg(exp: Primary_Exp_Integer(value: 4))]))

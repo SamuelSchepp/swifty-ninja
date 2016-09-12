@@ -28,7 +28,10 @@ class TokenizerTests: XCTestCase {
 			"if":		[IF()],
 			"local":	[LOCAL()],
 			"void":		[VOID()],
-			"while () {}":	[WHILE(), LPAREN(), RPAREN(), LCURL(), RCURL()]
+			"while () {}":	[WHILE(), LPAREN(), RPAREN(), LCURL(), RCURL()],
+			"void hello() {}":	[VOID(), IDENT(value: "hello"), LPAREN(), RPAREN(), LCURL(), RCURL()],
+			"void main() {}":	[VOID(), IDENT(value: "main"), LPAREN(), RPAREN(), LCURL(), RCURL()],
+			"void doNothing() {}":	[VOID(), IDENT(value: "doNothing"), LPAREN(), RPAREN(), LCURL(), RCURL()]
 		])
 	}
 	
