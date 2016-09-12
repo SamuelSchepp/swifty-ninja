@@ -67,23 +67,30 @@ struct IDENT: Token {
 }
 
 class TokenMap {
-	class var map: [String: Token] {
+    class var keywordMap: [String: Token] {
+        get {
+            return [
+                "break":	BREAK(),
+                "do":		DO(),
+                "else":		ELSE(),
+                "global":	GLOBAL(),
+                "if":		IF(),
+                "local"	:	LOCAL(),
+                "new":		NEW(),
+                "record":	RECORD(),
+                "return":	RETURN(),
+                "sizeof":	SIZEOF(),
+                "type":		TYPE(),
+                "void":		VOID(),
+                "while":	WHILE(),
+                "nil":		NIL()
+            ]
+        }
+    }
+    
+	class var operatorMap: [String: Token] {
 		get {
 			return [
-				"break":	BREAK(),
-				"do":		DO(),
-				"else":		ELSE(),
-				"global":	GLOBAL(),
-				"if":		IF(),
-				"local"	:	LOCAL(),
-				"new":		NEW(),
-				"record":	RECORD(),
-				"return":	RETURN(),
-				"sizeof":	SIZEOF(),
-				"type":		TYPE(),
-				"void":		VOID(),
-				"while":	WHILE(),
-				
 				"||":		LOGOR(),
 				"&&":		LOGAND(),
 				"!":		LOGNOT(),
@@ -107,9 +114,7 @@ class TokenMap {
 				"-":		MINUS(),
 				"*":		STAR(),
 				"/":		SLASH(),
-				"%":		PERCENT(),
-				
-				"nil":		NIL()
+				"%":		PERCENT()
 			]
 		}
 	}

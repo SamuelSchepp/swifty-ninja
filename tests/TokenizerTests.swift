@@ -51,7 +51,7 @@ class TokenizerTests: XCTestCase {
 	func testNil() {
 		check([
 			"nil":		[NIL()],
-			"nilnil":	[NIL(), NIL()],
+			"nil    nil":	[NIL(), NIL()],
 			"nil nil":	[NIL(), NIL()]
 		])
 	}

@@ -187,8 +187,8 @@ extension Evaluator {
 	}
 	
 	func evaluateStm(call_stm: Call_Stm) -> REPLResult {
-		guard let func_dec = globalEnvironment.functions[call_stm.ident] else { return .UnresolvableReference(ident: call_stm.ident) }
-		if call_stm.args.count != func_dec.par_decs.count { return .ParameterMissmatch }
+		guard let function = globalEnvironment.functions[call_stm.ident] else { return .UnresolvableReference(ident: call_stm.ident) }
+		if call_stm.args.count != function.par_decs.count { return .ParameterMissmatch }
 		
 		let localEnvironment = LocalEnvironment()
 		
@@ -200,7 +200,7 @@ extension Evaluator {
 			if case .SuccessValue(let val, let ty) = callExpEval {
 				
 				/* evaluate type of parameter declaration */
-				let decTypeEval = evaluateType(typeExpression: func_dec.par_decs[i].type)
+				let decTypeEval = evaluateType(typeExpression: function.par_decs[i].type)
 				if case .SuccessType(let ty2) = decTypeEval {
 					
 					/* check types */
@@ -208,10 +208,10 @@ extension Evaluator {
 						/* put value in local environment */
 						let ref = globalEnvironment.malloc(size: 1)
 						if !globalEnvironment.heapSet(value: val, addr: ref) { return .HeapBoundsFault }
-						localEnvironment.variables[func_dec.par_decs[i].ident] = ref
+						localEnvironment.variables[function.par_decs[i].ident] = ref
 						
 						/* put type in local environment */
-						localEnvironment.varTypeMap[func_dec.par_decs[i].ident] = ty
+						localEnvironment.varTypeMap[function.par_decs[i].ident] = ty
 					}
 					else {
 						return .TypeMissmatch
@@ -228,7 +228,7 @@ extension Evaluator {
 		
 		globalEnvironment.localStack.push(value: localEnvironment)
 		
-		let result = runFunction(func_dec: func_dec)
+		let result = runFunction(function: function)
 		
 		_ = globalEnvironment.localStack.pop()
 		
@@ -242,12 +242,16 @@ extension Evaluator {
 		return result
 	}
 	
-	func runFunction(func_dec: Func_Dec) -> REPLResult {
-		func_dec.lvar_decs.forEach { lvar_dec in
-			_ = evaluate(lvar_dec: lvar_dec)
-		}
+	func runFunction(function: Function) -> REPLResult {
+        if let user_func = function as? UserFunction {
+            user_func.func_dec.lvar_decs.forEach { lvar_dec in
+                _ = evaluate(lvar_dec: lvar_dec)
+            }
 		
-		return evaluateStm(stms: func_dec.stms)
+            return evaluateStm(stms: user_func.func_dec.stms)
+        }
+        
+        return .NotImplemented
 	}
 	
 	func evaluate(lvar_dec: Lvar_Dec) -> REPLResult {

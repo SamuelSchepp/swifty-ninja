@@ -22,6 +22,15 @@ class Evaluator {
         if let program = ast as? Program {
             return evaluate(program: program)
         }
+        if let func_dec = ast as? Func_Dec {
+            return evaluate(func_dec: func_dec)
+        }
+        if let gvar_dec = ast as? Gvar_Dec {
+            return evaluate(gvar_dec: gvar_dec)
+        }
+        if let type_dec = ast as? Type_Dec {
+            return evaluate(type_dec: type_dec)
+        }
 		if let stms = ast as? Stms {
 			return evaluateStm(stm: Compound_Stm(stms: stms))
 		}
@@ -41,14 +50,27 @@ class Evaluator {
 	// MARK: Program
 	
 	func evaluate(program: Program) -> REPLResult {
-		var result = REPLResult.NotExhaustive
-		
-		program.glob_decs.forEach { glob_dec in
-			result = evaluate(glob_dec: glob_dec)
+        for i in 0..<program.glob_decs.count {
+			let res = evaluate(glob_dec: program.glob_decs[i])
+            if case .SuccessDeclaration = res {
+                /* ok */
+            }
+            else {
+                return res;
+            }
 		}
-		
-		return result
+        
+        return runMain()
 	}
+    
+    func runMain() -> REPLResult {
+        let mainEval = evaluateStm(stm: Call_Stm(ident: "main", args: []))
+        
+        if case .UnresolvableReference(ident: "main") = mainEval {
+            return .MainNotFound
+        }
+        return mainEval
+    }
 	
 	// MARK: Glob Dec
 	
@@ -108,7 +130,7 @@ class Evaluator {
 			return .Redeclaration(ident: func_dec.ident)
 		}
 		
-		globalEnvironment.functions[func_dec.ident] = func_dec
+        globalEnvironment.functions[func_dec.ident] = UserFunction(func_dec: func_dec)
 		
 		return .SuccessDeclaration
 	}

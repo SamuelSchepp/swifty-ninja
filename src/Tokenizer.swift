@@ -38,7 +38,7 @@ class Tokenizer {
 	private func scan() -> Token? {
 		skipComments()
 		
-		if let token = scanKeywordsAndOperators		() { return token }
+		if let token = scanOperators                () { return token }
 		if let token = scanBooleanLiteral			() { return token }
 		if let token = scanHexIntegerLiteral		() { return token }
 		if let token = scanDecimalIntegerLiteral	() { return token }
@@ -60,11 +60,11 @@ class Tokenizer {
 		}
 	}
 	
-	private func scanKeywordsAndOperators() -> Token? {
-		for token in TokenMap.map.keys {
+	private func scanOperators() -> Token? {
+		for token in TokenMap.operatorMap.keys {
 			let location = scanner.scanLocation
 			if scanner.scanString(token, into: nil) {
-				return TokenMap.map[token]
+				return TokenMap.operatorMap[token]
 			}
 			else {
 				scanner.scanLocation = location
@@ -183,7 +183,13 @@ class Tokenizer {
 			scanner.scanLocation = location
 			return .none
 		}
-		
-		return IDENT(value: buffer! as String)
+        
+        let s = buffer! as String
+        if let keyword = TokenMap.keywordMap[s] {
+            return keyword
+        }
+        else {
+            return IDENT(value: buffer! as String)
+        }
 	}
 }

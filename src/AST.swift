@@ -64,12 +64,6 @@ struct Func_Dec: Glob_Dec {
 			return "Func_Dec(\(type) \(ident) (\(par_decs)) { \(lvar_decs) \n \(stms) }"
 		}
 	}
-	
-	var signature: String {
-		get {
-			return "\(type) \(ident)(\(par_decs)) { ... }"
-		}
-	}
 }
 
 // MARK: Types

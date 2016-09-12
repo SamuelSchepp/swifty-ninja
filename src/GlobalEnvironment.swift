@@ -12,7 +12,7 @@ class GlobalEnvironment {
     var typeDecMap: [String: Type]
     var varTypeMap: [String: Type]
     var variables: [String: ReferenceValue]
-    var functions: [String: Func_Dec]
+    var functions: [String: Function]
 	var localStack: Stack<LocalEnvironment>
 	
 	private var heap: [Value]

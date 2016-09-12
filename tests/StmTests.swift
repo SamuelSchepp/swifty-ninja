@@ -158,7 +158,7 @@ class StmTests: XCTestCase {
 		
 		if case .SuccessDeclaration = result {
 			let isString = envi().functions["add"]!.description
-			let targetString = Func_Dec(
+            let targetString = UserFunction(func_dec: Func_Dec(
 				type: IdentifierTypeExpression(ident: "Integer"),
 				ident: "add",
 				par_decs: [
@@ -177,7 +177,7 @@ class StmTests: XCTestCase {
 						)
 					)
 				])
-			).description
+			)).description
 			
 			XCTAssertEqual(isString, targetString)
 		}

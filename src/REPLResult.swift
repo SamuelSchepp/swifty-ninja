@@ -30,6 +30,7 @@ enum REPLResult: CustomStringConvertible { case
 	WrongOperator(op: String, type: Type),
 	ParameterMissmatch,
 	LocalVarDeclareInGlobalContext,
+    MainNotFound,
 	
 	NotImplemented,
 	NotExhaustive,
@@ -77,6 +78,8 @@ enum REPLResult: CustomStringConvertible { case
 			return "Parameter missmatch"
 		case .LocalVarDeclareInGlobalContext:
 			return "Local variable declaration in global context"
+        case .MainNotFound:
+            return "Main function not found"
 			
 		case .NotImplemented:
 			return "Not implemented"

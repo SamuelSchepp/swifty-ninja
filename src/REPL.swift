@@ -23,10 +23,20 @@ class REPL {
 	}
 	
 	private func parse(tokens: [Token]) -> ASTNode? {
-		// Program
-		if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Program() }) {
-			return ast
-		}
+		// Gvar Dec
+        if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Gvar_Dec() }) {
+            return ast
+        }
+        
+        // Func Dec
+        if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Func_Dec() }) {
+            return ast
+        }
+        
+        // Type Dec
+        if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Type_Dec() }) {
+            return ast
+        }
 		
 		// Stm
 		if let stms = parseWithFunction(tokens: tokens, function: { return $0.parse_Stms() }) {
@@ -37,11 +47,16 @@ class REPL {
 		if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Exp() }) {
 			return ast
 		}
-		
-		// Type
-		if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Type() }) {
-			return ast
-		}
+        
+        // Type
+        if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Type() }) {
+            return ast
+        }
+        
+        // Program
+        if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Program() }) {
+            return ast
+        }
 		
 		return .none
 	}
