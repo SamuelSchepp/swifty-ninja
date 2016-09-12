@@ -10,7 +10,13 @@ import Foundation
 
 
 class Evaluator {
-	let globalEnvironment = GlobalEnvironment()
+	let globalEnvironment: GlobalEnvironment
+	let cpu: CPU
+	
+	init() {
+		globalEnvironment = GlobalEnvironment()
+		cpu = CPU(globalEnvironment: globalEnvironment)
+	}
 	
 	func dump() {
 		globalEnvironment.dump()

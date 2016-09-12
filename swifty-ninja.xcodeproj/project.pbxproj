@@ -52,6 +52,8 @@
 		7ECCE80E1D860522003EC441 /* LocalEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCE80D1D860522003EC441 /* LocalEnvironment.swift */; };
 		7ECCE80F1D860522003EC441 /* LocalEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCE80D1D860522003EC441 /* LocalEnvironment.swift */; };
 		7EE0CC361D7E0B150061D30B /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF51D7DF90B00D7880C /* AST.swift */; };
+		7EF8AD1A1D875FF40087A2F0 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF8AD191D875FF40087A2F0 /* CPU.swift */; };
+		7EF8AD1B1D875FF40087A2F0 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF8AD191D875FF40087A2F0 /* CPU.swift */; };
 		7EFFDFA61D8584D700F35531 /* StmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFFDFA51D8584D700F35531 /* StmTests.swift */; };
 		7EFFDFAA1D8594FA00F35531 /* AST$Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFFDFA91D8594FA00F35531 /* AST$Expression.swift */; };
 		7EFFDFAB1D8594FA00F35531 /* AST$Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFFDFA91D8594FA00F35531 /* AST$Expression.swift */; };
@@ -155,6 +157,7 @@
 		7EBCCCDE1D80CAF000FCCAC9 /* TypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeTests.swift; sourceTree = "<group>"; };
 		7EC18C031D84B4C100F5F630 /* GlobalVarTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalVarTests.swift; sourceTree = "<group>"; };
 		7ECCE80D1D860522003EC441 /* LocalEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalEnvironment.swift; sourceTree = "<group>"; };
+		7EF8AD191D875FF40087A2F0 /* CPU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
 		7EFFDFA51D8584D700F35531 /* StmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StmTests.swift; sourceTree = "<group>"; };
 		7EFFDFA91D8594FA00F35531 /* AST$Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AST$Expression.swift; sourceTree = "<group>"; };
 		7EFFDFAC1D85952C00F35531 /* AST$Statement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AST$Statement.swift; sourceTree = "<group>"; };
@@ -352,6 +355,7 @@
 				7E452FF11D8704A8008FE5AC /* Function.swift */,
 				7E4A7FF11D846852008968E2 /* GlobalEnvironment.swift */,
 				7ECCE80D1D860522003EC441 /* LocalEnvironment.swift */,
+				7EF8AD191D875FF40087A2F0 /* CPU.swift */,
 			);
 			name = REPL;
 			sourceTree = "<group>";
@@ -477,6 +481,7 @@
 				7E452FF01D87046C008FE5AC /* ProgramTests.swift in Sources */,
 				7ECCE80F1D860522003EC441 /* LocalEnvironment.swift in Sources */,
 				7E87DE281D85650700B3249E /* Evaluator$Reference.swift in Sources */,
+				7EF8AD1B1D875FF40087A2F0 /* CPU.swift in Sources */,
 				7E4A7FF31D846852008968E2 /* GlobalEnvironment.swift in Sources */,
 				7E8A02C01D82BB52006C6AE3 /* StackTests.swift in Sources */,
 				7E87DE251D85647700B3249E /* Evaluator$Stm.swift in Sources */,
@@ -489,6 +494,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EF8AD1A1D875FF40087A2F0 /* CPU.swift in Sources */,
 				7E010A2E1D7F4AB500264F38 /* Tokenizer.swift in Sources */,
 				7EFFDFAA1D8594FA00F35531 /* AST$Expression.swift in Sources */,
 				7EB4E4451D81F0D80063AFA1 /* TokenStack.swift in Sources */,

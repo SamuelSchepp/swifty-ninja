@@ -11,7 +11,7 @@ import Foundation
 class GlobalEnvironment {
     var typeDecMap: [String: Type]
     var varTypeMap: [String: Type]
-    var variables: [String: ReferenceValue]
+    var globalVariables: [String: ReferenceValue]
     var functions: [String: Function]
 	var localStack: Stack<LocalEnvironment>
 	
@@ -26,17 +26,17 @@ class GlobalEnvironment {
         ]
         
         varTypeMap = [:]
-        variables = [:]
+        globalVariables = [:]
         functions = [
             "writeInteger": SystemFunction(
                 type: .none,
                 ident: "writeInteger",
                 par_decs: [Par_Dec(type: IdentifierTypeExpression(ident: "Integer"), ident: "nr")],
-                callee: {
-                    guard let ref = self.findReferenceOfVariable(ident: "nr") else { return .UnresolvableReference(ident: "nr") }
-                    guard let value = self.heapGet(addr: ref) as? IntegerValue else { return REPLResult.HeapBoundsFault }
+                callee: { globalInvironment in
+                    guard let ref = globalInvironment.findReferenceOfVariable(ident: "nr") else { return .UnresolvableReference(ident: "nr") }
+                    guard let value = globalInvironment.heapGet(addr: ref) as? IntegerValue else { return REPLResult.HeapBoundsFault }
                     
-                    print(value)
+                    print(value, separator: "", terminator: "")
                     
                     return .SuccessVoid
                 }
@@ -48,6 +48,8 @@ class GlobalEnvironment {
 		heap = [UninitializedValue()]
     }
 	
+	// MARK: Heap
+	
 	func heapGet(addr: ReferenceValue) -> Value? {
 		if checkBounds(addr: addr) {
 			return heap[addr.value]
@@ -55,61 +57,26 @@ class GlobalEnvironment {
 		return .none
 	}
 	
-	func heapSet(value: Value, addr: ReferenceValue) -> Bool {
+	func heapSet(value: Value, addr: ReferenceValue) {
 		if checkBounds(addr: addr) {
 			heap[addr.value] = value
+		}
+	}
+	
+	private func checkBounds(addr: ReferenceValue) -> Bool {
+		let condi = addr.value < heap.count && addr.value > 0
+		if condi {
 			return true
 		}
 		else {
+			print("<runtime_error_heapbounds>")
 			return false
 		}
 	}
 	
-	func setVarRef(ident: String, value: ReferenceValue) {
-		if variables.keys.contains(ident) {
-			variables[ident] = value
-		}
-		if localStack.hasElements() {
-			if localStack.peek()!.variables.keys.contains(ident) {
-				localStack.peek()!.variables[ident] = value
-			}
-		}
-	}
-	
-	func findReferenceOfVariable(ident: String) -> ReferenceValue? {
-		if let ref = variables[ident] {
-			return ref
-		}
-		if let ref = localStack.peek()?.variables[ident] {
-			return ref
-		}
-		return .none
-	}
-	
-	func findTypeOfVariable(ident: String) -> Type? {
-		if let ty = varTypeMap[ident] {
-			return ty
-		}
-		if let ty = localStack.peek()?.varTypeMap[ident] {
-			return ty
-		}
-		return .none
-	}
-	
-	private func checkBounds(addr: ReferenceValue) -> Bool {
-		return addr.value < heap.count && addr.value > 0
-	}
-    
-    func identifierExists(ident: String) -> Bool {
-        return typeDecMap.keys.contains(ident) ||
-            varTypeMap.keys.contains(ident) ||
-            variables.keys.contains(ident) ||
-            functions.keys.contains(ident) || localStack.peek()?.identifierExists(ident: ident) ?? false
-    }
-	
 	func malloc(size: Int) -> ReferenceValue {
 		if size <= 0 {
-			return ReferenceValue(value: -1)
+			return ReferenceValue.null()
 		}
 		
 		let start = heap.count
@@ -119,6 +86,57 @@ class GlobalEnvironment {
 		
 		return ReferenceValue(value: start)
 	}
+	
+	func heapIsTrue(addr: ReferenceValue) -> Bool? {
+		if let value = heapGet(addr: addr) as? BooleanValue {
+			return value.value
+		}
+		else {
+			return .none
+		}
+	}
+	
+	// MARK: Variables
+	
+	func setVarRef(ident: String, value: ReferenceValue) {
+		if localStack.hasElements() {
+			if localStack.peek()!.variables.keys.contains(ident) {
+				localStack.peek()!.variables[ident] = value
+			}
+		}
+		if globalVariables.keys.contains(ident) {
+			globalVariables[ident] = value
+		}
+	}
+	
+	func findReferenceOfVariable(ident: String) -> ReferenceValue? {
+		if let ref = localStack.peek()?.variables[ident] {
+			return ref
+		}
+		if let ref = globalVariables[ident] {
+			return ref
+		}
+		return .none
+	}
+	
+	func findTypeOfVariable(ident: String) -> Type? {
+		if let ty = localStack.peek()?.varTypeMap[ident] {
+			return ty
+		}
+		if let ty = varTypeMap[ident] {
+			return ty
+		}
+		return .none
+	}
+    
+    func identifierExists(ident: String) -> Bool {
+        return typeDecMap.keys.contains(ident) ||
+            varTypeMap.keys.contains(ident) ||
+            globalVariables.keys.contains(ident) ||
+            functions.keys.contains(ident) || localStack.peek()?.identifierExists(ident: ident) ?? false
+    }
+	
+	// MARK: Other
 	
 	func dump() {
 		let width = 20
@@ -135,7 +153,7 @@ class GlobalEnvironment {
 		}
 		print()
 		print("==== Variables ====")
-		variables.forEach { key, value in
+		globalVariables.forEach { key, value in
 			let left = String.padding("\"\(key)\":")(toLength: width, withPad: " ", startingAt: 0)
 			print("\(left)\(value)")
 		}

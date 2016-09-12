@@ -73,14 +73,14 @@ extension Evaluator {
 		let valueEval = evaluateValue(exp: assign_stm.exp)
 		
 		/* type check */
-		if case .SuccessValue(let valRHS, let tyRHS) = valueEval {
+		if case .SuccessReference(let refRHS, let tyRHS) = valueEval {
 			if case .SuccessType(let tyLHS) = typeEval {
 				if tyRHS.description != tyLHS.description {
 					return .TypeMissmatch
 				}
 				
 				if let var_ident = assign_stm._var as? Var_Ident {
-					return evaluateVarIdentAssignStm(var_ident: var_ident, valRHS: valRHS)
+					return evaluateVarIdentAssignStm(var_ident: var_ident, refRHS: refRHS)
 				}
 				
 				return .NotImplemented
@@ -94,13 +94,8 @@ extension Evaluator {
 		}
 	}
 	
-	func evaluateVarIdentAssignStm(var_ident: Var_Ident, valRHS: Value) -> REPLResult {
-		let newAddr = globalEnvironment.malloc(size: 1)
-		let success = globalEnvironment.heapSet(value: valRHS, addr: newAddr)
-		if !success {
-			return .HeapBoundsFault
-		}
-		globalEnvironment.setVarRef(ident: var_ident.ident, value: newAddr)
+	func evaluateVarIdentAssignStm(var_ident: Var_Ident, refRHS: ReferenceValue) -> REPLResult {
+		globalEnvironment.setVarRef(ident: var_ident.ident, value: refRHS)
 		
 		return .SuccessVoid
 	}
@@ -250,8 +245,11 @@ extension Evaluator {
 		
             return evaluateStm(stms: user_func.func_dec.stms)
         }
+		if let system_func = function as? SystemFunction {
+			return system_func.callee(globalEnvironment)
+		}
         
-        return .NotImplemented
+        return .NotExhaustive
 	}
 	
 	func evaluate(lvar_dec: Lvar_Dec) -> REPLResult {

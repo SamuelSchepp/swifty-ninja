@@ -55,16 +55,6 @@ struct BooleanValue: Value {
 	}
 }
 
-struct StringValue: Value {
-	var value: String
-	
-	var description: String {
-		get {
-			return "\(value)"
-		}
-	}
-}
-
 struct CharacterValue: Value {
 	var value: Character
 	
