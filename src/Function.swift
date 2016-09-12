@@ -38,6 +38,7 @@ struct SystemFunction: Function {
     let type: TypeExpression?
     let ident: String
     let par_decs: [Par_Dec]
+    let callee: () -> REPLResult
     
     var description: String {
         get {

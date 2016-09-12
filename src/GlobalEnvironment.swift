@@ -27,7 +27,21 @@ class GlobalEnvironment {
         
         varTypeMap = [:]
         variables = [:]
-        functions = [:]
+        functions = [
+            "writeInteger": SystemFunction(
+                type: .none,
+                ident: "writeInteger",
+                par_decs: [Par_Dec(type: IdentifierTypeExpression(ident: "Integer"), ident: "nr")],
+                callee: {
+                    guard let ref = self.findReferenceOfVariable(ident: "nr") else { return .UnresolvableReference(ident: "nr") }
+                    guard let value = self.heapGet(addr: ref) as? IntegerValue else { return REPLResult.HeapBoundsFault }
+                    
+                    print(value)
+                    
+                    return .SuccessVoid
+                }
+            )
+        ]
 		
 		localStack = Stack()
 		
