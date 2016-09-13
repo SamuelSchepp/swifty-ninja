@@ -10,6 +10,7 @@ import Foundation
 
 enum REPLResult: CustomStringConvertible { case
 	SuccessReference(ref: ReferenceValue, type: Type),
+    SuccessValue(val: Value),
 	SuccessType(type: Type),
 	SuccessVoid,
 	SuccessDeclaration,
@@ -42,6 +43,8 @@ enum REPLResult: CustomStringConvertible { case
 		switch self {
 		case .SuccessReference(let ref, let ty):
 			return "Reference \(ref) -> \(ty)"
+        case .SuccessValue(let val):
+            return "Value \(val)"
 		case .SuccessType(let ty):
 			return "\(ty)"
 		case .SuccessVoid:

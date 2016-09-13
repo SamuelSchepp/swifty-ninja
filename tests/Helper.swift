@@ -17,16 +17,23 @@ class Helper {
 			
 			print("==== Result ====")
 			let repl = REPL()
-			_ = repl.handle(input: source)
-			let result = repl.evaluator.globalEnvironment.heapPeek()
-			
-			
-			let resultString = String(reflecting: result)
-			let targetString = String(reflecting: value)
-			
-			print(resultString)
-			
-			XCTAssertEqual(targetString, resultString)
+			let result = repl.handle(input: source)
+            repl.dump()
+            
+            var shouldVal: Value = UninitializedValue()
+            
+            if case .SuccessReference(let ref, _) = result {
+                let resultVal = repl.evaluator.globalEnvironment.heap.get(addr: ref)
+                switch resultVal {
+                case .SuccessValue(let val):
+                    shouldVal = val
+                    print(val)
+                default:
+                    break
+                }
+            }
+            
+            XCTAssertEqual(shouldVal.description, value.description)
 		}
 	}
 	

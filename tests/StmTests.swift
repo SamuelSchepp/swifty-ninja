@@ -22,37 +22,43 @@ class StmTests: XCTestCase {
 		_ = repl.handle(input: "if ( a == 4) { b = b + a; } else { b = 0; }")
 		let result = repl.handle(input: "b")
 		
-		if case .SuccessReference(let ref, _ as IntegerType) = result {
-			print(result)
-			XCTAssertEqual(ref.value, 9)
-		}
-		else {
-			XCTFail()
-		}
+        switch result {
+        case .SuccessReference(let ref, _ as IntegerType):
+            let heapRes = envi().heap.get(addr: ref)
+            switch heapRes {
+            case .SuccessValue(let val as IntegerValue):
+                XCTAssertEqual(val.value, 9)
+            default:
+                XCTFail()
+            }
+            
+        default:
+            XCTFail()
+        }
 	}
 	
 	func testNull() {
 		_ = repl.handle(input: "global Integer a;")
 		let result = repl.handle(input: "a")
 		
-		if case .NullPointer = result {
-			print(result)
-		}
-		else {
-			XCTFail()
-		}
+        switch result {
+        case .SuccessReference(let ref, _ as IntegerType):
+            XCTAssertEqual(ref.value, 0)
+        default:
+            XCTFail()
+        }
 	}
 	
 	func testNull2() {
 		_ = repl.handle(input: "global Integer a;")
 		let result = repl.handle(input: "if (a == 0) {}")
 		
-		if case .NullPointer = result {
-			print(result)
-		}
-		else {
-			XCTFail()
-		}
+        switch result {
+        case .NullPointer:
+            break;
+        default:
+            XCTFail()
+        }
 	}
 	
 	func testWhile() {

@@ -34,9 +34,12 @@ extension Evaluator {
 	}
 	
 	func evaluateRefToValue(or_exp_binary: Or_Exp_Binary) -> REPLResult {
-		switch evaluateRefToValue(or_exp: or_exp_binary.lhs) {
+        var leftRef = ReferenceValue.null()
+        var rightRef = ReferenceValue.null()
+        
+        switch evaluateRefToValue(or_exp: or_exp_binary.lhs) {
 		case let .SuccessReference(ref, _ as BooleanType):
-			cpu.lhsRegister = ref
+			leftRef = ref
 		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
@@ -45,16 +48,14 @@ extension Evaluator {
 		
 		switch evaluateRefToValue(and_exp: or_exp_binary.rhs) {
 		case let .SuccessReference(ref, _ as BooleanType):
-			cpu.rhsRegister = ref
+			rightRef = ref
 		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		cpu.booleanOr()
-		
-		return .SuccessReference(ref: cpu.resultRegister, type: BooleanType())
+		return cpu.booleanOr(leftRef: leftRef, rightRef: rightRef)
 	}
 	
 	// MARK: And
@@ -71,9 +72,12 @@ extension Evaluator {
 	}
 	
 	func evaluateRefToValue(and_exp_binary: And_Exp_Binary) -> REPLResult {
-		switch evaluateRefToValue(and_exp: and_exp_binary.lhs) {
+        var leftRef = ReferenceValue.null()
+        var rightRef = ReferenceValue.null()
+        
+        switch evaluateRefToValue(and_exp: and_exp_binary.lhs) {
 		case let .SuccessReference(ref, _ as BooleanType):
-			cpu.lhsRegister = ref
+			leftRef = ref
 		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
@@ -82,16 +86,14 @@ extension Evaluator {
 		
 		switch evaluateRefToValue(rel_exp: and_exp_binary.rhs) {
 		case let .SuccessReference(ref, _ as BooleanType):
-			cpu.rhsRegister = ref
+			rightRef = ref
 		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		cpu.booleanAnd()
-		
-		return .SuccessReference(ref: cpu.resultRegister, type: BooleanType())
+		return cpu.booleanAnd(leftRef: leftRef, rightRef: rightRef)
 	}
 	
 	// MARK: Rel
@@ -108,9 +110,12 @@ extension Evaluator {
 	}
 	
 	func evaluateRefToValue(rel_exp_binary: Rel_Exp_Binary) -> REPLResult {
-		switch evaluateRefToValue(add_exp: rel_exp_binary.lhs) {
+        var leftRef = ReferenceValue.null()
+        var rightRef = ReferenceValue.null()
+        
+        switch evaluateRefToValue(add_exp: rel_exp_binary.lhs) {
 		case let .SuccessReference(ref, _ as IntegerType):
-			cpu.lhsRegister = ref;
+			leftRef = ref;
 		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
@@ -119,7 +124,7 @@ extension Evaluator {
 		
 		switch evaluateRefToValue(add_exp: rel_exp_binary.rhs) {
 		case let .SuccessReference(ref, _ as IntegerType):
-			cpu.rhsRegister = ref
+			rightRef = ref
 		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
@@ -128,20 +133,18 @@ extension Evaluator {
 		
 		switch rel_exp_binary.op {
 		case .EQ:
-			cpu.relEQ()
+			return cpu.relEQ(leftRef: leftRef, rightRef: rightRef)
 		case .NE:
-			cpu.relNE()
+			return cpu.relNE(leftRef: leftRef, rightRef: rightRef)
 		case .LT:
-			cpu.relLT()
+			return cpu.relLT(leftRef: leftRef, rightRef: rightRef)
 		case .LE:
-			cpu.relLE()
+			return cpu.relLE(leftRef: leftRef, rightRef: rightRef)
 		case .GT:
-			cpu.relGT()
+			return cpu.relGT(leftRef: leftRef, rightRef: rightRef)
 		case .GE:
-			cpu.relGE()
+			return cpu.relGE(leftRef: leftRef, rightRef: rightRef)
 		}
-		
-		return .SuccessReference(ref: cpu.resultRegister, type: BooleanType())
 	}
 	
 	// MARK: Add
@@ -158,9 +161,12 @@ extension Evaluator {
 	}
 	
 	func evaluateRefToValue(add_exp_binary: Add_Exp_Binary) -> REPLResult {
-		switch evaluateRefToValue(add_exp: add_exp_binary.lhs) {
+        var leftRef = ReferenceValue.null()
+        var rightRef = ReferenceValue.null()
+        
+        switch evaluateRefToValue(add_exp: add_exp_binary.lhs) {
 		case let .SuccessReference(ref, _ as IntegerType):
-			cpu.lhsRegister = ref
+			leftRef = ref
 		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
@@ -169,7 +175,7 @@ extension Evaluator {
 		
 		switch evaluateRefToValue(mul_exp: add_exp_binary.rhs) {
 		case let .SuccessReference(ref, _ as IntegerType):
-			cpu.rhsRegister = ref
+			rightRef = ref
 		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
@@ -178,12 +184,10 @@ extension Evaluator {
 		
 		switch add_exp_binary.op {
 		case .PLUS:
-			cpu.binaryPlus();
+			return cpu.binaryPlus(leftRef: leftRef, rightRef: rightRef);
 		case .MINUS:
-			cpu.binaryMinus();
+			return cpu.binaryMinus(leftRef: leftRef, rightRef: rightRef);
 		}
-		
-		return .SuccessReference(ref: cpu.resultRegister, type: IntegerType())
 	}
 	
 	// MARK: Mul
@@ -200,18 +204,23 @@ extension Evaluator {
 	}
 	
 	func evaluateRefToValue(mul_exp_binary: Mul_Exp_Binary) -> REPLResult {
-		switch evaluateRefToValue(mul_exp: mul_exp_binary.lhs) {
+        var leftRef = ReferenceValue.null()
+        var rightRef = ReferenceValue.null()
+        
+        let leftEval = evaluateRefToValue(mul_exp: mul_exp_binary.lhs)
+		switch leftEval {
 		case let .SuccessReference(ref, _ as IntegerType):
-			cpu.lhsRegister = ref
+			leftRef = ref
 		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		switch evaluateRefToValue(unary_exp: mul_exp_binary.rhs) {
+        let rightEval = evaluateRefToValue(unary_exp: mul_exp_binary.rhs)
+		switch rightEval {
 		case let .SuccessReference(ref, _ as IntegerType):
-			cpu.rhsRegister = ref
+			rightRef = ref
 		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
@@ -220,14 +229,12 @@ extension Evaluator {
 		
 		switch mul_exp_binary.op {
 		case .STAR:
-			cpu.binaryMul();
+			return cpu.binaryMul(leftRef: leftRef, rightRef: rightRef);
 		case .SLASH:
-			cpu.binaryDiv();
+			return cpu.binaryDiv(leftRef: leftRef, rightRef: rightRef);
 		case .PERCENT:
-			cpu.binaryMod();
+			return cpu.binaryMod(leftRef: leftRef, rightRef: rightRef);
 		}
-		
-		return .SuccessReference(ref: cpu.resultRegister, type: IntegerType())
 	}
 	
 	// MARK: Unary
@@ -247,26 +254,22 @@ extension Evaluator {
 		let eval = evaluateRefToValue(unary_exp: unary_exp_impl.rhs)
 		
 		if case .SuccessReference(let ref, _ as IntegerType) = eval {
-			cpu.unaryRegister = ref
 			switch unary_exp_impl.op {
 			case .PLUS:
-				cpu.unaryPlus()
+				return cpu.unaryPlus(unaryRef: ref)
 			case .MINUS:
-				cpu.unaryMinus()
+				return cpu.unaryMinus(unaryRef: ref)
 			default:
 				return .WrongOperator(op: unary_exp_impl.op.rawValue, type: IntegerType())
 			}
-			return .SuccessReference(ref: cpu.resultRegister, type: IntegerType())
 		}
 		if case .SuccessReference(let ref, _ as BooleanType) = eval {
-			cpu.unaryRegister = ref
 			switch unary_exp_impl.op {
 			case .LOGNOT:
-				cpu.unaryLogNot()
+				return cpu.unaryLogNot(unaryRef: ref)
 			default:
 				return .WrongOperator(op: unary_exp_impl.op.rawValue, type: BooleanType())
 			}
-			return .SuccessReference(ref: cpu.resultRegister, type: BooleanType())
 		}
 		
 		return .TypeMissmatch
@@ -317,24 +320,63 @@ extension Evaluator {
 		return evaluateRefToValue(exp: primary_exp_exp.exp)
 	}
 	func evaluateRefToValue(primary_exp_integer: Primary_Exp_Integer) -> REPLResult {
-		let ref = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: IntegerValue(value: primary_exp_integer.value), addr: ref)
-		
-		return .SuccessReference(ref: ref, type: IntegerType())
+        var newRef = ReferenceValue.null()
+		let heapMallocRes = globalEnvironment.heap.malloc(size: 1)
+        switch heapMallocRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return heapMallocRes
+        }
+        
+        
+		let heapSetRes = globalEnvironment.heap.set(value: IntegerValue(value: primary_exp_integer.value), addr: newRef)
+        switch heapSetRes {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: IntegerType())
+        default:
+            return heapSetRes
+        }
 	}
 	
 	func evaluateRefToValue(primary_exp_character: Primary_Exp_Character) -> REPLResult {
-		let ref = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: CharacterValue(value: primary_exp_character.value), addr: ref)
-		
-		return .SuccessReference(ref: ref, type: CharacterType())
+        var newRef = ReferenceValue.null()
+        let heapMallocRes = globalEnvironment.heap.malloc(size: 1)
+        switch heapMallocRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return heapMallocRes
+        }
+        
+        
+        let heapSetRes = globalEnvironment.heap.set(value: CharacterValue(value: primary_exp_character.value), addr: newRef)
+        switch heapSetRes {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: CharacterType())
+        default:
+            return heapSetRes
+        }
 	}
 	
 	func evaluateRefToValue(primary_exp_boolean: Primary_Exp_Boolean) -> REPLResult {
-		let ref = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: BooleanValue(value: primary_exp_boolean.value), addr: ref)
-		
-		return .SuccessReference(ref: ref, type: BooleanType())
+        var newRef = ReferenceValue.null()
+        let heapMallocRes = globalEnvironment.heap.malloc(size: 1)
+        switch heapMallocRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return heapMallocRes
+        }
+        
+        
+        let heapSetRes = globalEnvironment.heap.set(value: BooleanValue(value: primary_exp_boolean.value), addr: newRef)
+        switch heapSetRes {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: BooleanType())
+        default:
+            return heapSetRes
+        }
 	}
 	
 	func evaluateRefToValue(primary_exp_string: Primary_Exp_String) -> REPLResult {

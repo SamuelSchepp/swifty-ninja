@@ -32,16 +32,20 @@ class GlobalVarTests: XCTestCase {
 		
 		envi.dump()
 		
-		if let isValue = envi.heapGet(addr: ReferenceValue(value: 1)) {
-			let shouldValue = IntegerValue(value: 4 * 6)
-			
-			let isString = isValue.description
-			let shouldString = shouldValue.description
-			
-			print(isString)
-			print(shouldString)
-			
-			XCTAssertEqual(isString, shouldString)
-		}
+        let valueEval = envi.heap.get(addr: ReferenceValue(value: 3))
+        switch valueEval {
+        case .SuccessValue(let val):
+            let shouldValue = IntegerValue(value: 24)
+            
+            let isString = val.description
+            let shouldString = shouldValue.description
+            
+            print(isString)
+            print(shouldString)
+            
+            XCTAssertEqual(isString, shouldString)
+        default:
+            XCTFail()
+        }
 	}
 }

@@ -10,25 +10,13 @@ import Foundation
 import XCTest
 
 class ExpressionTests: XCTestCase {
-	func testArithmetic() {
+	func testArithmeticError() {
 		Helper.checkResult(map: [
 			"a + b":
 				.UnresolvableReference(ident: "a"),
 			
-			"1 == 1":
-				.SuccessReference(ref: ReferenceValue(value: 3), type: BooleanType()),
-			
-			"1 >= 0":
-				.SuccessReference(ref: ReferenceValue(value: 3), type: BooleanType()),
-			
 			"(4 - 6) * (x + 7)":
 				.UnresolvableReference(ident: "x"),
-			
-			"(4 - 6) * (1 + 7)":
-				.SuccessReference(ref: ReferenceValue(value: 3), type: IntegerType()),
-			
-			"64-9/((84*23)+25)-98/(23+3)":
-				.SuccessReference(ref: ReferenceValue(value: 3), type: IntegerType()),
 			
 			"!10":
                 .WrongOperator(op: "!", type: IntegerType()),
@@ -38,43 +26,64 @@ class ExpressionTests: XCTestCase {
 			]
 		)
 	}
+    
+    func testArithmeticValue() {
+        Helper.checkHeap(map: ["(4 - 7) * (10 + 11)":
+                IntegerValue(value: -63),
+            
+            "64-9/((84*23)+25)-98/(23+3)":
+                IntegerValue(value: 61)
+            ]
+        )
+    }
 	
 	func testBool() {
-		Helper.checkResult(map: [
+        Helper.checkHeap(map: [
+            "1 == 1":
+                BooleanValue(value: true),
+            
+            "1 >= 0":
+                BooleanValue(value: true),
+            
 			"true":
-				.SuccessReference(ref: ReferenceValue(value: 3), type: BooleanType()),
+				BooleanValue(value: true),
 			
 			"false":
-				.SuccessReference(ref: ReferenceValue(value: 3), type: BooleanType()),
+				BooleanValue(value: false),
 			
 			"false || true":
-				.SuccessReference(ref: ReferenceValue(value: 3), type: BooleanType()),
-			
-			"false < true":
-                .TypeMissmatch,
-			
-			"false &&":
-                .ParseError(tokens: [BOOLEANLIT(value: false), LOGAND()]),
+				BooleanValue(value: true),
 			
 			"true || false && true":
-				.SuccessReference(ref: ReferenceValue(value: 3), type: BooleanType()),
+				BooleanValue(value: true),
 			
 			"(true || false) && false":
-				.SuccessReference(ref: ReferenceValue(value: 3), type: BooleanType()),
+				BooleanValue(value: false),
 			
 			"true && !(false && true)":
-                .SuccessReference(ref: ReferenceValue(value: 3), type: BooleanType()),
+                BooleanValue(value: true),
             
             "!false":
-                .SuccessReference(ref: ReferenceValue(value: 3), type: BooleanType())
+                BooleanValue(value: true)
 			]
 		)
 	}
+    
+    func testBoolFail() {
+        Helper.checkResult(map: [
+            "false < true":
+                .TypeMissmatch,
+            
+            "false &&":
+                .ParseError(tokens: [BOOLEANLIT(value: false), LOGAND()]),
+            ]
+        )
+    }
 	
 	func testNil() {
 		Helper.checkResult(map: [
 			"nil":
-				.SuccessReference(ref: ReferenceValue(value: 3), type: ReferenceType())
+				.SuccessReference(ref: ReferenceValue.null(), type: ReferenceType())
 			
 			]
 		)

@@ -103,15 +103,21 @@ extension Evaluator {
 	func evaluateStm(if_stm: If_Stm) -> REPLResult {
 		let refEval = evaluateRefToValue(exp: if_stm.exp)
 		if case .SuccessReference(let ref, _ as BooleanType) = refEval {
-			cpu.unaryRegister = ref
-			if(cpu.isTrue()) {
-				return evaluateStm(stm: if_stm.stm)
-			}
-			else {
-				if let el_st = if_stm.elseStm {
-					return evaluateStm(stm: el_st)
-				}
-			}
+			let trueEval = cpu.isTrue(addr: ref)
+            switch trueEval {
+            case .SuccessValue(let val as BooleanValue):
+                if val.value {
+                    return evaluateStm(stm: if_stm.stm)
+                }
+                else {
+                    if let el_st = if_stm.elseStm {
+                        return evaluateStm(stm: el_st)
+                    }
+                }
+            default:
+                return trueEval
+            }
+			
 			return .SuccessVoid
 		}
 		if case .SuccessReference(_, _) = refEval {
@@ -125,9 +131,12 @@ extension Evaluator {
 		while(true) {
 			let condiRef = evaluateRefToValue(exp: while_stm.exp)
 			if case .SuccessReference(let ref, _ as BooleanType) = condiRef {
-				cpu.unaryRegister = ref
-				if(!cpu.isTrue()) {
-					return .SuccessVoid
+                let trueEval = cpu.isTrue(addr: ref)
+                switch trueEval {
+                case .SuccessValue(let val as BooleanValue):
+                    if !val.value { return .SuccessVoid }
+                default:
+                    return trueEval
 				}
 			}
 			else {
@@ -162,10 +171,13 @@ extension Evaluator {
 			
 			let condiRefEval = evaluateRefToValue(exp: do_stm.exp)
 			if case .SuccessReference(let ref, _ as BooleanType) = condiRefEval {
-				cpu.unaryRegister = ref
-				if(!cpu.isTrue()) {
-					return .SuccessVoid
-				}
+                let trueEval = cpu.isTrue(addr: ref)
+                switch trueEval {
+                case .SuccessValue(let val as BooleanValue):
+                    if !val.value { return .SuccessVoid }
+                default:
+                    return trueEval
+                }
 			}
 			else {
 				return condiRefEval

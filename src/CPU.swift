@@ -11,203 +11,714 @@ import Foundation
 class CPU {
 	let globalEnvironment: GlobalEnvironment
 	
-	var lhsRegister: ReferenceValue
-	var rhsRegister: ReferenceValue
-	var unaryRegister: ReferenceValue
-	var resultRegister: ReferenceValue
-	
 	init(globalEnvironment: GlobalEnvironment) {
 		self.globalEnvironment = globalEnvironment
-		lhsRegister = ReferenceValue.null()
-		rhsRegister = ReferenceValue.null()
-		unaryRegister = ReferenceValue.null()
-		resultRegister = ReferenceValue.null()
 	}
 	
-	func error() {
-		print("<cpu_error>")
-	}
-	
-	func isTrue() -> Bool {
-		guard let rhsVal = globalEnvironment.heapGet(addr: unaryRegister) as? BooleanValue else { error(); return false }
-		return rhsVal.value
+    func isTrue(addr: ReferenceValue) -> REPLResult {
+        let valRes = globalEnvironment.heap.get(addr: addr)
+        switch valRes {
+        case .SuccessValue(_ as BooleanValue):
+            return valRes
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return valRes
+        }
 	}
 	
 	// MARK: Unary
 	
-	func unaryPlus() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: unaryRegister) as? IntegerValue else { error(); return }
-		let res = IntegerValue(value: rhsVal.value)
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		
-		resultRegister = newRef
+    func unaryPlus(unaryRef: ReferenceValue) -> REPLResult {
+        var unaryVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let valUnary = globalEnvironment.heap.get(addr: unaryRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch valUnary {
+        case .SuccessValue(let val as IntegerValue):
+            unaryVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return valUnary
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = IntegerValue(value: unaryVal.value)
+        
+		let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: IntegerType())
+        default:
+            return setEval
+        }
 	}
 	
-	func unaryMinus() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: unaryRegister) as? IntegerValue else { error(); return }
-		let res = IntegerValue(value: -rhsVal.value)
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		
-		resultRegister = newRef
+	func unaryMinus(unaryRef: ReferenceValue) -> REPLResult {
+        var unaryVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let valUnary = globalEnvironment.heap.get(addr: unaryRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch valUnary {
+        case .SuccessValue(let val as IntegerValue):
+            unaryVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return valUnary
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = IntegerValue(value: -unaryVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: IntegerType())
+        default:
+            return setEval
+        }
 	}
 	
-	func unaryLogNot() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: unaryRegister) as? BooleanValue else { error(); return }
-		let res = BooleanValue(value: !rhsVal.value)
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		
-		resultRegister = newRef
+	func unaryLogNot(unaryRef: ReferenceValue) -> REPLResult {
+        var unaryVal: BooleanValue
+        var newRef: ReferenceValue
+        
+        let valUnary = globalEnvironment.heap.get(addr: unaryRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch valUnary {
+        case .SuccessValue(let val as BooleanValue):
+            unaryVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return valUnary
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = BooleanValue(value: !unaryVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: BooleanType())
+        default:
+            return setEval
+        }
 	}
 	
 	// MARK: Binary
 	
-	func binaryMul() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? IntegerValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? IntegerValue else { error(); return }
-		
-		let res = IntegerValue(value: lhsVal.value * rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+    func binaryMul(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: IntegerValue
+        var rightVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as IntegerValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as IntegerValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = IntegerValue(value: leftVal.value * rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: IntegerType())
+        default:
+            return setEval
+        }
 	}
 	
-	func binaryDiv() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? IntegerValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? IntegerValue else { error(); return }
-		
-		let res = IntegerValue(value: lhsVal.value / rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func binaryDiv(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: IntegerValue
+        var rightVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as IntegerValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as IntegerValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = IntegerValue(value: leftVal.value / rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: IntegerType())
+        default:
+            return setEval
+        }
 	}
 	
-	func binaryMod() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? IntegerValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? IntegerValue else { error(); return }
-		
-		let res = IntegerValue(value: lhsVal.value % rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func binaryMod(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: IntegerValue
+        var rightVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as IntegerValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as IntegerValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = IntegerValue(value: leftVal.value % rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: IntegerType())
+        default:
+            return setEval
+        }
 	}
 	
-	func binaryPlus() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? IntegerValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? IntegerValue else { error(); return }
-		
-		let res = IntegerValue(value: lhsVal.value + rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func binaryPlus(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: IntegerValue
+        var rightVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as IntegerValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as IntegerValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = IntegerValue(value: leftVal.value + rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: IntegerType())
+        default:
+            return setEval
+        }
 	}
 	
-	func binaryMinus() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? IntegerValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? IntegerValue else { error(); return }
-		
-		let res = IntegerValue(value: lhsVal.value - rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func binaryMinus(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: IntegerValue
+        var rightVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as IntegerValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as IntegerValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = IntegerValue(value: leftVal.value - rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: IntegerType())
+        default:
+            return setEval
+        }
 	}
 	
 	// MARJK: Rel
 	
-	func relEQ() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? IntegerValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? IntegerValue else { error(); return }
-		
-		let res = BooleanValue(value: lhsVal.value == rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func relEQ(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: IntegerValue
+        var rightVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as IntegerValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as IntegerValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = BooleanValue(value: leftVal.value == rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: BooleanType())
+        default:
+            return setEval
+        }
 	}
 	
-	func relNE() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? IntegerValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? IntegerValue else { error(); return }
-		
-		let res = BooleanValue(value: lhsVal.value != rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func relNE(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: IntegerValue
+        var rightVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as IntegerValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as IntegerValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = BooleanValue(value: leftVal.value != rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: BooleanType())
+        default:
+            return setEval
+        }
 	}
 	
-	func relGT() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? IntegerValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? IntegerValue else { error(); return }
-		
-		let res = BooleanValue(value: lhsVal.value > rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func relGT(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: IntegerValue
+        var rightVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as IntegerValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as IntegerValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = BooleanValue(value: leftVal.value > rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: BooleanType())
+        default:
+            return setEval
+        }
 	}
 	
-	func relGE() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? IntegerValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? IntegerValue else { error(); return }
-		
-		let res = BooleanValue(value: lhsVal.value >= rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func relGE(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: IntegerValue
+        var rightVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as IntegerValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as IntegerValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = BooleanValue(value: leftVal.value >= rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: BooleanType())
+        default:
+            return setEval
+        }
 	}
 	
-	func relLT() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? IntegerValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? IntegerValue else { error(); return }
-		
-		let res = BooleanValue(value: lhsVal.value < rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func relLT(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: IntegerValue
+        var rightVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as IntegerValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as IntegerValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = BooleanValue(value: leftVal.value < rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: BooleanType())
+        default:
+            return setEval
+        }
 	}
 	
-	func relLE() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? IntegerValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? IntegerValue else { error(); return }
-		
-		let res = BooleanValue(value: lhsVal.value <= rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func relLE(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: IntegerValue
+        var rightVal: IntegerValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as IntegerValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as IntegerValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = BooleanValue(value: leftVal.value <= rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: BooleanType())
+        default:
+            return setEval
+        }
 	}
 	
 	// MARK: Boolean
 	
-	func booleanAnd() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? BooleanValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? BooleanValue else { error(); return }
-		
-		let res = BooleanValue(value: lhsVal.value && rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func booleanAnd(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: BooleanValue
+        var rightVal: BooleanValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as BooleanValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as BooleanValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = BooleanValue(value: leftVal.value && rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: BooleanType())
+        default:
+            return setEval
+        }
 	}
 	
-	func booleanOr() {
-		guard let rhsVal = globalEnvironment.heapGet(addr: rhsRegister) as? BooleanValue else { error(); return }
-		guard let lhsVal = globalEnvironment.heapGet(addr: lhsRegister) as? BooleanValue else { error(); return }
-		
-		let res = BooleanValue(value: lhsVal.value || rhsVal.value)
-		
-		let newRef = globalEnvironment.malloc(size: 1)
-		globalEnvironment.heapSet(value: res, addr: newRef)
-		resultRegister = newRef
+	func booleanOr(leftRef: ReferenceValue, rightRef: ReferenceValue) -> REPLResult {
+        var leftVal: BooleanValue
+        var rightVal: BooleanValue
+        var newRef: ReferenceValue
+        
+        let leftEval = globalEnvironment.heap.get(addr: leftRef)
+        let rightEval = globalEnvironment.heap.get(addr: rightRef)
+        let newRefRes = globalEnvironment.heap.malloc(size: 1)
+        
+        switch leftEval {
+        case .SuccessValue(let val as BooleanValue):
+            leftVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return leftEval
+        }
+        
+        switch rightEval {
+        case .SuccessValue(let val as BooleanValue):
+            rightVal = val
+        case .SuccessValue(_):
+            return .TypeMissmatch
+        default:
+            return rightEval
+        }
+        
+        switch newRefRes {
+        case .SuccessValue(let ref as ReferenceValue):
+            newRef = ref
+        default:
+            return newRefRes
+        }
+        
+        let res = BooleanValue(value: leftVal.value || rightVal.value)
+        
+        let setEval = globalEnvironment.heap.set(value: res, addr: newRef)
+        switch setEval {
+        case .SuccessVoid:
+            return .SuccessReference(ref: newRef, type: BooleanType())
+        default:
+            return setEval
+        }
 	}
 }

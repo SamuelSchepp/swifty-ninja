@@ -13,9 +13,9 @@ class GlobalEnvironment {
     var varTypeMap: [String: Type]
     var globalVariables: [String: ReferenceValue]
     var functions: [String: Function]
-	var localStack: Stack<LocalEnvironment>
 	
-	private var heap: [Value]
+    var localStack: Stack<LocalEnvironment>
+    let heap: Heap
     
     init() {
         typeDecMap = [
@@ -34,67 +34,22 @@ class GlobalEnvironment {
                 par_decs: [Par_Dec(type: IdentifierTypeExpression(ident: "Integer"), ident: "nr")],
                 callee: { globalInvironment in
                     guard let ref = globalInvironment.findReferenceOfVariable(ident: "nr") else { return .UnresolvableReference(ident: "nr") }
-                    guard let value = globalInvironment.heapGet(addr: ref) as? IntegerValue else { return REPLResult.HeapBoundsFault }
                     
-                    print(value, separator: "", terminator: "")
-                    
-                    return .SuccessVoid
+                    let valueRes = globalInvironment.heap.get(addr: ref)
+                    switch valueRes {
+                    case .SuccessValue(let val as IntegerValue):
+                        print(val.value, separator: "", terminator: "")
+                        return .SuccessVoid
+                    default:
+                        return valueRes
+                    }
                 }
             )
         ]
 		
 		localStack = Stack()
-		
-		heap = [UninitializedValue()]
+		heap = Heap()
     }
-	
-	// MARK: Heap
-	
-	func heapGet(addr: ReferenceValue) -> Value? {
-		if checkBounds(addr: addr) {
-			return heap[addr.value]
-		}
-		return .none
-	}
-	
-	func heapSet(value: Value, addr: ReferenceValue) {
-		if checkBounds(addr: addr) {
-			heap[addr.value] = value
-		}
-	}
-	
-	private func checkBounds(addr: ReferenceValue) -> Bool {
-		let condi = addr.value < heap.count && addr.value > 0
-		if condi {
-			return true
-		}
-		else {
-			print("<runtime_error_heapbounds>")
-			return false
-		}
-	}
-	
-	func malloc(size: Int) -> ReferenceValue {
-		if size <= 0 {
-			return ReferenceValue.null()
-		}
-		
-		let start = heap.count
-		for _ in 0..<size {
-			heap.append(UninitializedValue())
-		}
-		
-		return ReferenceValue(value: start)
-	}
-	
-	func heapIsTrue(addr: ReferenceValue) -> Bool? {
-		if let value = heapGet(addr: addr) as? BooleanValue {
-			return value.value
-		}
-		else {
-			return .none
-		}
-	}
 	
 	// MARK: Variables
 	
@@ -165,10 +120,7 @@ class GlobalEnvironment {
 		}
 		print()
 		print("==== Heap ====")
-		for i in 1..<heap.count {
-			print("\(ReferenceValue(value: i))  \(heap[i])")
-		}
-		print()
+		heap.dump()
 	}
 	
 	func heapPeek() -> Value {

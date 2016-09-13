@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7E010A2A1D7F495000264F38 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A291D7F495000264F38 /* Token.swift */; };
 		7E010A2E1D7F4AB500264F38 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E010A2D1D7F4AB500264F38 /* Tokenizer.swift */; };
+		7E2C92AA1D882C0C007CA28A /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2C92A91D882C0C007CA28A /* Heap.swift */; };
+		7E2C92AB1D882C0C007CA28A /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2C92A91D882C0C007CA28A /* Heap.swift */; };
 		7E3A8FA81D82235700093087 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A8FA71D82235700093087 /* App.swift */; };
 		7E40CD061D7DF91E00D7880C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCF91D7DF90B00D7880C /* main.swift */; };
 		7E40CD131D7DF9C800D7880C /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E40CCFD1D7DF90B00D7880C /* Stack.swift */; };
@@ -96,6 +98,7 @@
 		7E010A291D7F495000264F38 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		7E010A2D1D7F4AB500264F38 /* Tokenizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokenizer.swift; sourceTree = "<group>"; };
 		7E010A301D7F57A800264F38 /* TokenizerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizerTests.swift; sourceTree = "<group>"; };
+		7E2C92A91D882C0C007CA28A /* Heap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
 		7E3A8FA71D82235700093087 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		7E40CCD31D7DF90B00D7880C /* bruch.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bruch.nj; sourceTree = "<group>"; };
 		7E40CCD41D7DF90B00D7880C /* bruch2.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bruch2.nj; sourceTree = "<group>"; };
@@ -354,6 +357,7 @@
 				7E4A7FEE1D845E27008968E2 /* Types.swift */,
 				7E452FF11D8704A8008FE5AC /* Function.swift */,
 				7EF8AD191D875FF40087A2F0 /* CPU.swift */,
+				7E2C92A91D882C0C007CA28A /* Heap.swift */,
 				7E4A7FF11D846852008968E2 /* GlobalEnvironment.swift */,
 				7ECCE80D1D860522003EC441 /* LocalEnvironment.swift */,
 			);
@@ -459,6 +463,7 @@
 				7E77C9D31D82BCF9004523EE /* Stack.swift in Sources */,
 				7E77C9D81D82BD17004523EE /* TokenStack.swift in Sources */,
 				7E77C9D41D82BCFB004523EE /* Token.swift in Sources */,
+				7E2C92AB1D882C0C007CA28A /* Heap.swift in Sources */,
 				7EFFDFBD1D85964200F35531 /* REPLResult.swift in Sources */,
 				7E77C9D61D82BD00004523EE /* Tokenizer.swift in Sources */,
 				7EFFDFAB1D8594FA00F35531 /* AST$Expression.swift in Sources */,
@@ -512,6 +517,7 @@
 				7EFFDFB41D8595A500F35531 /* Parser$Statement.swift in Sources */,
 				7E4CAA2A1D83851300636BC2 /* Value.swift in Sources */,
 				7EFFDFAD1D85952C00F35531 /* AST$Statement.swift in Sources */,
+				7E2C92AA1D882C0C007CA28A /* Heap.swift in Sources */,
 				7ECCE80E1D860522003EC441 /* LocalEnvironment.swift in Sources */,
 				7E87DE241D85647700B3249E /* Evaluator$Stm.swift in Sources */,
 				7E452FF21D8704A8008FE5AC /* Function.swift in Sources */,
