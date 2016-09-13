@@ -10,6 +10,13 @@ import Foundation
 
 protocol Type: CustomStringConvertible { }
 
+struct VoidType: Type {
+	var description: String {
+		get {
+			return "<Void>"
+		}
+	}
+}
 
 struct IntegerType: Type {
     var description: String {

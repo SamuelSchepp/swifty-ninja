@@ -10,49 +10,30 @@ import Foundation
 import XCTest
 
 class Helper {
-	class func checkHeap(map: [String: Value]) {
-		map.forEach { source, value in
+	class func checkHeap(map: [String: Value]) throws {
+		do {
+		try map.forEach { source, shouldValue in
 			print("==== Source ====")
 			print(source)
 			
 			print("==== Result ====")
 			let repl = REPL()
-			let result = repl.handle(input: source)
+			let result = try repl.handle(input: source)
+			
             repl.dump()
             
-            var shouldVal: Value = UninitializedValue()
-            
-            if case .SuccessReference(let ref, _) = result {
-                let resultVal = repl.evaluator.globalEnvironment.heap.get(addr: ref)
-                switch resultVal {
-                case .SuccessValue(let val):
-                    shouldVal = val
-                    print(val)
-                default:
-                    break
-                }
+            if case .Exp(let ref) = result {
+                let isValue = try repl.evaluator.globalEnvironment.heap.get(addr: ref)
+                XCTAssertEqual(shouldValue.description, isValue.description)
             }
-            
-            XCTAssertEqual(shouldVal.description, value.description)
+			else {
+				XCTFail()
+			}
 		}
-	}
-	
-	class func checkResult(map: [String: REPLResult]) {
-		map.forEach { source, value in
-			print("==== Source ====")
-			print(source)
-			
-			print("==== Result ====")
-			let repl = REPL()
-			let result = repl.handle(input: source)
-			
-			
-			let resultString = String(reflecting: result)
-			let targetString = String(reflecting: value)
-			
-			print(resultString)
-			
-			XCTAssertEqual(targetString, resultString)
+		}
+		catch let err {
+			print(err)
+			throw err
 		}
 	}
 }

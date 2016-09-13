@@ -11,30 +11,31 @@ import Foundation
 class REPL {
 	let evaluator = Evaluator()
 	
-	func handle(input: String) -> REPLResult {
+	func handle(input: String) throws -> REPLResult {
 		let tokenizer = Tokenizer(with: input)
 		
-		guard let tokens = tokenizer.tokenize() else { return REPLResult.TokenError }
+		guard let tokens = tokenizer.tokenize() else { throw REPLError.TokenError }
 		
-		guard let ast = parse(tokens: tokens) else { return REPLResult.ParseError(tokens: tokens) }
+		guard let ast = parse(tokens: tokens) else { throw REPLError.ParseError(tokens: tokens) }
 		
-		return evaluator.evaluate(ast: ast)
+		let eval = try evaluator.evaluate(ast: ast)
+		return eval
+	}
+	
+	func handleAsProgram(input: String) throws -> REPLResult {
+		let tokenizer = Tokenizer(with: input)
 		
+		guard let tokens = tokenizer.tokenize() else { throw REPLError.TokenError }
+		
+		guard let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Program() }) else { throw REPLError.ParseError(tokens: tokens) }
+		
+		let eval = try evaluator.evaluate(ast: ast)
+		return eval
 	}
 	
 	private func parse(tokens: [Token]) -> ASTNode? {
-		// Gvar Dec
-        if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Gvar_Dec() }) {
-            return ast
-        }
-        
-        // Func Dec
-        if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Func_Dec() }) {
-            return ast
-        }
-        
-        // Type Dec
-        if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Type_Dec() }) {
+		// Global Decs
+        if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Glob_Decs() }) {
             return ast
         }
 		
@@ -50,11 +51,6 @@ class REPL {
         
         // Type
         if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Type() }) {
-            return ast
-        }
-        
-        // Program
-        if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Program() }) {
             return ast
         }
 		

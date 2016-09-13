@@ -21,7 +21,8 @@ struct IntegerValue: Value {
 }
 
 struct ReferenceValue: Value {
-	var value: Int
+	let value: Int
+	let type: Type
 	
 	var description: String {
 		get {
@@ -33,7 +34,7 @@ struct ReferenceValue: Value {
 	}
 	
 	static func null() -> ReferenceValue {
-		return ReferenceValue(value: 0)
+		return ReferenceValue(value: 0, type: VoidType())
 	}
 }
 

@@ -10,25 +10,16 @@ import Foundation
 import XCTest
 
 class ExpressionTests: XCTestCase {
-	func testArithmeticError() {
-		Helper.checkResult(map: [
-			"a + b":
-				.UnresolvableReference(ident: "a"),
-			
-			"(4 - 6) * (x + 7)":
-				.UnresolvableReference(ident: "x"),
-			
-			"!10":
-                .WrongOperator(op: "!", type: IntegerType()),
-			
-			"554||5+8/5*65&&(75||5)*7/-9":
-				.TypeMissmatch
+	func testArithmeticValue1() throws {
+		try Helper.checkHeap(map: [
+			"4 + 1":
+				IntegerValue(value: 4 + 1)
 			]
 		)
 	}
-    
-    func testArithmeticValue() {
-        Helper.checkHeap(map: ["(4 - 7) * (10 + 11)":
+	
+	func testArithmeticValue2() throws {
+        try Helper.checkHeap(map: ["(4 - 7) * (10 + 11)":
                 IntegerValue(value: -63),
             
             "64-9/((84*23)+25)-98/(23+3)":
@@ -37,8 +28,8 @@ class ExpressionTests: XCTestCase {
         )
     }
 	
-	func testBool() {
-        Helper.checkHeap(map: [
+	func testBool() throws {
+        try Helper.checkHeap(map: [
             "1 == 1":
                 BooleanValue(value: true),
             
@@ -65,26 +56,6 @@ class ExpressionTests: XCTestCase {
             
             "!false":
                 BooleanValue(value: true)
-			]
-		)
-	}
-    
-    func testBoolFail() {
-        Helper.checkResult(map: [
-            "false < true":
-                .TypeMissmatch,
-            
-            "false &&":
-                .ParseError(tokens: [BOOLEANLIT(value: false), LOGAND()]),
-            ]
-        )
-    }
-	
-	func testNil() {
-		Helper.checkResult(map: [
-			"nil":
-				.SuccessReference(ref: ReferenceValue.null(), type: ReferenceType())
-			
 			]
 		)
 	}

@@ -12,10 +12,10 @@ import XCTest
 class GlobalVarTests: XCTestCase {
 	let repl = REPL()
 	
-	func test1() {
-		_ = repl.handle(input: "type IntList = Integer[];")
-		_ = repl.handle(input: "global IntList myList;")
-		_ = repl.handle(input: "global Integer myNumber;")
+	func test1() throws {
+		_ = try repl.handle(input: "type IntList = Integer[];")
+		_ = try repl.handle(input: "global IntList myList;")
+		_ = try repl.handle(input: "global Integer myNumber;")
 		
 		let envi = repl.evaluator.globalEnvironment
 		envi.dump()
@@ -28,24 +28,22 @@ class GlobalVarTests: XCTestCase {
 		
 		XCTAssertEqual(String(reflecting: envi.typeDecMap["IntList"]!), String(reflecting: ArrayType(base: IntegerType(), dims: 1)))
 		
-		_ = repl.handle(input: "myNumber = 4 * 6;")
+		_ = try repl.handle(input: "myNumber = 4 * 6;")
 		
 		envi.dump()
 		
-        let valueEval = envi.heap.get(addr: ReferenceValue(value: 3))
-        switch valueEval {
-        case .SuccessValue(let val):
-            let shouldValue = IntegerValue(value: 24)
-            
-            let isString = val.description
-            let shouldString = shouldValue.description
-            
-            print(isString)
-            print(shouldString)
-            
-            XCTAssertEqual(isString, shouldString)
-        default:
-            XCTFail()
-        }
+		guard let value = try envi.heap.get(addr: ReferenceValue(value: 3, type: VoidType())) as? IntegerValue else {
+			XCTFail()
+			return;
+		}
+		let shouldValue = IntegerValue(value: 24)
+		
+		let isString = value.description
+		let shouldString = shouldValue.description
+		
+		print(isString)
+		print(shouldString)
+		
+		XCTAssertEqual(isString, shouldString)
 	}
 }

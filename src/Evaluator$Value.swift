@@ -12,410 +12,271 @@ extension Evaluator {
 	
 	// MARK: Exp
 	
-	func evaluateRefToValue(exp: Exp) -> REPLResult {
+	func evaluateRefToValue(exp: Exp) throws -> ReferenceValue {
 		if let or_exp = exp as? Or_Exp {
-			return evaluateRefToValue(or_exp: or_exp)
+			return try evaluateRefToValue(or_exp: or_exp)
 		}
 		
-		return .NotExhaustive
+		throw REPLError.NotExhaustive
 	}
 	
 	// MARK: Or
 	
-	func evaluateRefToValue(or_exp: Or_Exp) -> REPLResult {
+	func evaluateRefToValue(or_exp: Or_Exp) throws -> ReferenceValue {
 		if let or_exp_binary = or_exp as? Or_Exp_Binary {
-			return evaluateRefToValue(or_exp_binary: or_exp_binary)
+			return try evaluateRefToValue(or_exp_binary: or_exp_binary)
 		}
 		if let and_exp = or_exp as? And_Exp {
-			return evaluateRefToValue(and_exp: and_exp)
+			return try evaluateRefToValue(and_exp: and_exp)
 		}
 		
-		return .NotExhaustive
+		throw REPLError.NotExhaustive
 	}
 	
-	func evaluateRefToValue(or_exp_binary: Or_Exp_Binary) -> REPLResult {
-        var leftRef = ReferenceValue.null()
-        var rightRef = ReferenceValue.null()
+	func evaluateRefToValue(or_exp_binary: Or_Exp_Binary) throws -> ReferenceValue {
+        let leftRef = try evaluateRefToValue(or_exp: or_exp_binary.lhs)
+        let rightRef = try evaluateRefToValue(and_exp: or_exp_binary.rhs)
         
-        switch evaluateRefToValue(or_exp: or_exp_binary.lhs) {
-		case let .SuccessReference(ref, _ as BooleanType):
-			leftRef = ref
-		case .SuccessReference(_, _):
-			return .TypeMissmatch
-		case let any:
-			return any
-		}
-		
-		switch evaluateRefToValue(and_exp: or_exp_binary.rhs) {
-		case let .SuccessReference(ref, _ as BooleanType):
-			rightRef = ref
-		case .SuccessReference(_, _):
-			return .TypeMissmatch
-		case let any:
-			return any
-		}
-		
-		return cpu.booleanOr(leftRef: leftRef, rightRef: rightRef)
+        return try cpu.booleanOr(leftRef: leftRef, rightRef: rightRef)
 	}
 	
 	// MARK: And
 	
-	func evaluateRefToValue(and_exp: And_Exp) -> REPLResult {
+	func evaluateRefToValue(and_exp: And_Exp) throws -> ReferenceValue {
 		if let and_exp_binary = and_exp as? And_Exp_Binary {
-			return evaluateRefToValue(and_exp_binary: and_exp_binary)
+			return try evaluateRefToValue(and_exp_binary: and_exp_binary)
 		}
 		if let rel_exp = and_exp as? Rel_Exp {
-			return evaluateRefToValue(rel_exp: rel_exp)
+			return try evaluateRefToValue(rel_exp: rel_exp)
 		}
 		
-		return .NotExhaustive
+		throw REPLError.NotExhaustive
 	}
 	
-	func evaluateRefToValue(and_exp_binary: And_Exp_Binary) -> REPLResult {
-        var leftRef = ReferenceValue.null()
-        var rightRef = ReferenceValue.null()
-        
-        switch evaluateRefToValue(and_exp: and_exp_binary.lhs) {
-		case let .SuccessReference(ref, _ as BooleanType):
-			leftRef = ref
-		case .SuccessReference(_, _):
-			return .TypeMissmatch
-		case let any:
-			return any
-		}
+	func evaluateRefToValue(and_exp_binary: And_Exp_Binary) throws -> ReferenceValue {
+        let leftRef = try evaluateRefToValue(and_exp: and_exp_binary.lhs)
+        let rightRef = try evaluateRefToValue(rel_exp: and_exp_binary.rhs)
 		
-		switch evaluateRefToValue(rel_exp: and_exp_binary.rhs) {
-		case let .SuccessReference(ref, _ as BooleanType):
-			rightRef = ref
-		case .SuccessReference(_, _):
-			return .TypeMissmatch
-		case let any:
-			return any
-		}
-		
-		return cpu.booleanAnd(leftRef: leftRef, rightRef: rightRef)
+		return try cpu.booleanAnd(leftRef: leftRef, rightRef: rightRef)
 	}
 	
 	// MARK: Rel
 	
-	func evaluateRefToValue(rel_exp: Rel_Exp) -> REPLResult {
+	func evaluateRefToValue(rel_exp: Rel_Exp) throws -> ReferenceValue {
 		if let rel_exp_binary = rel_exp as? Rel_Exp_Binary {
-			return evaluateRefToValue(rel_exp_binary: rel_exp_binary)
+			return try evaluateRefToValue(rel_exp_binary: rel_exp_binary)
 		}
 		if let add_exp = rel_exp as? Add_Exp {
-			return evaluateRefToValue(add_exp: add_exp)
+			return try evaluateRefToValue(add_exp: add_exp)
 		}
 		
-		return .NotExhaustive
+		throw REPLError.NotExhaustive
 	}
 	
-	func evaluateRefToValue(rel_exp_binary: Rel_Exp_Binary) -> REPLResult {
-        var leftRef = ReferenceValue.null()
-        var rightRef = ReferenceValue.null()
-        
-        switch evaluateRefToValue(add_exp: rel_exp_binary.lhs) {
-		case let .SuccessReference(ref, _ as IntegerType):
-			leftRef = ref;
-		case .SuccessReference(_, _):
-			return .TypeMissmatch
-		case let any:
-			return any
-		}
-		
-		switch evaluateRefToValue(add_exp: rel_exp_binary.rhs) {
-		case let .SuccessReference(ref, _ as IntegerType):
-			rightRef = ref
-		case .SuccessReference(_, _):
-			return .TypeMissmatch
-		case let any:
-			return any
-		}
+	func evaluateRefToValue(rel_exp_binary: Rel_Exp_Binary) throws -> ReferenceValue {
+        let leftRef = try evaluateRefToValue(add_exp: rel_exp_binary.lhs)
+		let rightRef = try evaluateRefToValue(add_exp: rel_exp_binary.rhs)
 		
 		switch rel_exp_binary.op {
 		case .EQ:
-			return cpu.relEQ(leftRef: leftRef, rightRef: rightRef)
+			return try cpu.relEQ(leftRef: leftRef, rightRef: rightRef)
 		case .NE:
-			return cpu.relNE(leftRef: leftRef, rightRef: rightRef)
+			return try cpu.relNE(leftRef: leftRef, rightRef: rightRef)
 		case .LT:
-			return cpu.relLT(leftRef: leftRef, rightRef: rightRef)
+			return try cpu.relLT(leftRef: leftRef, rightRef: rightRef)
 		case .LE:
-			return cpu.relLE(leftRef: leftRef, rightRef: rightRef)
+			return try cpu.relLE(leftRef: leftRef, rightRef: rightRef)
 		case .GT:
-			return cpu.relGT(leftRef: leftRef, rightRef: rightRef)
+			return try cpu.relGT(leftRef: leftRef, rightRef: rightRef)
 		case .GE:
-			return cpu.relGE(leftRef: leftRef, rightRef: rightRef)
+			return try cpu.relGE(leftRef: leftRef, rightRef: rightRef)
 		}
 	}
 	
 	// MARK: Add
 	
-	func evaluateRefToValue(add_exp: Add_Exp) -> REPLResult {
+	func evaluateRefToValue(add_exp: Add_Exp) throws -> ReferenceValue {
 		if let add_exp_binary = add_exp as? Add_Exp_Binary {
-			return evaluateRefToValue(add_exp_binary: add_exp_binary)
+			return try evaluateRefToValue(add_exp_binary: add_exp_binary)
 		}
 		if let mul_exp = add_exp as? Mul_Exp {
-			return evaluateRefToValue(mul_exp: mul_exp)
+			return try evaluateRefToValue(mul_exp: mul_exp)
 		}
 		
-		return .NotExhaustive
+		throw REPLError.NotExhaustive
 	}
 	
-	func evaluateRefToValue(add_exp_binary: Add_Exp_Binary) -> REPLResult {
-        var leftRef = ReferenceValue.null()
-        var rightRef = ReferenceValue.null()
-        
-        switch evaluateRefToValue(add_exp: add_exp_binary.lhs) {
-		case let .SuccessReference(ref, _ as IntegerType):
-			leftRef = ref
-		case .SuccessReference(_, _):
-			return .TypeMissmatch
-		case let any:
-			return any
-		}
-		
-		switch evaluateRefToValue(mul_exp: add_exp_binary.rhs) {
-		case let .SuccessReference(ref, _ as IntegerType):
-			rightRef = ref
-		case .SuccessReference(_, _):
-			return .TypeMissmatch
-		case let any:
-			return any
-		}
+	func evaluateRefToValue(add_exp_binary: Add_Exp_Binary) throws -> ReferenceValue {
+        let leftRef = try evaluateRefToValue(add_exp: add_exp_binary.lhs)
+		let rightRef = try evaluateRefToValue(mul_exp: add_exp_binary.rhs)
 		
 		switch add_exp_binary.op {
 		case .PLUS:
-			return cpu.binaryPlus(leftRef: leftRef, rightRef: rightRef);
+			return try cpu.binaryPlus(leftRef: leftRef, rightRef: rightRef);
 		case .MINUS:
-			return cpu.binaryMinus(leftRef: leftRef, rightRef: rightRef);
+			return try cpu.binaryMinus(leftRef: leftRef, rightRef: rightRef);
 		}
 	}
 	
 	// MARK: Mul
 	
-	func evaluateRefToValue(mul_exp: Mul_Exp) -> REPLResult {
+	func evaluateRefToValue(mul_exp: Mul_Exp) throws -> ReferenceValue {
 		if let mul_exp_binary = mul_exp as? Mul_Exp_Binary {
-			return evaluateRefToValue(mul_exp_binary: mul_exp_binary)
+			return try evaluateRefToValue(mul_exp_binary: mul_exp_binary)
 		}
 		if let unary_exp = mul_exp as? Unary_Exp {
-			return evaluateRefToValue(unary_exp: unary_exp)
+			return try evaluateRefToValue(unary_exp: unary_exp)
 		}
 		
-		return .NotExhaustive
+		throw REPLError.NotExhaustive
 	}
 	
-	func evaluateRefToValue(mul_exp_binary: Mul_Exp_Binary) -> REPLResult {
-        var leftRef = ReferenceValue.null()
-        var rightRef = ReferenceValue.null()
-        
-        let leftEval = evaluateRefToValue(mul_exp: mul_exp_binary.lhs)
-		switch leftEval {
-		case let .SuccessReference(ref, _ as IntegerType):
-			leftRef = ref
-		case .SuccessReference(_, _):
-			return .TypeMissmatch
-		case let any:
-			return any
-		}
-		
-        let rightEval = evaluateRefToValue(unary_exp: mul_exp_binary.rhs)
-		switch rightEval {
-		case let .SuccessReference(ref, _ as IntegerType):
-			rightRef = ref
-		case .SuccessReference(_, _):
-			return .TypeMissmatch
-		case let any:
-			return any
-		}
+	func evaluateRefToValue(mul_exp_binary: Mul_Exp_Binary) throws -> ReferenceValue {
+        let leftRef = try evaluateRefToValue(mul_exp: mul_exp_binary.lhs)
+        let rightRef = try evaluateRefToValue(unary_exp: mul_exp_binary.rhs)
 		
 		switch mul_exp_binary.op {
 		case .STAR:
-			return cpu.binaryMul(leftRef: leftRef, rightRef: rightRef);
+			return try cpu.binaryMul(leftRef: leftRef, rightRef: rightRef);
 		case .SLASH:
-			return cpu.binaryDiv(leftRef: leftRef, rightRef: rightRef);
+			return try cpu.binaryDiv(leftRef: leftRef, rightRef: rightRef);
 		case .PERCENT:
-			return cpu.binaryMod(leftRef: leftRef, rightRef: rightRef);
+			return try cpu.binaryMod(leftRef: leftRef, rightRef: rightRef);
 		}
 	}
 	
 	// MARK: Unary
 	
-	func evaluateRefToValue(unary_exp: Unary_Exp) -> REPLResult {
+	func evaluateRefToValue(unary_exp: Unary_Exp) throws -> ReferenceValue {
 		if let unary_exp_impl = unary_exp as? Unary_Exp_Impl {
-			return evaluateRefToValue(unary_exp_impl: unary_exp_impl)
+			return try evaluateRefToValue(unary_exp_impl: unary_exp_impl)
 		}
 		if let primary_exp = unary_exp as? Primary_Exp {
-			return evaluateRefToValue(primary_exp: primary_exp)
+			return try evaluateRefToValue(primary_exp: primary_exp)
 		}
 		
-		return .NotExhaustive
+		throw REPLError.NotExhaustive
 	}
 	
-	func evaluateRefToValue(unary_exp_impl: Unary_Exp_Impl) -> REPLResult {
-		let eval = evaluateRefToValue(unary_exp: unary_exp_impl.rhs)
+	func evaluateRefToValue(unary_exp_impl: Unary_Exp_Impl) throws -> ReferenceValue {
+		let ref = try evaluateRefToValue(unary_exp: unary_exp_impl.rhs)
 		
-		if case .SuccessReference(let ref, _ as IntegerType) = eval {
-			switch unary_exp_impl.op {
-			case .PLUS:
-				return cpu.unaryPlus(unaryRef: ref)
-			case .MINUS:
-				return cpu.unaryMinus(unaryRef: ref)
-			default:
-				return .WrongOperator(op: unary_exp_impl.op.rawValue, type: IntegerType())
-			}
+		switch unary_exp_impl.op {
+		case .PLUS:
+			return try cpu.unaryPlus(unaryRef: ref)
+		case .MINUS:
+			return try cpu.unaryMinus(unaryRef: ref)
+		case .LOGNOT:
+			return try cpu.unaryLogNot(unaryRef: ref)
 		}
-		if case .SuccessReference(let ref, _ as BooleanType) = eval {
-			switch unary_exp_impl.op {
-			case .LOGNOT:
-				return cpu.unaryLogNot(unaryRef: ref)
-			default:
-				return .WrongOperator(op: unary_exp_impl.op.rawValue, type: BooleanType())
-			}
-		}
-		
-		return .TypeMissmatch
 	}
 	
 	// MARK: Primary
 	
-	func evaluateRefToValue(primary_exp: Primary_Exp) -> REPLResult {
+	func evaluateRefToValue(primary_exp: Primary_Exp) throws -> ReferenceValue {
 		if let primary_exp_nil = primary_exp as? Primary_Exp_Nil {
-			return evaluateRefToValue(primary_exp_nil: primary_exp_nil)
+			return try evaluateRefToValue(primary_exp_nil: primary_exp_nil)
 		}
 		if let primary_exp_exp = primary_exp as? Primary_Exp_Exp {
-			return evaluateRefToValue(primary_exp_exp: primary_exp_exp)
+			return try evaluateRefToValue(primary_exp_exp: primary_exp_exp)
 		}
 		if let primary_exp_integer = primary_exp as? Primary_Exp_Integer {
-			return evaluateRefToValue(primary_exp_integer: primary_exp_integer)
+			return try evaluateRefToValue(primary_exp_integer: primary_exp_integer)
 		}
 		if let primary_exp_character = primary_exp as? Primary_Exp_Character {
-			return evaluateRefToValue(primary_exp_character: primary_exp_character)
+			return try evaluateRefToValue(primary_exp_character: primary_exp_character)
 		}
 		if let primary_exp_boolean = primary_exp as? Primary_Exp_Boolean {
-			return evaluateRefToValue(primary_exp_boolean: primary_exp_boolean)
+			return try evaluateRefToValue(primary_exp_boolean: primary_exp_boolean)
 		}
 		if let primary_exp_string = primary_exp as? Primary_Exp_String {
-			return evaluateRefToValue(primary_exp_string: primary_exp_string)
+			return try evaluateRefToValue(primary_exp_string: primary_exp_string)
 		}
 		if let primary_exp_sizeof = primary_exp as? Primary_Exp_Sizeof {
-			return evaluateRefToValue(primary_exp_sizeof: primary_exp_sizeof)
+			return try evaluateRefToValue(primary_exp_sizeof: primary_exp_sizeof)
 		}
 		if let primary_exp_var = primary_exp as? Var {
-			return evaluateRefToValue(_var: primary_exp_var)
+			return try evaluateRefToValue(_var: primary_exp_var)
 		}
 		if let primary_exp_call = primary_exp as? Primary_Exp_Call {
-			return evaluateRefToValue(primary_exp_call: primary_exp_call)
+			return try evaluateRefToValue(primary_exp_call: primary_exp_call)
 		}
 		if let new_obj_spec = primary_exp as? New_Obj_Spec {
-			return evaluateRefToValue(new_obj_spec: new_obj_spec)
+			return try evaluateRefToValue(new_obj_spec: new_obj_spec)
 		}
 		
-		return .NotExhaustive
+		throw REPLError.NotExhaustive
 	}
 	
-	func evaluateRefToValue(primary_exp_nil: Primary_Exp_Nil) -> REPLResult {
-		return .SuccessReference(ref: ReferenceValue.null(), type: ReferenceType())
+	func evaluateRefToValue(primary_exp_nil: Primary_Exp_Nil) throws -> ReferenceValue {
+		return ReferenceValue.null()
 	}
 	
-	func evaluateRefToValue(primary_exp_exp: Primary_Exp_Exp) -> REPLResult {
-		return evaluateRefToValue(exp: primary_exp_exp.exp)
-	}
-	func evaluateRefToValue(primary_exp_integer: Primary_Exp_Integer) -> REPLResult {
-        var newRef = ReferenceValue.null()
-		let heapMallocRes = globalEnvironment.heap.malloc(size: 1)
-        switch heapMallocRes {
-        case .SuccessValue(let ref as ReferenceValue):
-            newRef = ref
-        default:
-            return heapMallocRes
-        }
-        
-        
-		let heapSetRes = globalEnvironment.heap.set(value: IntegerValue(value: primary_exp_integer.value), addr: newRef)
-        switch heapSetRes {
-        case .SuccessVoid:
-            return .SuccessReference(ref: newRef, type: IntegerType())
-        default:
-            return heapSetRes
-        }
+	func evaluateRefToValue(primary_exp_exp: Primary_Exp_Exp) throws -> ReferenceValue {
+		return try evaluateRefToValue(exp: primary_exp_exp.exp)
 	}
 	
-	func evaluateRefToValue(primary_exp_character: Primary_Exp_Character) -> REPLResult {
-        var newRef = ReferenceValue.null()
-        let heapMallocRes = globalEnvironment.heap.malloc(size: 1)
-        switch heapMallocRes {
-        case .SuccessValue(let ref as ReferenceValue):
-            newRef = ref
-        default:
-            return heapMallocRes
-        }
-        
-        
-        let heapSetRes = globalEnvironment.heap.set(value: CharacterValue(value: primary_exp_character.value), addr: newRef)
-        switch heapSetRes {
-        case .SuccessVoid:
-            return .SuccessReference(ref: newRef, type: CharacterType())
-        default:
-            return heapSetRes
-        }
+	func evaluateRefToValue(primary_exp_integer: Primary_Exp_Integer) throws -> ReferenceValue {
+		let ref = try globalEnvironment.heap.malloc(size: 1, type: IntegerType())
+		try globalEnvironment.heap.set(value: IntegerValue(value: primary_exp_integer.value), addr: ref)
+		return ref
 	}
 	
-	func evaluateRefToValue(primary_exp_boolean: Primary_Exp_Boolean) -> REPLResult {
-        var newRef = ReferenceValue.null()
-        let heapMallocRes = globalEnvironment.heap.malloc(size: 1)
-        switch heapMallocRes {
-        case .SuccessValue(let ref as ReferenceValue):
-            newRef = ref
-        default:
-            return heapMallocRes
-        }
-        
-        
-        let heapSetRes = globalEnvironment.heap.set(value: BooleanValue(value: primary_exp_boolean.value), addr: newRef)
-        switch heapSetRes {
-        case .SuccessVoid:
-            return .SuccessReference(ref: newRef, type: BooleanType())
-        default:
-            return heapSetRes
-        }
+	func evaluateRefToValue(primary_exp_character: Primary_Exp_Character) throws -> ReferenceValue {
+		let ref = try globalEnvironment.heap.malloc(size: 1, type: CharacterType())
+		try globalEnvironment.heap.set(value: CharacterValue(value: primary_exp_character.value), addr: ref)
+		return ref
 	}
 	
-	func evaluateRefToValue(primary_exp_string: Primary_Exp_String) -> REPLResult {
-		return .NotImplemented
+	func evaluateRefToValue(primary_exp_boolean: Primary_Exp_Boolean) throws -> ReferenceValue {
+        let ref = try globalEnvironment.heap.malloc(size: 1, type: BooleanType())
+        try globalEnvironment.heap.set(value: BooleanValue(value: primary_exp_boolean.value), addr: ref)
+		return ref
 	}
 	
-	func evaluateRefToValue(primary_exp_sizeof: Primary_Exp_Sizeof) -> REPLResult {
-		return .NotImplemented
+	func evaluateRefToValue(primary_exp_string: Primary_Exp_String) throws -> ReferenceValue {
+		throw REPLError.NotImplemented
 	}
 	
-	func evaluateRefToValue(primary_exp_call: Primary_Exp_Call) -> REPLResult {
-		return evaluateStm(call_stm: Call_Stm(ident: primary_exp_call.ident, args: primary_exp_call.args))
+	func evaluateRefToValue(primary_exp_sizeof: Primary_Exp_Sizeof) throws -> ReferenceValue {
+		throw REPLError.NotImplemented
 	}
 	
-	func evaluateRefToValue(new_obj_spec: New_Obj_Spec) -> REPLResult {
-		return .NotImplemented
+	func evaluateRefToValue(primary_exp_call: Primary_Exp_Call) throws -> ReferenceValue {
+		do {
+			return try evaluateStm(call_stm: Call_Stm(ident: primary_exp_call.ident, args: primary_exp_call.args))
+		}
+		catch let err {
+			if case REPLControlFlow.ReturnValue(let ref) = err {
+				return ref
+			}
+			if case REPLControlFlow.ReturnVoid = err{
+				return ReferenceValue.null()
+			}
+			throw err
+		}
+	}
+	
+	func evaluateRefToValue(new_obj_spec: New_Obj_Spec) throws -> ReferenceValue {
+		throw REPLError.NotImplemented
 	}
 	
 	// MARK: Var Value
 	
-	func evaluateRefToValue(_var: Var) -> REPLResult {
+	func evaluateRefToValue(_var: Var) throws -> ReferenceValue {
 		if let var_ident = _var as? Var_Ident {
-			return evaluateRefToValue(var_ident: var_ident)
+			return try evaluateRefToValue(var_ident: var_ident)
 		}
 		
-		return .NotExhaustive
+		throw REPLError.NotExhaustive
 	}
 	
-	func evaluateRefToValue(var_ident: Var_Ident) -> REPLResult {
-		return evaluateRefToValue(identifier: var_ident.ident)
+	func evaluateRefToValue(var_ident: Var_Ident) throws -> ReferenceValue {
+		return try evaluateRefToValue(identifier: var_ident.ident)
 	}
 	
-	func evaluateRefToValue(identifier: String) -> REPLResult {
-		if let ref = globalEnvironment.findReferenceOfVariable(ident: identifier) {
-			if let ty = globalEnvironment.findTypeOfVariable(ident: identifier) {
-				return .SuccessReference(ref: ref, type: ty)
-			}
-			return .UnresolvableType(ident: identifier)
-		}
-		return .UnresolvableReference(ident: identifier)
+	func evaluateRefToValue(identifier: String) throws -> ReferenceValue {
+		let ref = try globalEnvironment.findReferenceOfVariable(ident: identifier)
+		return ref
 	}
 }

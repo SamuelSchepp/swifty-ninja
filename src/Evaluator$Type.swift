@@ -11,72 +11,57 @@ import Foundation
 extension Evaluator {
 	// MARK: Type
 	
-	func evaluateType(typeExpression: TypeExpression) -> REPLResult {
+	func evaluateType(typeExpression: TypeExpression) throws -> Type {
 		if let identifierTypeExpression = typeExpression as? IdentifierTypeExpression {
-			return evaluateType(identifierTypeExpression: identifierTypeExpression)
+			return try evaluateType(identifierTypeExpression: identifierTypeExpression)
 		}
 		if let arrayTypeExpression = typeExpression as? ArrayTypeExpression {
-			return evaluateType(arrayTypeExpression: arrayTypeExpression)
+			return try evaluateType(arrayTypeExpression: arrayTypeExpression)
 		}
 		if let recordTypeExpression = typeExpression as? RecordTypeExpression {
-			return evaluateType(recordTypeExpression: recordTypeExpression)
+			return try evaluateType(recordTypeExpression: recordTypeExpression)
 		}
 		
-		return .NotExhaustive
+		throw REPLError.NotExhaustive
 	}
 	
-	func evaluateType(identifierTypeExpression: IdentifierTypeExpression) -> REPLResult {
-		return evaluateType(typeExpressionIdentifier: identifierTypeExpression.ident)
+	func evaluateType(identifierTypeExpression: IdentifierTypeExpression) throws -> Type {
+		return try evaluateType(typeExpressionIdentifier: identifierTypeExpression.ident)
 	}
 	
-	func evaluateType(arrayTypeExpression: ArrayTypeExpression) -> REPLResult {
-		let identEval = evaluateType(typeExpressionIdentifier: arrayTypeExpression.ident)
-		switch identEval {
-		case .SuccessType(let type):
-			return .SuccessType(type: ArrayType(base: type, dims: arrayTypeExpression.dims))
-		default:
-			return identEval
-		}
+	func evaluateType(arrayTypeExpression: ArrayTypeExpression) throws -> Type {
+		let baseType = try evaluateType(typeExpressionIdentifier: arrayTypeExpression.ident)
+		return ArrayType(base: baseType, dims: arrayTypeExpression.dims)
 	}
 	
-	func evaluateType(typeExpressionIdentifier: String) -> REPLResult {
+	func evaluateType(typeExpressionIdentifier: String) throws -> Type {
 		if let ty = globalEnvironment.typeDecMap[typeExpressionIdentifier] {
-			return .SuccessType(type: ty)
+			return ty
 		}
-		return .UnresolvableType(ident: typeExpressionIdentifier)
+		throw REPLError.UnresolvableType(ident: typeExpressionIdentifier)
 	}
 	
-	func evaluateType(recordTypeExpression: RecordTypeExpression) -> REPLResult {
+	func evaluateType(recordTypeExpression: RecordTypeExpression) throws -> Type {
 		var memb = [String: Type]()
-		var error: REPLResult? = .none
 		
-		recordTypeExpression.memb_decs.forEach({memb_dec in
-			let eval = evaluateType(typeExpression: memb_dec.type)
-			switch eval {
-			case .SuccessType(let t):
-				memb[memb_dec.ident] = t
-			default:
-				error = eval
-			}
+		try recordTypeExpression.memb_decs.forEach({memb_dec in
+			memb[memb_dec.ident] = try evaluateType(typeExpression: memb_dec.type)
 		})
 		
-		return error ?? .SuccessType(type: RecordType(fields: memb))
+		return RecordType(fields: memb)
 	}
 	
 	// Mark: Var Type
 	
-	func evaluateType(_var: Var) -> REPLResult {
+	func evaluateType(_var: Var) throws -> Type {
 		if let var_ident = _var as? Var_Ident {
-			return evaluateType(var_ident: var_ident)
+			return try evaluateType(var_ident: var_ident)
 		}
 		
-		return .NotExhaustive
+		throw REPLError.NotExhaustive
 	}
 	
-	func evaluateType(var_ident: Var_Ident) -> REPLResult {
-		if let ty = globalEnvironment.findTypeOfVariable(ident: var_ident.ident) {
-			return .SuccessType(type: ty)
-		}
-		return .UnresolvableType(ident: var_ident.ident)
+	func evaluateType(var_ident: Var_Ident) throws -> Type {
+		return try globalEnvironment.findTypeOfVariable(ident: var_ident.ident)
 	}
 }

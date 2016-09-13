@@ -16,21 +16,19 @@ class StmTests: XCTestCase {
 		return repl.evaluator.globalEnvironment
 	}
 	
-	func testIf() {
-		_ = repl.handle(input: "global Integer a; global Integer b;")
-		_ = repl.handle(input: "a = 4; b = 5;")
-		_ = repl.handle(input: "if ( a == 4) { b = b + a; } else { b = 0; }")
-		let result = repl.handle(input: "b")
+	func testIf() throws {
+		_ = try repl.handle(input: "global Integer a; global Integer b;")
+		_ = try repl.handle(input: "a = 4; b = 5;")
+		_ = try repl.handle(input: "if ( a == 4) { b = b + a; } else { b = 0; }")
+		let result = try repl.handle(input: "b")
 		
         switch result {
-        case .SuccessReference(let ref, _ as IntegerType):
-            let heapRes = envi().heap.get(addr: ref)
-            switch heapRes {
-            case .SuccessValue(let val as IntegerValue):
-                XCTAssertEqual(val.value, 9)
-            default:
-                XCTFail()
-            }
+        case .Exp(let ref):
+			guard let value = try envi().heap.get(addr: ref) as? IntegerValue else {
+				XCTFail()
+				return
+			}
+			XCTAssertEqual(value.value, 9)
             
         default:
             XCTFail()
@@ -38,131 +36,131 @@ class StmTests: XCTestCase {
 	}
 	
 	func testNull() {
-		_ = repl.handle(input: "global Integer a;")
-		let result = repl.handle(input: "a")
-		
-        switch result {
-        case .SuccessReference(let ref, _ as IntegerType):
-            XCTAssertEqual(ref.value, 0)
-        default:
-            XCTFail()
-        }
+		do {
+			_ = try repl.handle(input: "global Integer a;")
+			_ = try repl.handle(input: "a")
+		}
+		catch let err {
+			switch err {
+			case REPLError.NullPointer:
+				/* OK */
+				break
+			default:
+				XCTFail()
+			}
+		}
 	}
 	
 	func testNull2() {
-		_ = repl.handle(input: "global Integer a;")
-		let result = repl.handle(input: "if (a == 0) {}")
-		
-        switch result {
-        case .NullPointer:
-            break;
-        default:
-            XCTFail()
-        }
-	}
-	
-	func testWhile() {
-		_ = repl.handle(input: "global Integer akku;")
-		_ = repl.handle(input: "global Integer index;")
-		_ = repl.handle(input: "akku = 1;")
-		_ = repl.handle(input: "index = 0;")
-		let expRes = repl.handle(input: "while(index < 5) { akku = akku * 2; index = index + 1; }")
-		let result = repl.handle(input: "akku")
-		
-		print(result)
-		
-		if case .SuccessReference(let ref, _ as IntegerType) = result  {
-			XCTAssertEqual(ref.value, 32)
-			if case .SuccessVoid = expRes {
-				/* ok */
-			}
-			else {
+		do {
+			_ = try repl.handle(input: "global Integer a;")
+			_ = try repl.handle(input: "if (a == 0) {}")
+		}
+		catch let err {
+			switch err {
+			case REPLError.NullPointer:
+				/* OK */
+				break
+			default:
 				XCTFail()
 			}
 		}
-		else {
+	}
+	
+	func testWhile() throws {
+		_ = try repl.handle(input: "global Integer akku;")
+		_ = try repl.handle(input: "global Integer index;")
+		_ = try repl.handle(input: "akku = 1;")
+		_ = try repl.handle(input: "index = 0;")
+		_ = try repl.handle(input: "while(index < 5) { akku = akku * 2; index = index + 1; }")
+		let result = try repl.handle(input: "akku")
+		
+		print(result)
+		
+		switch result {
+		case .Exp(let ref):
+			guard let val = try envi().heap.get(addr: ref) as? IntegerValue else {
+				XCTFail()
+				return
+			}
+			XCTAssertEqual(val.value, 32)
+		default:
 			XCTFail()
 		}
 	}
 	
-	func testWhile2() {
-		_ = repl.handle(input: "global Integer akku;")
-		_ = repl.handle(input: "global Integer index;")
-		_ = repl.handle(input: "akku = 1;")
-		_ = repl.handle(input: "index = 0;")
-		let expRes = repl.handle(input: "while(true) { if(index == 6) break; akku = akku * 2; index = index + 1; }")
-		let result = repl.handle(input: "akku")
+	func testWhile2() throws {
+		_ = try repl.handle(input: "global Integer akku;")
+		_ = try repl.handle(input: "global Integer index;")
+		_ = try repl.handle(input: "akku = 1;")
+		_ = try repl.handle(input: "index = 0;")
+		_ = try repl.handle(input: "while(true) { if(index == 6) break; akku = akku * 2; index = index + 1; }")
+		let result = try repl.handle(input: "akku")
 		
 		print(result)
 		
-		if case .SuccessReference(let ref, _ as IntegerType) = result  {
-			XCTAssertEqual(ref.value, 64)
-			if case .SuccessVoid = expRes {
-				/* ok */
-			}
-			else {
+		switch result {
+		case .Exp(let ref):
+			guard let val = try envi().heap.get(addr: ref) as? IntegerValue else {
 				XCTFail()
+				return
 			}
-		}
-		else {
+			XCTAssertEqual(val.value, 64)
+		default:
 			XCTFail()
 		}
 	}
 	
-	func testDo() {
-		_ = repl.handle(input: "global Integer akku;")
-		_ = repl.handle(input: "global Integer index;")
-		_ = repl.handle(input: "akku = 1;")
-		_ = repl.handle(input: "index = 0;")
-		let expRes = repl.handle(input: "do { akku = akku * 2; index = index + 1; } while(index < 10); ")
-		let result = repl.handle(input: "akku")
+	func testDo() throws {
+		_ = try repl.handle(input: "global Integer akku;")
+		_ = try repl.handle(input: "global Integer index;")
+		_ = try repl.handle(input: "akku = 1;")
+		_ = try repl.handle(input: "index = 0;")
+		_ = try repl.handle(input: "do { akku = akku * 2; index = index + 1; } while(index < 10); ")
+		let result = try repl.handle(input: "akku")
 		
 		print(result)
 		
-		if case .SuccessReference(let ref, _ as IntegerType) = result  {
-			XCTAssertEqual(ref.value, 1024)
-			if case .SuccessVoid = expRes {
-				/* ok */
-			}
-			else {
+		switch result {
+		case .Exp(let ref):
+			guard let val = try envi().heap.get(addr: ref) as? IntegerValue else {
 				XCTFail()
+				return
 			}
-		}
-		else {
+			XCTAssertEqual(val.value, 1024)
+		default:
 			XCTFail()
 		}
 	}
 	
-	func testDo2() {
-		_ = repl.handle(input: "global Integer akku;")
-		_ = repl.handle(input: "global Integer index;")
-		_ = repl.handle(input: "akku = 1;")
-		_ = repl.handle(input: "index = 0;")
-		let expRes = repl.handle(input: "do { akku = akku * 2; index = index + 1; if(index == 9) break; } while(true); ")
-		let result = repl.handle(input: "akku")
+	func testDo2() throws {
+		_ = try repl.handle(input: "global Integer akku;")
+		_ = try repl.handle(input: "global Integer index;")
+		_ = try repl.handle(input: "akku = 1;")
+		_ = try repl.handle(input: "index = 0;")
+		_ = try repl.handle(input: "do { akku = akku * 2; index = index + 1; if(index == 9) break; } while(true); ")
+		let result = try repl.handle(input: "akku")
 		
 		print(result)
 		
-		if case .SuccessReference(let ref, _ as IntegerType) = result  {
-			XCTAssertEqual(ref.value, 512)
-			if case .SuccessVoid = expRes {
-				/* ok */
-			}
-			else {
+		switch result {
+		case .Exp(let ref):
+			guard let val = try envi().heap.get(addr: ref) as? IntegerValue else {
 				XCTFail()
+				return
 			}
-		}
-		else {
+			XCTAssertEqual(val.value, 512)
+		default:
 			XCTFail()
 		}
 	}
 	
-	func testFuncDec() {
-		let result = repl.handle(input: "Integer add(Integer in) { return in + 1; }")
+	func testFuncDec() throws {
+		let result = try repl.handle(input: "Integer add(Integer in) { return in + 1; }")
 		print(result)
 		envi().dump()
 		
-		if case .SuccessDeclaration = result {
+		if case .FuncDec = result {
 			let isString = envi().functions["add"]!.description
             let targetString = UserFunction(func_dec: Func_Dec(
 				type: IdentifierTypeExpression(ident: "Integer"),
@@ -192,33 +190,49 @@ class StmTests: XCTestCase {
 		}
 	}
 	
-	func testFuncDec2() {
-		_ = repl.handle(input: "global Integer res;")
-		_ = repl.handle(input: "Integer add(Integer in) { return in + 1; }")
-		_ = repl.handle(input: "res = add(3);")
-		let result  = repl.handle(input: "res")
+	func testFuncDec2() throws {
+		do {
+		_ = try repl.handle(input: "global Integer res;")
+		_ = try repl.handle(input: "Integer add(Integer in) { return in + 1; }")
+		_ = try repl.handle(input: "res = add(10);")
+		let result  = try repl.handle(input: "res")
+		
 		print(result)
 		envi().dump()
 		
-		if case .SuccessReference(let ref, _ as IntegerType) = result  {
-			XCTAssertEqual(ref.value, 4)
+		if case .Exp(let ref) = result  {
+			guard let value = try envi().heap.get(addr: ref) as? IntegerValue else {
+				XCTFail()
+				return
+			}
+			XCTAssertEqual(value.value, 11)
 		}
 		else {
 			XCTFail()
+			}
+		}
+		catch let err {
+			print(err)
+			throw err
 		}
 	}
 	
-	func testFuncDec3() {
-		_ = repl.handle(input: "global Integer n; global Integer m;")
-		_ = repl.handle(input: "n = 10;")
-		_ = repl.handle(input: "Integer factorial(Integer n) { local Integer r; r = 1; while (n > 0) { r = r * n; n = n - 1; } return r; }")
-		_ = repl.handle(input: "m = factorial(n);")
-		let result  = repl.handle(input: "m")
+	func testFuncDec3() throws {
+		_ = try repl.handle(input: "global Integer n; global Integer m;")
+		_ = try repl.handle(input: "n = 10;")
+		_ = try repl.handle(input: "Integer factorial(Integer n) { local Integer r; r = 1; while (n > 0) { r = r * n; n = n - 1; } return r; }")
+		_ = try repl.handle(input: "m = factorial(n);")
+		let result  = try repl.handle(input: "m")
+		
 		print(result)
 		envi().dump()
 		
-		if case .SuccessReference(let ref, _ as IntegerType) = result  {
-			XCTAssertEqual(ref.value, 3628800)
+		if case .Exp(let ref) = result  {
+			guard let value = try envi().heap.get(addr: ref) as? IntegerValue else {
+				XCTFail()
+				return
+			}
+			XCTAssertEqual(value.value, 3628800)
 		}
 		else {
 			XCTFail()

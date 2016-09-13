@@ -28,23 +28,8 @@ class GlobalEnvironment {
         varTypeMap = [:]
         globalVariables = [:]
         functions = [
-            "writeInteger": SystemFunction(
-                type: .none,
-                ident: "writeInteger",
-                par_decs: [Par_Dec(type: IdentifierTypeExpression(ident: "Integer"), ident: "nr")],
-                callee: { globalInvironment in
-                    guard let ref = globalInvironment.findReferenceOfVariable(ident: "nr") else { return .UnresolvableReference(ident: "nr") }
-                    
-                    let valueRes = globalInvironment.heap.get(addr: ref)
-                    switch valueRes {
-                    case .SuccessValue(let val as IntegerValue):
-                        print(val.value, separator: "", terminator: "")
-                        return .SuccessVoid
-                    default:
-                        return valueRes
-                    }
-                }
-            )
+            "writeInteger": Framework.writeInteger,
+            "writeCharacter": Framework.writeCharacter
         ]
 		
 		localStack = Stack()
@@ -53,7 +38,7 @@ class GlobalEnvironment {
 	
 	// MARK: Variables
 	
-	func setVarRef(ident: String, value: ReferenceValue) {
+	func resetVarRef(ident: String, value: ReferenceValue) {
 		if localStack.hasElements() {
 			if localStack.peek()!.variables.keys.contains(ident) {
 				localStack.peek()!.variables[ident] = value
@@ -64,24 +49,24 @@ class GlobalEnvironment {
 		}
 	}
 	
-	func findReferenceOfVariable(ident: String) -> ReferenceValue? {
+	func findReferenceOfVariable(ident: String) throws -> ReferenceValue {
 		if let ref = localStack.peek()?.variables[ident] {
 			return ref
 		}
 		if let ref = globalVariables[ident] {
 			return ref
 		}
-		return .none
+		throw REPLError.UnresolvableReference(ident: ident)
 	}
 	
-	func findTypeOfVariable(ident: String) -> Type? {
+	func findTypeOfVariable(ident: String) throws -> Type {
 		if let ty = localStack.peek()?.varTypeMap[ident] {
 			return ty
 		}
 		if let ty = varTypeMap[ident] {
 			return ty
 		}
-		return .none
+		throw REPLError.UnresolvableType(ident: ident)
 	}
     
     func identifierExists(ident: String) -> Bool {
@@ -123,7 +108,7 @@ class GlobalEnvironment {
 		heap.dump()
 	}
 	
-	func heapPeek() -> Value {
-		return heap.last!
+	func heapPeek() throws -> Value {
+		return try heap.last()
 	}
 }

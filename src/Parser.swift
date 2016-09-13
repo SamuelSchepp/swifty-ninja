@@ -28,7 +28,7 @@ class Parser {
 		return Program(glob_decs: glob_decs)
 	}
 	
-	func parse_Glob_Decs() -> [Glob_Dec]? {
+	func parse_Glob_Decs() -> Glob_Decs? {
 		var glob_decs = [Glob_Dec]()
 		
 		while(true) {
@@ -48,7 +48,7 @@ class Parser {
 			break
 		}
 		
-		return glob_decs
+		return Glob_Decs(glob_decs: glob_decs)
 	}
 	
 	// MARK: Type Dec

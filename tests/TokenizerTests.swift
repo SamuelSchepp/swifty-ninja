@@ -90,6 +90,7 @@ class TokenizerTests: XCTestCase {
 			"'='":		[CHARACTERLIT(value: "=")],
 			"'7'":		[CHARACTERLIT(value: "7")],
 			"'.'":		[CHARACTERLIT(value: ".")],
+			"' '":		[CHARACTERLIT(value: " ")],
 			"'\\'":		[CHARACTERLIT(value: "\\")],
 			"('ß')":	[LPAREN(), CHARACTERLIT(value: "ß"), RPAREN()]
 		])

@@ -21,12 +21,18 @@ extension String {
 protocol ASTNode: CustomStringConvertible { }
 
 struct Program: ASTNode {
-	let glob_decs: [Glob_Dec]
+	let glob_decs: Glob_Decs
 	
 	var description: String { get { return glob_decs.description } }
 }
 
 // MARK: Global Declarations
+
+struct Glob_Decs: ASTNode {
+	let glob_decs: [Glob_Dec]
+	
+	var description: String { get { return glob_decs.description } }
+}
 
 protocol Glob_Dec: ASTNode { }
 

@@ -38,7 +38,7 @@ struct SystemFunction: Function {
     let type: TypeExpression?
     let ident: String
     let par_decs: [Par_Dec]
-    let callee: (GlobalEnvironment) -> REPLResult
+    let callee: (GlobalEnvironment) throws -> Void
     
     var description: String {
         get {

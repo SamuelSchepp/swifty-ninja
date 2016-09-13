@@ -17,37 +17,32 @@ class Heap {
     
     // MARK: Heap
     
-    func get(addr: ReferenceValue) -> REPLResult {
-        if checkBounds(addr: addr) {
-            return .SuccessValue(val: heap[addr.value])
-        }
-        return .HeapBoundsFault
+    func get(addr: ReferenceValue) throws -> Value {
+		if addr.value == 0 {
+			throw REPLError.NullPointer
+		}
+		try checkBounds(addr: addr)
+		return heap[addr.value]
     }
     
-    func set(value: Value, addr: ReferenceValue) -> REPLResult {
-        if checkBounds(addr: addr) {
-            heap[addr.value] = value
-            return REPLResult.SuccessVoid
-        }
-        else {
-            return .HeapBoundsFault
-        }
+    func set(value: Value, addr: ReferenceValue) throws {
+		try checkBounds(addr: addr)
+		heap[addr.value] = value
     }
     
-    private func checkBounds(addr: ReferenceValue) -> Bool {
+    private func checkBounds(addr: ReferenceValue) throws {
         let condi = addr.value < heap.count && addr.value > 0
         if condi {
-            return true
+            /* ok */
         }
         else {
-            print("<runtime_error_heapbounds>")
-            return false
+            throw REPLError.HeapBoundsFault(heapSize: heap.count, ref: addr.value)
         }
     }
     
-    func malloc(size: Int) -> REPLResult {
+	func malloc(size: Int, type: Type) throws -> ReferenceValue {
         if size <= 0 {
-            return .HeapBoundsFault
+			throw REPLError.FatalError
         }
         
         let start = heap.count
@@ -55,30 +50,21 @@ class Heap {
             heap.append(UninitializedValue())
         }
         
-        return .SuccessValue(val: ReferenceValue(value: start))
+		return ReferenceValue(value: start, type: type)
     }
     
-    func heapIsTrue(addr: ReferenceValue) -> REPLResult {
-        let valRes = get(addr: addr)
-        switch valRes {
-        case .SuccessValue(_ as BooleanValue):
-            return valRes
-        case .SuccessValue(_):
-            return .TypeMissmatch
-        default:
-            return valRes
-        }
-    }
-    
-    var last: Value? {
-        get {
-            return heap.last
-        }
+    func last() throws -> Value {
+		if let l = heap.last {
+			return l
+		}
+		else {
+			throw REPLError.FatalError
+		}
     }
     
     func dump() {
         for i in 1..<heap.count {
-            print("\(ReferenceValue(value: i))  \(heap[i])")
+            print("\(ReferenceValue(value: i, type: ReferenceType()))  \(heap[i])")
         }
         print()
     }

@@ -128,7 +128,12 @@ class Tokenizer {
 			return .none
 		}
 		
+		let oldskipper = scanner.charactersToBeSkipped
+		scanner.charactersToBeSkipped = .none
+		
 		scanner.scanUpTo("'", into: &buffer)
+		
+		scanner.charactersToBeSkipped = oldskipper
 		
 		if (buffer!.length != 1 && !["\\n", "\\r", "\\t"].contains(buffer! as String)) {
 			scanner.scanLocation = location

@@ -34,16 +34,20 @@ class App {
 				}
 				else {
 					buffer += input
-					let result = repl.handle(input: buffer)
-					
-					switch result {
-					case .TokenError:
-						break
-					case .ParseError(_):
-						break
-					default:
-						print(result)
-						buffer = ""
+					do {
+						let res = try repl.handle(input: buffer)
+						print(res)
+					}
+					catch let err {
+						switch err {
+						case REPLError.TokenError:
+							break
+						case REPLError.ParseError(_):
+							break
+						default:
+							print(err)
+							buffer = ""
+						}
 					}
 				}
 			}
