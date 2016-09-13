@@ -170,4 +170,8 @@ class GlobalEnvironment {
 		}
 		print()
 	}
+	
+	func heapPeek() -> Value {
+		return heap.last!
+	}
 }

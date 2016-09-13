@@ -11,7 +11,7 @@ import XCTest
 class TypeTests: XCTestCase {
 	
 	func test_Type_Dec() {
-		Helper.check(map: [
+		Helper.checkResult(map: [
 			"type Fraction = record { Integer num; Integer den; };":
 				.SuccessDeclaration,
 			"type Number = Integer;":
@@ -23,7 +23,7 @@ class TypeTests: XCTestCase {
 	}
 	
 	func test_ArrayType() {
-		Helper.check(map: [
+		Helper.checkResult(map: [
 			"Integer[]":
                 .SuccessType(type: ArrayType(base: IntegerType(), dims: 1)),
 			"Boolean[][]":
@@ -35,7 +35,7 @@ class TypeTests: XCTestCase {
 	}
 	
 	func test_RecordType() {
-		Helper.check(map: [
+		Helper.checkResult(map: [
 			"record { }":
                 .SuccessType(type: RecordType(fields: [:])),
 			"record { Integer zähler; Integer nenner; }":

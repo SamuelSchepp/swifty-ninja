@@ -47,7 +47,7 @@ class Evaluator {
             return evaluateType(typeExpression: typeExp)
         }
 		if let exp = ast as? Exp {
-			return evaluateValue(exp: exp)
+			return evaluateRefToValue(exp: exp)
 		}
 		
 		return .NotExhaustive
@@ -105,7 +105,7 @@ class Evaluator {
 		let tyEval = evaluateType(typeExpression: gvar_dec.type)
 		if case .SuccessType(let ty) = tyEval {
 			globalEnvironment.varTypeMap[gvar_dec.ident] = ty
-			globalEnvironment.variables[gvar_dec.ident] = ReferenceValue.null()
+			globalEnvironment.globalVariables[gvar_dec.ident] = ReferenceValue.null()
 			return .SuccessDeclaration
 		}
 		

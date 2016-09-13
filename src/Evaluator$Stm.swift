@@ -70,10 +70,10 @@ extension Evaluator {
 	
 	func evaluateStm(assign_stm: Assign_Stm) -> REPLResult {
 		let typeEval = evaluateType(_var: assign_stm._var)
-		let valueEval = evaluateValue(exp: assign_stm.exp)
+		let refEval = evaluateRefToValue(exp: assign_stm.exp)
 		
 		/* type check */
-		if case .SuccessReference(let refRHS, let tyRHS) = valueEval {
+		if case .SuccessReference(let refRHS, let tyRHS) = refEval {
 			if case .SuccessType(let tyLHS) = typeEval {
 				if tyRHS.description != tyLHS.description {
 					return .TypeMissmatch
@@ -90,7 +90,7 @@ extension Evaluator {
 			}
 		}
 		else {
-			return valueEval
+			return refEval
 		}
 	}
 	
@@ -101,9 +101,10 @@ extension Evaluator {
 	}
 	
 	func evaluateStm(if_stm: If_Stm) -> REPLResult {
-		let expEval = evaluateValue(exp: if_stm.exp)
-		if case .SuccessValue(let val as BooleanValue, _ as BooleanType) = expEval {
-			if(val.value) {
+		let refEval = evaluateRefToValue(exp: if_stm.exp)
+		if case .SuccessReference(let ref, _ as BooleanType) = refEval {
+			cpu.unaryRegister = ref
+			if(cpu.isTrue()) {
 				return evaluateStm(stm: if_stm.stm)
 			}
 			else {
@@ -113,30 +114,31 @@ extension Evaluator {
 			}
 			return .SuccessVoid
 		}
-		if case .SuccessValue(_, _) = expEval {
+		if case .SuccessReference(_, _) = refEval {
 			return .TypeMissmatch
 		}
 		
-		return expEval
+		return refEval
 	}
 	
 	func evaluateStm(while_stm: While_Stm) -> REPLResult {
 		while(true) {
-			let condiEval = evaluateValue(exp: while_stm.exp)
-			if case .SuccessValue(let val as BooleanValue, _ as BooleanType) = condiEval {
-				if(!val.value) {
+			let condiRef = evaluateRefToValue(exp: while_stm.exp)
+			if case .SuccessReference(let ref, _ as BooleanType) = condiRef {
+				cpu.unaryRegister = ref
+				if(!cpu.isTrue()) {
 					return .SuccessVoid
 				}
 			}
 			else {
-				return condiEval
+				return condiRef
 			}
 			
 			let eval = evaluateStm(stm: while_stm.stm)
 			if case .BreakInstr = eval {
 				return .SuccessVoid
 			}
-			if case .ReturnValue(_, _) = eval {
+			if case .ReturnRefToValue(_, _) = eval {
 				return eval
 			}
 			if case .ReturnVoid = eval {
@@ -151,21 +153,22 @@ extension Evaluator {
 			if case .BreakInstr = eval {
 				return .SuccessVoid
 			}
-			if case .ReturnValue(_, _) = eval {
+			if case .ReturnRefToValue(_, _) = eval {
 				return eval
 			}
 			if case .ReturnVoid = eval {
 				return eval
 			}
 			
-			let condiEval = evaluateValue(exp: do_stm.exp)
-			if case .SuccessValue(let val as BooleanValue, _ as BooleanType) = condiEval {
-				if(!val.value) {
+			let condiRefEval = evaluateRefToValue(exp: do_stm.exp)
+			if case .SuccessReference(let ref, _ as BooleanType) = condiRefEval {
+				cpu.unaryRegister = ref
+				if(!cpu.isTrue()) {
 					return .SuccessVoid
 				}
 			}
 			else {
-				return condiEval
+				return condiRefEval
 			}
 		}
 	}
@@ -176,7 +179,7 @@ extension Evaluator {
 	
 	func evaluateStm(return_stm: Return_Stm) -> REPLResult {
 		if let exp = return_stm.exp {
-			return evaluateValue(exp: exp)
+			return evaluateRefToValue(exp: exp)
 		}
 		return .ReturnVoid
 	}
@@ -191,8 +194,8 @@ extension Evaluator {
 		for i in 0..<call_stm.args.count {
 			
 			/* evaluate value and type of parameter */
-			let callExpEval = evaluateValue(exp: call_stm.args[i].exp)
-			if case .SuccessValue(let val, let ty) = callExpEval {
+			let callExpEval = evaluateRefToValue(exp: call_stm.args[i].exp)
+			if case .SuccessReference(let ref, let ty) = callExpEval {
 				
 				/* evaluate type of parameter declaration */
 				let decTypeEval = evaluateType(typeExpression: function.par_decs[i].type)
@@ -200,9 +203,7 @@ extension Evaluator {
 					
 					/* check types */
 					if ty.description == ty2.description {
-						/* put value in local environment */
-						let ref = globalEnvironment.malloc(size: 1)
-						if !globalEnvironment.heapSet(value: val, addr: ref) { return .HeapBoundsFault }
+						/* put ref in local environment */
 						localEnvironment.variables[function.par_decs[i].ident] = ref
 						
 						/* put type in local environment */
@@ -227,8 +228,8 @@ extension Evaluator {
 		
 		_ = globalEnvironment.localStack.pop()
 		
-		if case .ReturnValue(let val, let ty) = result {
-			return .SuccessValue(value: val, type: ty)
+		if case .ReturnRefToValue(let ref, let ty) = result {
+			return .SuccessReference(ref: ref, type: ty)
 		}
 		if case .ReturnVoid = result {
 			return .SuccessVoid

@@ -10,8 +10,28 @@ import Foundation
 import XCTest
 
 class Helper {
-	class func check(map: [String: REPLResult]) {
-		map.forEach { source, target in
+	class func checkHeap(map: [String: Value]) {
+		map.forEach { source, value in
+			print("==== Source ====")
+			print(source)
+			
+			print("==== Result ====")
+			let repl = REPL()
+			_ = repl.handle(input: source)
+			let result = repl.evaluator.globalEnvironment.heapPeek()
+			
+			
+			let resultString = String(reflecting: result)
+			let targetString = String(reflecting: value)
+			
+			print(resultString)
+			
+			XCTAssertEqual(targetString, resultString)
+		}
+	}
+	
+	class func checkResult(map: [String: REPLResult]) {
+		map.forEach { source, value in
 			print("==== Source ====")
 			print(source)
 			
@@ -19,8 +39,9 @@ class Helper {
 			let repl = REPL()
 			let result = repl.handle(input: source)
 			
+			
 			let resultString = String(reflecting: result)
-			let targetString = String(reflecting: target)
+			let targetString = String(reflecting: value)
 			
 			print(resultString)
 			

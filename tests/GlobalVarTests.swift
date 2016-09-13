@@ -20,8 +20,8 @@ class GlobalVarTests: XCTestCase {
 		let envi = repl.evaluator.globalEnvironment
 		envi.dump()
 		
-		XCTAssertEqual(String(reflecting: envi.variables["myList"]!), String(reflecting: ReferenceValue.null()))
-		XCTAssertEqual(String(reflecting: envi.variables["myNumber"]!), String(reflecting: ReferenceValue.null()))
+		XCTAssertEqual(String(reflecting: envi.globalVariables["myList"]!), String(reflecting: ReferenceValue.null()))
+		XCTAssertEqual(String(reflecting: envi.globalVariables["myNumber"]!), String(reflecting: ReferenceValue.null()))
 		
 		XCTAssertEqual(String(reflecting: envi.varTypeMap["myList"]!), String(reflecting: ArrayType(base: IntegerType(), dims: 1)))
 		XCTAssertEqual(String(reflecting: envi.varTypeMap["myNumber"]!), String(reflecting: IntegerType()))

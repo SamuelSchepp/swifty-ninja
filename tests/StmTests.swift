@@ -22,9 +22,9 @@ class StmTests: XCTestCase {
 		_ = repl.handle(input: "if ( a == 4) { b = b + a; } else { b = 0; }")
 		let result = repl.handle(input: "b")
 		
-		if case .SuccessValue(let val as IntegerValue, _ as IntegerType) = result {
+		if case .SuccessReference(let ref, _ as IntegerType) = result {
 			print(result)
-			XCTAssertEqual(val.value, 9)
+			XCTAssertEqual(ref.value, 9)
 		}
 		else {
 			XCTFail()
@@ -65,8 +65,8 @@ class StmTests: XCTestCase {
 		
 		print(result)
 		
-		if case .SuccessValue(let _val as IntegerValue, _ as IntegerType) = result {
-			XCTAssertEqual(_val.value, 32)
+		if case .SuccessReference(let ref, _ as IntegerType) = result  {
+			XCTAssertEqual(ref.value, 32)
 			if case .SuccessVoid = expRes {
 				/* ok */
 			}
@@ -89,8 +89,8 @@ class StmTests: XCTestCase {
 		
 		print(result)
 		
-		if case .SuccessValue(let _val as IntegerValue, _ as IntegerType) = result {
-			XCTAssertEqual(_val.value, 64)
+		if case .SuccessReference(let ref, _ as IntegerType) = result  {
+			XCTAssertEqual(ref.value, 64)
 			if case .SuccessVoid = expRes {
 				/* ok */
 			}
@@ -113,8 +113,8 @@ class StmTests: XCTestCase {
 		
 		print(result)
 		
-		if case .SuccessValue(let _val as IntegerValue, _ as IntegerType) = result {
-			XCTAssertEqual(_val.value, 1024)
+		if case .SuccessReference(let ref, _ as IntegerType) = result  {
+			XCTAssertEqual(ref.value, 1024)
 			if case .SuccessVoid = expRes {
 				/* ok */
 			}
@@ -137,8 +137,8 @@ class StmTests: XCTestCase {
 		
 		print(result)
 		
-		if case .SuccessValue(let _val as IntegerValue, _ as IntegerType) = result {
-			XCTAssertEqual(_val.value, 512)
+		if case .SuccessReference(let ref, _ as IntegerType) = result  {
+			XCTAssertEqual(ref.value, 512)
 			if case .SuccessVoid = expRes {
 				/* ok */
 			}
@@ -194,8 +194,8 @@ class StmTests: XCTestCase {
 		print(result)
 		envi().dump()
 		
-		if case .SuccessValue(let val as IntegerValue, _ as IntegerType) = result {
-			XCTAssertEqual(val.value, 4)
+		if case .SuccessReference(let ref, _ as IntegerType) = result  {
+			XCTAssertEqual(ref.value, 4)
 		}
 		else {
 			XCTFail()
@@ -211,8 +211,8 @@ class StmTests: XCTestCase {
 		print(result)
 		envi().dump()
 		
-		if case .SuccessValue(let val as IntegerValue, _ as IntegerType) = result {
-			XCTAssertEqual(val.value, 3628800)
+		if case .SuccessReference(let ref, _ as IntegerType) = result  {
+			XCTAssertEqual(ref.value, 3628800)
 		}
 		else {
 			XCTFail()

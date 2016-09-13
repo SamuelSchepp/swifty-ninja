@@ -19,7 +19,7 @@ enum REPLResult: CustomStringConvertible { case
 	UnresolvableType(ident: String),
 	
 	BreakInstr,
-	ReturnValue(value: Value, type: Type),
+	ReturnRefToValue(ref: ReferenceValue, type: Type),
 	ReturnVoid,
 	
 	NullPointer,
@@ -58,8 +58,8 @@ enum REPLResult: CustomStringConvertible { case
 			
 		case .BreakInstr:
 			return "Break instruction"
-		case .ReturnValue(let val, let ty):
-			return "\(val) (\(ty))"
+		case .ReturnRefToValue(let ref, let ty):
+			return "\(ref) (\(ty))"
 		case .ReturnVoid:
 			return "<Void>"
 			

@@ -20,7 +20,6 @@
 		7E4A7FF21D846852008968E2 /* GlobalEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4A7FF11D846852008968E2 /* GlobalEnvironment.swift */; };
 		7E4A7FF31D846852008968E2 /* GlobalEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4A7FF11D846852008968E2 /* GlobalEnvironment.swift */; };
 		7E4CAA221D82FCB800636BC2 /* ExpressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4CAA211D82FCB800636BC2 /* ExpressionTests.swift */; };
-		7E4CAA241D82FE2B00636BC2 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4CAA231D82FE2B00636BC2 /* Helper.swift */; };
 		7E4CAA251D833C0400636BC2 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A8FA71D82235700093087 /* App.swift */; };
 		7E4CAA271D83430000636BC2 /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4CAA261D83430000636BC2 /* Evaluator.swift */; };
 		7E4CAA281D83430000636BC2 /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4CAA261D83430000636BC2 /* Evaluator.swift */; };
@@ -46,6 +45,7 @@
 		7E8A02C21D82BB58006C6AE3 /* TypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCCCDE1D80CAF000FCCAC9 /* TypeTests.swift */; };
 		7E8DD5E01D84308D006E5AF6 /* REPL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8DD5DF1D84308D006E5AF6 /* REPL.swift */; };
 		7E8DD5E11D84308D006E5AF6 /* REPL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8DD5DF1D84308D006E5AF6 /* REPL.swift */; };
+		7E92F2E41D87EE0F00A2A494 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E92F2E21D87EE0F00A2A494 /* Helper.swift */; };
 		7EAB30A91D81A3F0009CAB4A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAB30A81D81A3F0009CAB4A /* Parser.swift */; };
 		7EB4E4451D81F0D80063AFA1 /* TokenStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB4E4441D81F0D80063AFA1 /* TokenStack.swift */; };
 		7EC18C051D84B4C100F5F630 /* GlobalVarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC18C031D84B4C100F5F630 /* GlobalVarTests.swift */; };
@@ -138,7 +138,6 @@
 		7E4A7FEE1D845E27008968E2 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		7E4A7FF11D846852008968E2 /* GlobalEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalEnvironment.swift; sourceTree = "<group>"; };
 		7E4CAA211D82FCB800636BC2 /* ExpressionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionTests.swift; sourceTree = "<group>"; };
-		7E4CAA231D82FE2B00636BC2 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		7E4CAA261D83430000636BC2 /* Evaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
 		7E4CAA291D83851300636BC2 /* Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
 		7E87DE1D1D8563A100B3249E /* Evaluator$Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator$Value.swift; sourceTree = "<group>"; };
@@ -150,6 +149,7 @@
 		7E8A02BC1D82BB4D006C6AE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E8BD9901D7CBC07003052DB /* swifty_ninja */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swifty_ninja; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E8DD5DF1D84308D006E5AF6 /* REPL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = REPL.swift; sourceTree = "<group>"; };
+		7E92F2E21D87EE0F00A2A494 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		7E9A31FC1D7E2ADA00718EAA /* Grammatik.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Grammatik.txt; sourceTree = "<group>"; };
 		7E9A31FD1D7E2C4A00718EAA /* Instruktionen.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Instruktionen.txt; sourceTree = "<group>"; };
 		7EAB30A81D81A3F0009CAB4A /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -260,7 +260,7 @@
 		7E40CCFF1D7DF90B00D7880C /* tests */ = {
 			isa = PBXGroup;
 			children = (
-				7E4CAA231D82FE2B00636BC2 /* Helper.swift */,
+				7E92F2E21D87EE0F00A2A494 /* Helper.swift */,
 				7E40CD031D7DF90B00D7880C /* StackTests.swift */,
 				7E010A301D7F57A800264F38 /* TokenizerTests.swift */,
 				7EBCCCDE1D80CAF000FCCAC9 /* TypeTests.swift */,
@@ -353,9 +353,9 @@
 				7E4CAA291D83851300636BC2 /* Value.swift */,
 				7E4A7FEE1D845E27008968E2 /* Types.swift */,
 				7E452FF11D8704A8008FE5AC /* Function.swift */,
+				7EF8AD191D875FF40087A2F0 /* CPU.swift */,
 				7E4A7FF11D846852008968E2 /* GlobalEnvironment.swift */,
 				7ECCE80D1D860522003EC441 /* LocalEnvironment.swift */,
-				7EF8AD191D875FF40087A2F0 /* CPU.swift */,
 			);
 			name = REPL;
 			sourceTree = "<group>";
@@ -455,7 +455,6 @@
 			files = (
 				7EFFDFB81D8595D600F35531 /* Parser$Type.swift in Sources */,
 				7EFFDFA61D8584D700F35531 /* StmTests.swift in Sources */,
-				7E4CAA241D82FE2B00636BC2 /* Helper.swift in Sources */,
 				7E77C9D51D82BCFE004523EE /* AST.swift in Sources */,
 				7E77C9D31D82BCF9004523EE /* Stack.swift in Sources */,
 				7E77C9D81D82BD17004523EE /* TokenStack.swift in Sources */,
@@ -479,6 +478,7 @@
 				7E4CAA2B1D83851300636BC2 /* Value.swift in Sources */,
 				7E8DD5E11D84308D006E5AF6 /* REPL.swift in Sources */,
 				7E452FF01D87046C008FE5AC /* ProgramTests.swift in Sources */,
+				7E92F2E41D87EE0F00A2A494 /* Helper.swift in Sources */,
 				7ECCE80F1D860522003EC441 /* LocalEnvironment.swift in Sources */,
 				7E87DE281D85650700B3249E /* Evaluator$Reference.swift in Sources */,
 				7EF8AD1B1D875FF40087A2F0 /* CPU.swift in Sources */,

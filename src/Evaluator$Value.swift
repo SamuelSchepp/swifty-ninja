@@ -12,9 +12,9 @@ extension Evaluator {
 	
 	// MARK: Exp
 	
-	func evaluateValue(exp: Exp) -> REPLResult {
+	func evaluateRefToValue(exp: Exp) -> REPLResult {
 		if let or_exp = exp as? Or_Exp {
-			return evaluateValue(or_exp: or_exp)
+			return evaluateRefToValue(or_exp: or_exp)
 		}
 		
 		return .NotExhaustive
@@ -22,231 +22,217 @@ extension Evaluator {
 	
 	// MARK: Or
 	
-	func evaluateValue(or_exp: Or_Exp) -> REPLResult {
+	func evaluateRefToValue(or_exp: Or_Exp) -> REPLResult {
 		if let or_exp_binary = or_exp as? Or_Exp_Binary {
-			return evaluateValue(or_exp_binary: or_exp_binary)
+			return evaluateRefToValue(or_exp_binary: or_exp_binary)
 		}
 		if let and_exp = or_exp as? And_Exp {
-			return evaluateValue(and_exp: and_exp)
+			return evaluateRefToValue(and_exp: and_exp)
 		}
 		
 		return .NotExhaustive
 	}
 	
-	func evaluateValue(or_exp_binary: Or_Exp_Binary) -> REPLResult {
-		var lhs: BooleanValue
-		var rhs: BooleanValue
-		
-		switch evaluateValue(or_exp: or_exp_binary.lhs) {
-		case let .SuccessValue(node as BooleanValue, _ as BooleanType):
-			lhs = node
-		case .SuccessValue(_):
+	func evaluateRefToValue(or_exp_binary: Or_Exp_Binary) -> REPLResult {
+		switch evaluateRefToValue(or_exp: or_exp_binary.lhs) {
+		case let .SuccessReference(ref, _ as BooleanType):
+			cpu.lhsRegister = ref
+		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		switch evaluateValue(and_exp: or_exp_binary.rhs) {
-		case let .SuccessValue(node as BooleanValue, _ as BooleanType):
-			rhs = node
-		case .SuccessValue(_):
+		switch evaluateRefToValue(and_exp: or_exp_binary.rhs) {
+		case let .SuccessReference(ref, _ as BooleanType):
+			cpu.rhsRegister = ref
+		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		return .SuccessValue(value: (BooleanValue(value: (lhs.value || rhs.value))), type: BooleanType())
+		cpu.booleanOr()
+		
+		return .SuccessReference(ref: cpu.resultRegister, type: BooleanType())
 	}
 	
 	// MARK: And
 	
-	func evaluateValue(and_exp: And_Exp) -> REPLResult {
+	func evaluateRefToValue(and_exp: And_Exp) -> REPLResult {
 		if let and_exp_binary = and_exp as? And_Exp_Binary {
-			return evaluateValue(and_exp_binary: and_exp_binary)
+			return evaluateRefToValue(and_exp_binary: and_exp_binary)
 		}
 		if let rel_exp = and_exp as? Rel_Exp {
-			return evaluateValue(rel_exp: rel_exp)
+			return evaluateRefToValue(rel_exp: rel_exp)
 		}
 		
 		return .NotExhaustive
 	}
 	
-	func evaluateValue(and_exp_binary: And_Exp_Binary) -> REPLResult {
-		var lhs: BooleanValue
-		var rhs: BooleanValue
-		
-		switch evaluateValue(and_exp: and_exp_binary.lhs) {
-		case let .SuccessValue(boolVal as BooleanValue, _ as BooleanType):
-			lhs = boolVal
-		case .SuccessValue(_, _):
+	func evaluateRefToValue(and_exp_binary: And_Exp_Binary) -> REPLResult {
+		switch evaluateRefToValue(and_exp: and_exp_binary.lhs) {
+		case let .SuccessReference(ref, _ as BooleanType):
+			cpu.lhsRegister = ref
+		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		switch evaluateValue(rel_exp: and_exp_binary.rhs) {
-		case let .SuccessValue(boolVal as BooleanValue, _ as BooleanType):
-			rhs = boolVal
-		case .SuccessValue(_, _):
+		switch evaluateRefToValue(rel_exp: and_exp_binary.rhs) {
+		case let .SuccessReference(ref, _ as BooleanType):
+			cpu.rhsRegister = ref
+		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		return .SuccessValue(value: BooleanValue(value: (lhs.value && rhs.value)), type: BooleanType())
+		cpu.booleanAnd()
+		
+		return .SuccessReference(ref: cpu.resultRegister, type: BooleanType())
 	}
 	
 	// MARK: Rel
 	
-	func evaluateValue(rel_exp: Rel_Exp) -> REPLResult {
+	func evaluateRefToValue(rel_exp: Rel_Exp) -> REPLResult {
 		if let rel_exp_binary = rel_exp as? Rel_Exp_Binary {
-			return evaluateValue(rel_exp_binary: rel_exp_binary)
+			return evaluateRefToValue(rel_exp_binary: rel_exp_binary)
 		}
 		if let add_exp = rel_exp as? Add_Exp {
-			return evaluateValue(add_exp: add_exp)
+			return evaluateRefToValue(add_exp: add_exp)
 		}
 		
 		return .NotExhaustive
 	}
 	
-	func evaluateValue(rel_exp_binary: Rel_Exp_Binary) -> REPLResult {
-		var lhs: IntegerValue
-		var rhs: IntegerValue
-		
-		switch evaluateValue(add_exp: rel_exp_binary.lhs) {
-		case let .SuccessValue(integerVal as IntegerValue, _ as IntegerType):
-			lhs = integerVal
-		case .SuccessValue(_, _):
+	func evaluateRefToValue(rel_exp_binary: Rel_Exp_Binary) -> REPLResult {
+		switch evaluateRefToValue(add_exp: rel_exp_binary.lhs) {
+		case let .SuccessReference(ref, _ as IntegerType):
+			cpu.lhsRegister = ref;
+		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		switch evaluateValue(add_exp: rel_exp_binary.rhs) {
-		case let .SuccessValue(integerVal as IntegerValue, _ as IntegerType):
-			rhs = integerVal
-		case .SuccessValue(_, _):
+		switch evaluateRefToValue(add_exp: rel_exp_binary.rhs) {
+		case let .SuccessReference(ref, _ as IntegerType):
+			cpu.rhsRegister = ref
+		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		var value: Bool
 		switch rel_exp_binary.op {
 		case .EQ:
-			value = lhs.value == rhs.value
+			cpu.relEQ()
 		case .NE:
-			value = lhs.value != rhs.value
+			cpu.relNE()
 		case .LT:
-			value = lhs.value < rhs.value
+			cpu.relLT()
 		case .LE:
-			value = lhs.value <= rhs.value
+			cpu.relLE()
 		case .GT:
-			value = lhs.value > rhs.value
+			cpu.relGT()
 		case .GE:
-			value = lhs.value >= rhs.value
+			cpu.relGE()
 		}
 		
-		return .SuccessValue(value: BooleanValue(value: value), type: BooleanType())
+		return .SuccessReference(ref: cpu.resultRegister, type: BooleanType())
 	}
 	
 	// MARK: Add
 	
-	func evaluateValue(add_exp: Add_Exp) -> REPLResult {
+	func evaluateRefToValue(add_exp: Add_Exp) -> REPLResult {
 		if let add_exp_binary = add_exp as? Add_Exp_Binary {
-			return evaluateValue(add_exp_binary: add_exp_binary)
+			return evaluateRefToValue(add_exp_binary: add_exp_binary)
 		}
 		if let mul_exp = add_exp as? Mul_Exp {
-			return evaluateValue(mul_exp: mul_exp)
+			return evaluateRefToValue(mul_exp: mul_exp)
 		}
 		
 		return .NotExhaustive
 	}
 	
-	func evaluateValue(add_exp_binary: Add_Exp_Binary) -> REPLResult {
-		var lhs: IntegerValue
-		var rhs: IntegerValue
-		
-		switch evaluateValue(add_exp: add_exp_binary.lhs) {
-		case let .SuccessValue(integerVal as IntegerValue, _ as IntegerType):
-			lhs = integerVal
-		case .SuccessValue(_, _):
+	func evaluateRefToValue(add_exp_binary: Add_Exp_Binary) -> REPLResult {
+		switch evaluateRefToValue(add_exp: add_exp_binary.lhs) {
+		case let .SuccessReference(ref, _ as IntegerType):
+			cpu.lhsRegister = ref
+		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		switch evaluateValue(mul_exp: add_exp_binary.rhs) {
-		case let .SuccessValue(integerVal as IntegerValue, _ as IntegerType):
-			rhs = integerVal
-		case .SuccessValue(_, _):
+		switch evaluateRefToValue(mul_exp: add_exp_binary.rhs) {
+		case let .SuccessReference(ref, _ as IntegerType):
+			cpu.rhsRegister = ref
+		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		var value: Int
 		switch add_exp_binary.op {
 		case .PLUS:
-			value = lhs.value + rhs.value
+			cpu.binaryPlus();
 		case .MINUS:
-			value = lhs.value - rhs.value
+			cpu.binaryMinus();
 		}
 		
-		return .SuccessValue(value: IntegerValue(value: value), type: IntegerType())
+		return .SuccessReference(ref: cpu.resultRegister, type: IntegerType())
 	}
 	
 	// MARK: Mul
 	
-	func evaluateValue(mul_exp: Mul_Exp) -> REPLResult {
+	func evaluateRefToValue(mul_exp: Mul_Exp) -> REPLResult {
 		if let mul_exp_binary = mul_exp as? Mul_Exp_Binary {
-			return evaluateValue(mul_exp_binary: mul_exp_binary)
+			return evaluateRefToValue(mul_exp_binary: mul_exp_binary)
 		}
 		if let unary_exp = mul_exp as? Unary_Exp {
-			return evaluateValue(unary_exp: unary_exp)
+			return evaluateRefToValue(unary_exp: unary_exp)
 		}
 		
 		return .NotExhaustive
 	}
 	
-	func evaluateValue(mul_exp_binary: Mul_Exp_Binary) -> REPLResult {
-		var lhs: IntegerValue
-		var rhs: IntegerValue
-		
-		switch evaluateValue(mul_exp: mul_exp_binary.lhs) {
-		case let .SuccessValue(integerVal as IntegerValue, _ as IntegerType):
-			lhs = integerVal
-		case .SuccessValue(_, _):
+	func evaluateRefToValue(mul_exp_binary: Mul_Exp_Binary) -> REPLResult {
+		switch evaluateRefToValue(mul_exp: mul_exp_binary.lhs) {
+		case let .SuccessReference(ref, _ as IntegerType):
+			cpu.lhsRegister = ref
+		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		switch evaluateValue(unary_exp: mul_exp_binary.rhs) {
-		case let .SuccessValue(integerVal as IntegerValue, _ as IntegerType):
-			rhs = integerVal
-		case .SuccessValue(_, _):
+		switch evaluateRefToValue(unary_exp: mul_exp_binary.rhs) {
+		case let .SuccessReference(ref, _ as IntegerType):
+			cpu.rhsRegister = ref
+		case .SuccessReference(_, _):
 			return .TypeMissmatch
 		case let any:
 			return any
 		}
 		
-		var value: Int
 		switch mul_exp_binary.op {
 		case .STAR:
-			value = lhs.value * rhs.value
+			cpu.binaryMul();
 		case .SLASH:
-			value = lhs.value / rhs.value
+			cpu.binaryDiv();
 		case .PERCENT:
-			value = lhs.value % rhs.value
+			cpu.binaryMod();
 		}
 		
-		return .SuccessValue(value: IntegerValue(value: value), type: IntegerType())
+		return .SuccessReference(ref: cpu.resultRegister, type: IntegerType())
 	}
 	
 	// MARK: Unary
 	
-	func evaluateValue(unary_exp: Unary_Exp) -> REPLResult {
+	func evaluateRefToValue(unary_exp: Unary_Exp) -> REPLResult {
 		if let unary_exp_impl = unary_exp as? Unary_Exp_Impl {
 			return evaluateRefToValue(unary_exp_impl: unary_exp_impl)
 		}
@@ -260,8 +246,8 @@ extension Evaluator {
 	func evaluateRefToValue(unary_exp_impl: Unary_Exp_Impl) -> REPLResult {
 		let eval = evaluateRefToValue(unary_exp: unary_exp_impl.rhs)
 		
-		if case .SuccessReference(let ref, let ty as IntegerType) = eval {
-			cpu.rhsRegister = ref
+		if case .SuccessReference(let ref, _ as IntegerType) = eval {
+			cpu.unaryRegister = ref
 			switch unary_exp_impl.op {
 			case .PLUS:
 				cpu.unaryPlus()
@@ -271,8 +257,9 @@ extension Evaluator {
 				return .WrongOperator(op: unary_exp_impl.op.rawValue, type: IntegerType())
 			}
 			return .SuccessReference(ref: cpu.resultRegister, type: IntegerType())
-		if case .SuccessReference(let ref, let ty as IntegerType) = eval {
-			cpu.rhsRegister = ref
+		}
+		if case .SuccessReference(let ref, _ as BooleanType) = eval {
+			cpu.unaryRegister = ref
 			switch unary_exp_impl.op {
 			case .LOGNOT:
 				cpu.unaryLogNot()
