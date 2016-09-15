@@ -76,10 +76,10 @@ void main() {
 		writeInteger(rest / bruch.nenner);
 		nNachkomma = nNachkomma + 1;
 	}
-		writeCharacter('\n');
-	}
+	writeCharacter('\n');
+}
 
-	Integer ggt(Integer zahl1, Integer zahl2) {
+Integer ggt(Integer zahl1, Integer zahl2) {
 	local Integer x;
 	local Integer y;
 	x = zahl1;

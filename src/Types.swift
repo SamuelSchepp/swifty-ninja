@@ -62,16 +62,17 @@ struct ArrayType: Type {
 }
 
 struct RecordType: Type {
-    let fields: [String: Type]
+	let fieldIdents: [String]
+    let fieldTypes: [Type]
     
     var size: Int {
-        return fields.count
+        return fieldIdents.count
     }
     
     var description: String {
         get {
-            let f = fields.reduce("") { last, current in
-                return last + current.key + " -> " + current.value.description + ";"
+            let f = fieldIdents.reduce("") { last, current in
+                return last + current + "; "
             }
             return "Record (\(f))"
         }

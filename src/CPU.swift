@@ -31,7 +31,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: IntegerType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = IntegerValue(value: unary.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -42,7 +42,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: IntegerType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = IntegerValue(value: -unary.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -53,7 +53,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: BooleanType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = BooleanValue(value: !unary.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -69,7 +69,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: IntegerType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = IntegerValue(value: left.value * right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -83,7 +83,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: IntegerType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = IntegerValue(value: left.value / right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -97,7 +97,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: IntegerType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = IntegerValue(value: left.value % right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -111,7 +111,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: IntegerType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = IntegerValue(value: left.value + right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -125,7 +125,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: IntegerType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = IntegerValue(value: left.value - right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -141,7 +141,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: BooleanType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = BooleanValue(value: left.value == right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -155,7 +155,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: BooleanType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = BooleanValue(value: left.value != right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -169,7 +169,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: BooleanType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = BooleanValue(value: left.value > right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -183,7 +183,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: BooleanType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = BooleanValue(value: left.value >= right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -197,7 +197,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: BooleanType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = BooleanValue(value: left.value < right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -211,7 +211,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: BooleanType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = BooleanValue(value: left.value <= right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -227,7 +227,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: BooleanType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = BooleanValue(value: left.value && right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
@@ -241,7 +241,7 @@ class CPU {
 			throw REPLError.TypeMissmatch
 		}
 		
-        let ref = try globalEnvironment.heap.malloc(size: 1, type: BooleanType())
+        let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = BooleanValue(value: left.value || right.value)
         try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref

@@ -40,7 +40,7 @@ class Heap {
         }
     }
     
-	func malloc(size: Int, type: Type) throws -> ReferenceValue {
+	func malloc(size: Int) throws -> ReferenceValue {
         if size <= 0 {
 			throw REPLError.FatalError
         }
@@ -50,7 +50,7 @@ class Heap {
             heap.append(UninitializedValue())
         }
         
-		return ReferenceValue(value: start, type: type)
+		return ReferenceValue(value: start)
     }
     
     func last() throws -> Value {
@@ -64,7 +64,7 @@ class Heap {
     
     func dump() {
         for i in 1..<heap.count {
-            print("\(ReferenceValue(value: i, type: ReferenceType()))  \(heap[i])")
+            print("\(ReferenceValue(value: i))  \(heap[i])")
         }
         print()
     }

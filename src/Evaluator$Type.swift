@@ -42,13 +42,50 @@ extension Evaluator {
 	}
 	
 	func evaluateType(recordTypeExpression: RecordTypeExpression) throws -> Type {
-		var memb = [String: Type]()
+		var idents = [String]()
+		var types = [Type]()
 		
 		try recordTypeExpression.memb_decs.forEach({memb_dec in
-			memb[memb_dec.ident] = try evaluateType(typeExpression: memb_dec.type)
+			idents.append(memb_dec.ident)
+			types.append(try evaluateType(typeExpression: memb_dec.type))
 		})
 		
-		return RecordType(fields: memb)
+		return RecordType(fieldIdents: idents, fieldTypes: types)
+	}
+	
+	func evaluateType(primary_exp: Primary_Exp) throws -> Type {
+		if let _ = primary_exp as? Primary_Exp_Nil {
+			return VoidType()
+		}
+		if let _ = primary_exp as? Primary_Exp_Exp {
+			throw REPLError.NotImplemented
+		}
+		if let _ = primary_exp as? Primary_Exp_Integer {
+			return IntegerType()
+		}
+		if let _ = primary_exp as? Primary_Exp_Character {
+			return CharacterType()
+		}
+		if let _ = primary_exp as? Primary_Exp_Boolean {
+			return BooleanType()
+		}
+		if let _ = primary_exp as? Primary_Exp_String {
+			return ArrayType(base: CharacterType(), dims: 1)
+		}
+		if let _ = primary_exp as? Primary_Exp_Sizeof {
+			return IntegerType()
+		}
+		if let primary_exp_var = primary_exp as? Var {
+			return try evaluateType(_var: primary_exp_var)
+		}
+		if let primary_exp_call = primary_exp as? Primary_Exp_Call {
+			return try evaluateType(primary_exp_call: primary_exp_call)
+		}
+		if let _ = primary_exp as? New_Obj_Spec {
+			throw REPLError.NotImplemented
+		}
+		
+		throw REPLError.NotExhaustive
 	}
 	
 	// Mark: Var Type
@@ -63,5 +100,19 @@ extension Evaluator {
 	
 	func evaluateType(var_ident: Var_Ident) throws -> Type {
 		return try globalEnvironment.findTypeOfVariable(ident: var_ident.ident)
+	}
+	
+	/* Call */
+	
+	func evaluateType(primary_exp_call: Primary_Exp_Call) throws -> Type {
+		guard let function = globalEnvironment.functions[primary_exp_call.ident] else {
+			throw REPLError.UnresolvableReference(ident: primary_exp_call.ident)
+		}
+		if let type = function.type {
+			return try evaluateType(typeExpression: type)
+		}
+		else {
+			throw REPLError.TypeMissmatch
+		}
 	}
 }

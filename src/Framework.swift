@@ -36,4 +36,26 @@ struct Framework {
 			throw REPLError.TypeMissmatch
 		}
 	)
+	
+	static let readInteger = SystemFunction(
+		type: IdentifierTypeExpression(ident: "Integer"),
+	    ident: "readInteger",
+	    par_decs: [],
+	    callee: { (globalInvironment: GlobalEnvironment) in
+			guard let input = readLine() else { throw REPLError.TypeMissmatch }
+			guard let nr = Int(input) else { throw REPLError.TypeMissmatch }
+			let ref = try globalInvironment.heap.malloc(size: 1);
+			try globalInvironment.heap.set(value: IntegerValue(value: nr), addr: ref);
+			throw REPLControlFlow.ReturnValue(ref: ref);
+		}
+	)
+	
+	static let sysDump = SystemFunction(
+		type: .none,
+		ident: "sysDump",
+		par_decs: [],
+		callee: { (globalInvironment: GlobalEnvironment) in
+			globalInvironment.dump();
+		}
+	)
 }

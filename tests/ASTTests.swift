@@ -151,4 +151,18 @@ class ASTTests: XCTestCase {
 			Assign_Stm(_var: Var_Ident(ident: "res"), exp: Primary_Exp_Call(ident: "call", args: [Arg(exp: Primary_Exp_Integer(value: 4))]))
 		)
 	}
+	
+	func testCall2() {
+		check(input: "writeInteger(b.zaehler);", targetAST:
+			Call_Stm(
+				ident: "writeInteger",
+				args: [Arg(
+					exp: Var_Field_Access(
+						primary_exp: Var_Ident(ident: "b"),
+						ident: "zaehler"
+					)
+				)]
+			)
+		)
+	}
 }

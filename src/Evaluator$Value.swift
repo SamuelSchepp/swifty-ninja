@@ -217,19 +217,19 @@ extension Evaluator {
 	}
 	
 	func evaluateRefToValue(primary_exp_integer: Primary_Exp_Integer) throws -> ReferenceValue {
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: IntegerType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		try globalEnvironment.heap.set(value: IntegerValue(value: primary_exp_integer.value), addr: ref)
 		return ref
 	}
 	
 	func evaluateRefToValue(primary_exp_character: Primary_Exp_Character) throws -> ReferenceValue {
-		let ref = try globalEnvironment.heap.malloc(size: 1, type: CharacterType())
+		let ref = try globalEnvironment.heap.malloc(size: 1)
 		try globalEnvironment.heap.set(value: CharacterValue(value: primary_exp_character.value), addr: ref)
 		return ref
 	}
 	
 	func evaluateRefToValue(primary_exp_boolean: Primary_Exp_Boolean) throws -> ReferenceValue {
-        let ref = try globalEnvironment.heap.malloc(size: 1, type: BooleanType())
+        let ref = try globalEnvironment.heap.malloc(size: 1)
         try globalEnvironment.heap.set(value: BooleanValue(value: primary_exp_boolean.value), addr: ref)
 		return ref
 	}
@@ -258,7 +258,16 @@ extension Evaluator {
 	}
 	
 	func evaluateRefToValue(new_obj_spec: New_Obj_Spec) throws -> ReferenceValue {
+		if let new_obj_spec_ident = new_obj_spec as? New_Obj_Spec_Ident {
+			return try evaluateRefToValue(new_obj_spec_ident: new_obj_spec_ident)
+		}
 		throw REPLError.NotImplemented
+	}
+	
+	func evaluateRefToValue(new_obj_spec_ident: New_Obj_Spec_Ident) throws -> ReferenceValue {
+		guard let type = try globalEnvironment.findTypeOfTypeIdentifier(ident: new_obj_spec_ident.ident) as? RecordType else { throw REPLError.TypeMissmatch }
+		let ref = try globalEnvironment.heap.malloc(size: type.size)
+		return ref;
 	}
 	
 	// MARK: Var Value
@@ -267,8 +276,33 @@ extension Evaluator {
 		if let var_ident = _var as? Var_Ident {
 			return try evaluateRefToValue(var_ident: var_ident)
 		}
+		if let var_field_access = _var as? Var_Field_Access {
+			return try evaluateRefToValue(var_field_access: var_field_access)
+		}
 		
 		throw REPLError.NotExhaustive
+	}
+	
+	func evaluateRefToField(var_field_access: Var_Field_Access) throws -> ReferenceValue {
+		guard let type = try evaluateType(primary_exp: var_field_access.primary_exp) as? RecordType else {
+			throw REPLError.TypeMissmatch
+		}
+		let ref = try evaluateRefToValue(primary_exp: var_field_access.primary_exp)
+		
+		/* find index based on string */
+		guard let index = type.fieldIdents.index(of: var_field_access.ident) else {
+			throw REPLError.UnresolvableReference(ident: var_field_access.ident)
+		}
+		
+		return ReferenceValue(value: ref.value + index)
+	}
+	
+	func evaluateRefToValue(var_field_access: Var_Field_Access) throws -> ReferenceValue {
+		guard let valRef = try globalEnvironment.heap.get(addr: evaluateRefToField(var_field_access: var_field_access)) as? ReferenceValue else {
+			throw REPLError.TypeMissmatch
+		}
+		
+		return valRef
 	}
 	
 	func evaluateRefToValue(var_ident: Var_Ident) throws -> ReferenceValue {

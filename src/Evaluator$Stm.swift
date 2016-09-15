@@ -78,8 +78,16 @@ extension Evaluator {
 		if let var_ident = assign_stm._var as? Var_Ident {
 			return try evaluateVarIdentAssignStm(var_ident: var_ident, refRHS: ref)
 		}
+		if let var_field_access = assign_stm._var as? Var_Field_Access {
+			return try evaluateVarFieldAccessAssignStm(var_field_access: var_field_access, refRHS: ref)
+		}
 		
 		throw REPLError.NotImplemented
+	}
+	
+	func evaluateVarFieldAccessAssignStm(var_field_access: Var_Field_Access, refRHS: ReferenceValue) throws {
+		let ref = try evaluateRefToField(var_field_access: var_field_access)
+		try globalEnvironment.heap.set(value: refRHS, addr: ref)
 	}
 	
 	func evaluateVarIdentAssignStm(var_ident: Var_Ident, refRHS: ReferenceValue) throws {

@@ -1,0 +1,20 @@
+// Summe aller Brueche 1/i fuer i = 1..100 (die einhundertste "harmonische Zahl")
+
+type Bruch = record {
+	Integer zaehler;
+	Integer nenner;
+};
+
+global Bruch bruch;
+
+void main() {
+	bruch = new(Bruch);
+
+	bruch.zaehler = 4;
+	bruch.nenner = 2;
+}
+
+void writeBruch(Bruch b) {
+	writeInteger(b.zaehler);
+	writeInteger(b.nenner);
+}

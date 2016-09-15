@@ -74,4 +74,30 @@ class ProgramTests: XCTestCase {
 			throw err
 		}
 	}
+	
+	func testReadInteger() throws {
+		let source = "void main() { local Integer input; input = readInteger(); writeInteger(input); writeCharacter('\n'); }"
+		
+		let repl = REPL()
+		do {
+			_  = try repl.handleAsProgram(input: source)
+		}
+		catch let err {
+			print(err)
+			throw err
+		}
+	}
+	
+	func testRecord() throws {
+		let source = "type Bruch = record { Integer zaehler; Integer nenner; }; global Bruch bruch; void main() { bruch = new(Bruch); bruch.zaehler = 4; sysDump(); bruch.nenner = 2; sysDump(); writeBruch(bruch); } void writeBruch(Bruch b) { writeInteger(b.zaehler); writeInteger(b.nenner); }"
+		
+		let repl = REPL()
+		do {
+			_  = try repl.handleAsProgram(input: source)
+		}
+		catch let err {
+			print(err)
+			throw err
+		}
+	}
 }

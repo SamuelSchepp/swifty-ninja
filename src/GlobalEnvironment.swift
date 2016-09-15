@@ -28,7 +28,9 @@ class GlobalEnvironment {
         globalVariables = [:]
         functions = [
             "writeInteger": Framework.writeInteger,
-            "writeCharacter": Framework.writeCharacter
+            "writeCharacter": Framework.writeCharacter,
+			"readInteger": Framework.readInteger,
+			"sysDump" : Framework.sysDump
         ]
 		
 		localStack = Stack()
@@ -63,6 +65,13 @@ class GlobalEnvironment {
 			return ty
 		}
 		if let ty = varTypeMap[ident] {
+			return ty
+		}
+		throw REPLError.UnresolvableType(ident: ident)
+	}
+	
+	func findTypeOfTypeIdentifier(ident: String) throws -> Type {
+		if let ty = typeDecMap[ident] {
 			return ty
 		}
 		throw REPLError.UnresolvableType(ident: ident)

@@ -32,7 +32,7 @@ class GlobalVarTests: XCTestCase {
 		
 		envi.dump()
 		
-		guard let value = try envi.heap.get(addr: ReferenceValue(value: 3, type: VoidType())) as? IntegerValue else {
+		guard let value = try envi.heap.get(addr: ReferenceValue(value: 3)) as? IntegerValue else {
 			XCTFail()
 			return;
 		}
