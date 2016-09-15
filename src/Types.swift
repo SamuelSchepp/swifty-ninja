@@ -42,14 +42,6 @@ struct BooleanType: Type {
 	}
 }
 
-struct StringType: Type {
-    var description: String {
-        get {
-            return "String"
-        }
-    }
-}
-
 struct CharacterType: Type {
     var description: String {
         get {
@@ -71,6 +63,10 @@ struct ArrayType: Type {
 
 struct RecordType: Type {
     let fields: [String: Type]
+    
+    var size: Int {
+        return fields.count
+    }
     
     var description: String {
         get {

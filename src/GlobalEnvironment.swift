@@ -21,7 +21,6 @@ class GlobalEnvironment {
         typeDecMap = [
             "Integer": IntegerType(),
             "Boolean": BooleanType(),
-            "String": StringType(),
             "Character": CharacterType()
         ]
         
