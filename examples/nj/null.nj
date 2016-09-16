@@ -1,0 +1,30 @@
+type Bruch = record {
+	Integer zaehler;
+	Integer nenner;
+};
+
+void main() {
+	local Bruch bruch;
+
+	if(bruch == nil) {
+		writeString("Bruch is nil\n");
+	}
+
+	bruch = new(Bruch);
+	bruch.zaehler = 3;
+
+	check(bruch);
+	bruch.nenner = 4;
+	check(bruch);
+	bruch.nenner = nil;
+	check(bruch);
+}
+
+void check(Bruch bruch) {
+	if(bruch.nenner == nil) {
+		writeString("bruch nenner is null\n");
+	}
+	else {
+		writeString("bruch nenner is not null\n");
+	}
+}

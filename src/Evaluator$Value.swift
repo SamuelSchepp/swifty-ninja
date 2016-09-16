@@ -276,6 +276,10 @@ extension Evaluator {
 		guard let type = try globalEnvironment.findTypeOfTypeIdentifier(ident: new_obj_spec_ident.ident) as? RecordType else { throw REPLError.TypeMissmatch }
 		let ref = try globalEnvironment.heap.malloc(size: type.size + 1)
 		try globalEnvironment.heap.set(value: SizeValue(value: type.size), addr: ref)
+		/* init obj with null references */
+		for i in 1...type.size {
+			try globalEnvironment.heap.set(value: ReferenceValue.null(), addr: ReferenceValue(value: ref.value + i))
+		}
 		return ref;
 	}
 	

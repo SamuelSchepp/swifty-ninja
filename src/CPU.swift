@@ -135,6 +135,7 @@ class CPU {
 	
 	func relEQ(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		do {
+			/* Compare Integer */
 			guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
 				throw REPLError.TypeMissmatch
 			}
@@ -148,32 +149,68 @@ class CPU {
 			return ref
 		}
 		catch _ {
-			guard let left = try globalEnvironment.heap.get(addr: leftRef) as? CharacterValue else {
-				throw REPLError.TypeMissmatch
+			do {
+				/* Compare Character */
+				guard let left = try globalEnvironment.heap.get(addr: leftRef) as? CharacterValue else {
+					throw REPLError.TypeMissmatch
+				}
+				guard let right = try globalEnvironment.heap.get(addr: rightRef) as? CharacterValue else {
+					throw REPLError.TypeMissmatch
+				}
+				
+				let ref = try self.globalEnvironment.heap.malloc(size: 1)
+				let value = BooleanValue(value: left.value == right.value)
+				try globalEnvironment.heap.set(value: value, addr: ref)
+				return ref
 			}
-			guard let right = try globalEnvironment.heap.get(addr: rightRef) as? CharacterValue else {
-				throw REPLError.TypeMissmatch
+			catch _ {
+				/* Compare Reference */
+				let ref = try self.globalEnvironment.heap.malloc(size: 1)
+				let value = BooleanValue(value: leftRef.value == rightRef.value)
+				try globalEnvironment.heap.set(value: value, addr: ref)
+				return ref
 			}
-			
-			let ref = try self.globalEnvironment.heap.malloc(size: 1)
-			let value = BooleanValue(value: left.value == right.value)
-			try globalEnvironment.heap.set(value: value, addr: ref)
-			return ref
 		}
 	}
 	
 	func relNE(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
-		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+		do {
+			/* Compare Integer */
+			guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
+				throw REPLError.TypeMissmatch
+			}
+			guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
+				throw REPLError.TypeMissmatch
+			}
+			
+			let ref = try globalEnvironment.heap.malloc(size: 1)
+			let value = BooleanValue(value: left.value != right.value)
+			try globalEnvironment.heap.set(value: value, addr: ref)
+			return ref
 		}
-		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+		catch _ {
+			do {
+				/* Compare Character */
+				guard let left = try globalEnvironment.heap.get(addr: leftRef) as? CharacterValue else {
+					throw REPLError.TypeMissmatch
+				}
+				guard let right = try globalEnvironment.heap.get(addr: rightRef) as? CharacterValue else {
+					throw REPLError.TypeMissmatch
+				}
+				
+				let ref = try self.globalEnvironment.heap.malloc(size: 1)
+				let value = BooleanValue(value: left.value != right.value)
+				try globalEnvironment.heap.set(value: value, addr: ref)
+				return ref
+			}
+			catch _ {
+				/* Compare Reference */
+				let ref = try self.globalEnvironment.heap.malloc(size: 1)
+				let value = BooleanValue(value: leftRef.value != rightRef.value)
+				try globalEnvironment.heap.set(value: value, addr: ref)
+				return ref
+			}
 		}
-		
-		let ref = try globalEnvironment.heap.malloc(size: 1)
-		let value = BooleanValue(value: left.value != right.value)
-		try globalEnvironment.heap.set(value: value, addr: ref)
-		return ref
 	}
 	
 	func relGT(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {

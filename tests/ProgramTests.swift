@@ -153,8 +153,39 @@ class ProgramTests: XCTestCase {
 		}
 	}
 	
+	func test_null() throws {
+		let source = try String(contentsOfFile: "null.nj")
+		
+		let repl = REPL()
+		do {
+			_  = try repl.handleAsProgram(input: source)
+		}
+		catch let err {
+			print(err)
+			repl.dump()
+			throw err
+		}
+	}
+	
 	func test_listrev() throws {
 		let source = try String(contentsOfFile: "listrev.nj")
+		
+		let repl = REPL()
+		do {
+			_  = try repl.handleAsProgram(input: source)
+			let list = repl.evaluator.globalEnvironment.outputBuffer.components(separatedBy: "\n")
+			XCTAssertEqual(list[list.count - 3], "0 1 2 3 4 5 6 7 8 9 ")
+			XCTAssertEqual(list[list.count - 2], "9 8 7 6 5 4 3 2 1 0 ")
+		}
+		catch let err {
+			print(err)
+			repl.dump()
+			throw err
+		}
+	}
+	
+	func test_factor() throws {
+		let source = try String(contentsOfFile: "factor.nj")
 		
 		let repl = REPL()
 		do {

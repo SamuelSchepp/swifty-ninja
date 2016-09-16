@@ -36,12 +36,16 @@ void main() {
   i = 9;
   list = nil;
   while (i >= 0) {
+	writeString("List iteration: ");
+	writeInteger(i);
+	writeString("\n");
     aux = new(List);
     aux.value = i;
     aux.next = list;
     list = aux;
     i = i - 1;
   }
+  writeString("List iteration done\n");
   printList(list);
   list = reverse(list);
   printList(list);

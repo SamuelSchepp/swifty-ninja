@@ -16,7 +16,7 @@ class REPL {
 		
 		guard let tokens = tokenizer.tokenize() else { throw REPLError.TokenError }
 		
-		guard let ast = parse(tokens: tokens) else { throw REPLError.ParseError(tokens: tokens) }
+		guard let ast = parse(tokens: tokens) else { throw REPLError.ParseError }
 		
 		let eval = try evaluator.evaluate(ast: ast)
 		return eval
@@ -27,7 +27,7 @@ class REPL {
 		
 		guard let tokens = tokenizer.tokenize() else { throw REPLError.TokenError }
 		
-		guard let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Program() }) else { throw REPLError.ParseError(tokens: tokens) }
+		guard let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Program() }) else { throw REPLError.ParseError}
 		
 		let eval = try evaluator.evaluate(ast: ast)
 		return eval
@@ -62,7 +62,7 @@ class REPL {
 		
 		guard let ast = function(parser) else { return .none }
 		if !parser.isDone() {
-			parser.stack.context.forEach { token in
+			parser.stack.context.reversed().forEach { token in
 				print(token)
 			}
 			return .none

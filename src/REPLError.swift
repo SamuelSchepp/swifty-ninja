@@ -31,7 +31,7 @@ enum REPLError: Error, CustomStringConvertible { case
 	NotImplemented,
 	NotExhaustive,
 	
-	ParseError(tokens: [Token]),
+	ParseError,
 	TokenError
 
 	var description : String {
@@ -75,8 +75,8 @@ enum REPLError: Error, CustomStringConvertible { case
 		case .NotExhaustive:
 			return "Not exhaustive"
 			
-		case .ParseError(let tokens):
-			return "Parse error\n\(tokens)"
+		case .ParseError:
+			return "Parse error\n"
 		case .TokenError:
 			return "Token error"
 		}

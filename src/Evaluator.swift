@@ -95,7 +95,7 @@ class Evaluator {
 	
 	func evaluate(gvar_dec: Gvar_Dec) throws {
 		if globalEnvironment.identifierExists(ident: gvar_dec.ident) {
-			throw REPLError.Redeclaration(ident: gvar_dec.ident)
+			throw REPLError.Redeclaration(ident: "global var decl \(gvar_dec.ident)")
 		}
 		
 		let type = try evaluateType(typeExpression: gvar_dec.type)
@@ -107,7 +107,7 @@ class Evaluator {
     
     func evaluate(type_dec: Type_Dec) throws {
         if globalEnvironment.identifierExists(ident: type_dec.ident) {
-			throw REPLError.Redeclaration(ident: type_dec.ident)
+			throw REPLError.Redeclaration(ident: "type decl \(type_dec.ident)")
         }
 		
 		globalEnvironment.typeDecMap[type_dec.ident] = RecordType(fieldIdents: [], fieldTypes: [])
@@ -119,7 +119,7 @@ class Evaluator {
 	
 	func evaluate(func_dec: Func_Dec) throws {
 		if globalEnvironment.identifierExists(ident: func_dec.ident) {
-			throw REPLError.Redeclaration(ident: func_dec.ident)
+			throw REPLError.Redeclaration(ident: "func \(func_dec.ident)")
 		}
 		
         globalEnvironment.functions[func_dec.ident] = UserFunction(func_dec: func_dec)

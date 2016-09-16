@@ -190,7 +190,15 @@ class Tokenizer {
 		}
 		
 		scanner.charactersToBeSkipped = oldskipper
-		return STRINGLIT(value: buffer! as String)
+		
+		var buf: String = buffer! as String
+		
+		buf = buf.replacingOccurrences(of: "\\n", with: "\n")
+		buf = buf.replacingOccurrences(of: "\\t", with: "\t")
+		buf = buf.replacingOccurrences(of: "\\'", with: "'")
+		buf = buf.replacingOccurrences(of: "\\\u{22}", with: "\"")
+		
+		return STRINGLIT(value: buf)
 	}
 	
 	private func scanIdentifier() -> Token? {
