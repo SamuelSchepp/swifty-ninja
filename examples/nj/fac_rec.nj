@@ -5,7 +5,7 @@
 void main() {
   local Integer n;
   local Integer m;
-  n = readInteger();
+  n = 10;
   m = factorial(n);
   writeInteger(n);
   writeCharacter('!');

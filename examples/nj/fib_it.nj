@@ -1,5 +1,5 @@
 void main() {
-	writeInteger(fibIteration(readInteger()));
+	writeInteger(fibIteration(20));
 	writeCharacter('\n');
 }
 

@@ -5,8 +5,8 @@
 void main() {
   local Integer x;
   local Integer y;
-  x = readInteger();
-  y = readInteger();
+  x = 60;
+  y = 1120;
   while (x != y) {
     if (x > y) {
       x = x - y;

@@ -1,4 +1,9 @@
 void main() {
 	writeInteger(10 % 3);
+
+	// Kommentar test
+	// test 2
+	/* test 3 */
+
 	writeCharacter('\n');
 }

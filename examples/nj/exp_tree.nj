@@ -125,26 +125,44 @@ Integer eval(ExpTree exp) {
 }
 
 void main() {
+	run();
+}
+
+void test() {
 	local ExpTree root;
-	
-	writeString("ExpTree Start\n");
-	
-	root = newInnerNode(
-	  '-',
-		newLeafNode(5),
-		  newInnerNode(
-		    '*',
-		    newInnerNode(
-		      '+',
-		      newLeafNode(1),
-		      newLeafNode(3)),
-		    newInnerNode(
-		      '-',
-		      newLeafNode(4),
-		      newLeafNode(7))));
-	
+
+	root = newInnerNode('+', newLeafNode(7), newLeafNode(9));
+
 	print(root);
-	writeString(" = ");		  
+	sysDump();
+}
+
+void run() {
+	local ExpTree root;
+
+	writeString("ExpTree Start");
+	writeCharacter('\n');
+
+	root = newInnerNode(
+		'-',
+		newLeafNode(5),
+		newInnerNode(
+			'*',
+			newInnerNode(
+				'+',
+				newLeafNode(1),
+				newLeafNode(3)
+			),
+			newInnerNode(
+				'-',
+				newLeafNode(4),
+				newLeafNode(7)
+			)
+		)
+	);
+
+	print(root);
+	writeString(" = ");
 	writeInteger(eval(root));
 	writeCharacter('\n');
 	print2(root, 0);

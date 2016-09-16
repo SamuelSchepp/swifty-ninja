@@ -3,8 +3,8 @@ global Integer y;
 
 void main() {
 
-	x = readInteger();
-	y = readInteger();
+	x = 60;
+	y = 1120;
 
 	while (x != y) {
 	  if (x > y) {

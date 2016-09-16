@@ -51,12 +51,20 @@ class Tokenizer {
 	
 	private func skipComments() {
 		if scanner.scanString("//", into: nil) {
+			let oldskipper = scanner.charactersToBeSkipped
+			scanner.charactersToBeSkipped = CharacterSet()
 			scanner.scanUpTo("\n", into: nil)
 			scanner.scanString("\n", into: nil)
+			scanner.charactersToBeSkipped = oldskipper
+			skipComments()
 		}
 		if(scanner.scanString("/*", into: nil)) {
+			let oldskipper = scanner.charactersToBeSkipped
+			scanner.charactersToBeSkipped = CharacterSet()
 			scanner.scanUpTo("*/", into: nil)
 			scanner.scanString("*/", into: nil)
+			scanner.charactersToBeSkipped = oldskipper
+			skipComments()
 		}
 	}
 	
@@ -164,9 +172,12 @@ class Tokenizer {
 	private func scanStringLiteral() -> Token? {
 		var buffer: NSString? = ""
 		let location = scanner.scanLocation
+		let oldskipper = scanner.charactersToBeSkipped
+		scanner.charactersToBeSkipped = .none
 		
 		if !scanner.scanString("\"", into: nil) {
 			scanner.scanLocation = location
+			scanner.charactersToBeSkipped = oldskipper
 			return .none
 		}
 		
@@ -174,9 +185,11 @@ class Tokenizer {
 		
 		if !scanner.scanString("\"", into: nil) {
 			scanner.scanLocation = location
+			scanner.charactersToBeSkipped = oldskipper
 			return .none
 		}
 		
+		scanner.charactersToBeSkipped = oldskipper
 		return STRINGLIT(value: buffer! as String)
 	}
 	

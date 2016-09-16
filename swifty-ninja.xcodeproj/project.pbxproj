@@ -106,10 +106,8 @@
 		7E2C92A91D882C0C007CA28A /* Heap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
 		7E3A8FA71D82235700093087 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		7E40CCD31D7DF90B00D7880C /* bruch.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bruch.nj; sourceTree = "<group>"; };
-		7E40CCD41D7DF90B00D7880C /* bruch2.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bruch2.nj; sourceTree = "<group>"; };
 		7E40CCD51D7DF90B00D7880C /* caesar.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = caesar.nj; sourceTree = "<group>"; };
-		7E40CCD61D7DF90B00D7880C /* expTree.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = expTree.nj; sourceTree = "<group>"; };
-		7E40CCD71D7DF90B00D7880C /* fac_100.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = fac_100.nj; sourceTree = "<group>"; };
+		7E40CCD61D7DF90B00D7880C /* exp_tree.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = exp_tree.nj; sourceTree = "<group>"; };
 		7E40CCD81D7DF90B00D7880C /* fac_it.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = fac_it.nj; sourceTree = "<group>"; };
 		7E40CCD91D7DF90B00D7880C /* fac_rec.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = fac_rec.nj; sourceTree = "<group>"; };
 		7E40CCDA1D7DF90B00D7880C /* factor.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = factor.nj; sourceTree = "<group>"; };
@@ -149,7 +147,7 @@
 		7E4CAA261D83430000636BC2 /* Evaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
 		7E4CAA291D83851300636BC2 /* Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
 		7E593B1B1D88BFF9000773CB /* Framework.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Framework.swift; sourceTree = "<group>"; };
-		7E7215941D8B52D500D89E84 /* bruch3.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bruch3.nj; sourceTree = "<group>"; };
+		7E7215941D8B52D500D89E84 /* bruch2.nj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = bruch2.nj; sourceTree = "<group>"; };
 		7E76E8291D88933900F7C562 /* REPLResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = REPLResult.swift; sourceTree = "<group>"; };
 		7E87DE1D1D8563A100B3249E /* Evaluator$Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator$Value.swift; sourceTree = "<group>"; };
 		7E87DE201D8563F500B3249E /* Evaluator$Type.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator$Type.swift; sourceTree = "<group>"; };
@@ -211,22 +209,20 @@
 		7E40CCD21D7DF90B00D7880C /* nj */ = {
 			isa = PBXGroup;
 			children = (
-				7E40CCD31D7DF90B00D7880C /* bruch.nj */,
-				7E40CCD41D7DF90B00D7880C /* bruch2.nj */,
-				7E7215941D8B52D500D89E84 /* bruch3.nj */,
-				7E40CCD51D7DF90B00D7880C /* caesar.nj */,
-				7E40CCD61D7DF90B00D7880C /* expTree.nj */,
-				7E40CCD71D7DF90B00D7880C /* fac_100.nj */,
-				7E40CCD81D7DF90B00D7880C /* fac_it.nj */,
-				7E40CCD91D7DF90B00D7880C /* fac_rec.nj */,
-				7E40CCDA1D7DF90B00D7880C /* factor.nj */,
-				7E40CCDB1D7DF90B00D7880C /* fib_it.nj */,
 				7E40CCDC1D7DF90B00D7880C /* ggt.nj */,
 				7E40CCDD1D7DF90B00D7880C /* ggt_glob.nj */,
+				7E40CCDB1D7DF90B00D7880C /* fib_it.nj */,
+				7E40CCD81D7DF90B00D7880C /* fac_it.nj */,
+				7E40CCD91D7DF90B00D7880C /* fac_rec.nj */,
+				7E40CCE11D7DF90B00D7880C /* t.nj */,
+				7E40CCD31D7DF90B00D7880C /* bruch.nj */,
+				7E7215941D8B52D500D89E84 /* bruch2.nj */,
+				7E40CCD51D7DF90B00D7880C /* caesar.nj */,
+				7E40CCD61D7DF90B00D7880C /* exp_tree.nj */,
 				7E40CCDE1D7DF90B00D7880C /* listrev.nj */,
+				7E40CCDA1D7DF90B00D7880C /* factor.nj */,
 				7E40CCDF1D7DF90B00D7880C /* matinv.nj */,
 				7E40CCE01D7DF90B00D7880C /* njlisp.nj */,
-				7E40CCE11D7DF90B00D7880C /* t.nj */,
 				7E40CCE21D7DF90B00D7880C /* twodim.nj */,
 			);
 			path = nj;

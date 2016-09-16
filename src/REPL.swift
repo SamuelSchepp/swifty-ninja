@@ -61,7 +61,12 @@ class REPL {
 		let parser = Parser(with: tokens)
 		
 		guard let ast = function(parser) else { return .none }
-		if !parser.isDone() { return .none }
+		if !parser.isDone() {
+			parser.stack.context.forEach { token in
+				print(token)
+			}
+			return .none
+		}
 		
 		return ast
 	}

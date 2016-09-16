@@ -13,6 +13,7 @@ class GlobalEnvironment {
     var varTypeMap: [String: Type]
     var globalVariables: [String: ReferenceValue]
     var functions: [String: Function]
+	var outputBuffer: String
 	
     var localStack: Stack<LocalEnvironment>
     let heap: Heap
@@ -31,8 +32,12 @@ class GlobalEnvironment {
             "writeCharacter": Framework.writeCharacter,
 			"readInteger": Framework.readInteger,
 			"sysDump" : Framework.sysDump,
-			"writeString": Framework.writeString
+			"writeString": Framework.writeString,
+			"char2int": Framework.char2int,
+			"int2char": Framework.int2char
         ]
+		
+		outputBuffer = ""
 		
 		localStack = Stack()
 		heap = Heap()
@@ -84,6 +89,11 @@ class GlobalEnvironment {
             globalVariables.keys.contains(ident) ||
             functions.keys.contains(ident) || localStack.peek()?.identifierExists(ident: ident) ?? false
     }
+	
+	func output(string: String) {
+		outputBuffer += string;
+		print(string, separator: "", terminator: "")
+	}
 	
 	// MARK: Other
 	

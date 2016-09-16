@@ -17,9 +17,10 @@ void main() {
 
 	bruch = new(Bruch);
 
-	writeString("1/1 + 1/2 + 1/3 + ... + 1/");
+	writeString("1/1 + 1/2 + 1/3 + ... + 1/10");
 
-	n = readInteger();
+	// n = readInteger();
+	n = 10;
 
 	writeCharacter('\n');
 
@@ -62,8 +63,8 @@ void main() {
 	writeCharacter('\n');
 	writeCharacter('\n');
 
-	writeString("Nachkommastellen: ");
-	nNachkommaInput = readInteger();
+	writeString("Nachkommastellen: 20");
+	nNachkommaInput = 20;
 	writeCharacter('\n');
 
 	writeInteger(bruch.zaehler / bruch.nenner);

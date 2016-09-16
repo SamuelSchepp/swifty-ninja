@@ -2,15 +2,10 @@ void main() {
 	local Integer key;
 	local Character input;
 	local Character result;
-	writeCharacter('>');
 	
-	input = readCharacter();
+	input = 'A';
 
-	writeCharacter('>');
-
-	key = readInteger();
-
-    writeCharacter(':');
+	key = 4;
 
 	result = toCaesar(input, key);
 	

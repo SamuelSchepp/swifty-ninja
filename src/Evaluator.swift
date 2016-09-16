@@ -109,7 +109,8 @@ class Evaluator {
         if globalEnvironment.identifierExists(ident: type_dec.ident) {
 			throw REPLError.Redeclaration(ident: type_dec.ident)
         }
-        
+		
+		globalEnvironment.typeDecMap[type_dec.ident] = RecordType(fieldIdents: [], fieldTypes: [])
         let type = try evaluateType(typeExpression: type_dec.type)
         globalEnvironment.typeDecMap[type_dec.ident] = type
     }

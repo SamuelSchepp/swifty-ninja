@@ -119,7 +119,7 @@ class TokenizerTests: XCTestCase {
 	
 	
 	func testProgram1() {
-		let program = "// Mein kleines Programm\nvoid main() { /* kommentar */ local Integer x; // Kommentar2\n local Integer y; x = readInteger(); y = readInteger(); while (x != y) { if (x > y) { x = x - y; } else { y = y - x; } } writeInteger(x); writeCharacter('\\n'); }"
+		let program = "// Mein kleines Programm\n//\nvoid main() { /* kommentar */ local Integer x; // Kommentar2\n local Integer y; x = readInteger(); y = readInteger(); while (x != y) { if (x > y) { x = x - y; // lel\n} else { y = y - x; } } writeInteger(x); writeCharacter('\\n'); }"
 		let tokens = Tokenizer(with: program).tokenize()
 		tokens?.forEach({ print($0) })
 		XCTAssertEqual(tokens?.count, 67)
