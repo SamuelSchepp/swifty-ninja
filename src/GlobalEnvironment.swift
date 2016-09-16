@@ -30,7 +30,8 @@ class GlobalEnvironment {
             "writeInteger": Framework.writeInteger,
             "writeCharacter": Framework.writeCharacter,
 			"readInteger": Framework.readInteger,
-			"sysDump" : Framework.sysDump
+			"sysDump" : Framework.sysDump,
+			"writeString": Framework.writeString
         ]
 		
 		localStack = Stack()
@@ -104,6 +105,11 @@ class GlobalEnvironment {
 		globalVariables.forEach { key, value in
 			let left = String.padding("\"\(key)\":")(toLength: width, withPad: " ", startingAt: 0)
 			print("\(left)\(value)")
+		}
+		print()
+		print("==== Stack ====")
+		localStack.context.reversed().forEach { envi in
+			envi.dump()
 		}
 		print()
 		print("==== Functions ====")

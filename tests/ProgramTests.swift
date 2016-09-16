@@ -100,4 +100,30 @@ class ProgramTests: XCTestCase {
 			throw err
 		}
 	}
+	
+	func testRecord2() throws {
+		let source = "type Bruch = record { Integer zaehler; Integer nenner; }; global Bruch bruch; void main() { local Integer i; local Integer g; local Integer rest; local Integer n; local Integer nNachkomma; local Integer nNachkommaInput; bruch = new(Bruch); writeString(\"1/1 + 1/2 + 1/3 + ... + 1/\"); n = readInteger(); writeCharacter('\n'); i = 1; bruch.zaehler = 1; bruch.nenner = 1; while(i < n) { i = i + 1; bruch.zaehler = bruch.nenner + i * bruch.zaehler; bruch.nenner = bruch.nenner * i; } writeString(\"Zähler: \"); writeInteger(bruch.zaehler); writeCharacter('\n'); writeString(\"Nenner: \"); writeInteger(bruch.nenner); writeCharacter('\n'); writeCharacter('\n'); g = ggt(bruch.zaehler, bruch.nenner); writeString(\" GGT: \"); writeInteger(g); writeCharacter('\n'); writeCharacter('\n'); bruch.zaehler = bruch.zaehler / g; bruch.nenner = bruch.nenner / g; writeString(\"Zähler: \"); writeInteger(bruch.zaehler); writeCharacter('\n'); writeString(\"Nenner: \"); writeInteger(bruch.nenner); writeCharacter('\n'); writeCharacter('\n'); writeString(\"Nachkommastellen: \"); nNachkommaInput = readInteger(); writeCharacter('\n'); writeInteger(bruch.zaehler / bruch.nenner); writeCharacter('.'); nNachkomma = 0; rest = bruch.zaehler; while (nNachkomma < nNachkommaInput) { rest = (rest % bruch.nenner) * 10; writeInteger(rest / bruch.nenner); nNachkomma = nNachkomma + 1; } writeCharacter('\n');  sysDump(); } Integer ggt(Integer zahl1, Integer zahl2) { local Integer x; local Integer y; x = zahl1; y = zahl2; while (x != y) { if (x > y) { x = x - y; } else { y = y - x; } } return x; } "
+		
+		let repl = REPL()
+		do {
+			_  = try repl.handleAsProgram(input: source)
+		}
+		catch let err {
+			print(err)
+			throw err
+		}
+	}
+	
+	func testString() throws {
+		let source = "global Character[] myString; void main() {  myString = \"hallo\"; sysDump(); writeString(myString); writeString(\"hiii\");sysDump(); }"
+		
+		let repl = REPL()
+		do {
+			_  = try repl.handleAsProgram(input: source)
+		}
+		catch let err {
+			print(err)
+			throw err
+		}
+	}
 }

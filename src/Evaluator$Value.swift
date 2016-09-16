@@ -235,7 +235,15 @@ extension Evaluator {
 	}
 	
 	func evaluateRefToValue(primary_exp_string: Primary_Exp_String) throws -> ReferenceValue {
-		throw REPLError.NotImplemented
+		let string = primary_exp_string.value
+		let refToArray = try globalEnvironment.heap.malloc(size: string.characters.count + 1)
+		try globalEnvironment.heap.set(value: SizeValue(value: string.characters.count), addr: refToArray)
+		for i: Int in 0..<string.characters.count {
+			let reToChar = try globalEnvironment.heap.malloc(size: 1)
+			try globalEnvironment.heap.set(value: CharacterValue(value: string[string.index(string.startIndex, offsetBy: i)]), addr: reToChar)
+			try globalEnvironment.heap.set(value: reToChar, addr: ReferenceValue(value: refToArray.value + i + 1))
+		}
+		return refToArray
 	}
 	
 	func evaluateRefToValue(primary_exp_sizeof: Primary_Exp_Sizeof) throws -> ReferenceValue {
@@ -266,7 +274,8 @@ extension Evaluator {
 	
 	func evaluateRefToValue(new_obj_spec_ident: New_Obj_Spec_Ident) throws -> ReferenceValue {
 		guard let type = try globalEnvironment.findTypeOfTypeIdentifier(ident: new_obj_spec_ident.ident) as? RecordType else { throw REPLError.TypeMissmatch }
-		let ref = try globalEnvironment.heap.malloc(size: type.size)
+		let ref = try globalEnvironment.heap.malloc(size: type.size + 1)
+		try globalEnvironment.heap.set(value: SizeValue(value: type.size), addr: ref)
 		return ref;
 	}
 	
@@ -294,7 +303,7 @@ extension Evaluator {
 			throw REPLError.UnresolvableReference(ident: var_field_access.ident)
 		}
 		
-		return ReferenceValue(value: ref.value + index)
+		return ReferenceValue(value: ref.value + index + 1)
 	}
 	
 	func evaluateRefToValue(var_field_access: Var_Field_Access) throws -> ReferenceValue {

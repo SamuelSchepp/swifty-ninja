@@ -170,7 +170,7 @@ extension Evaluator {
 			throw REPLError.ParameterMissmatch
 		}
 		
-		let localEnvironment = LocalEnvironment()
+		let localEnvironment = LocalEnvironment(ident: call_stm.ident)
 		
 		/* check parameter */
 		for i in 0..<call_stm.args.count {
@@ -190,6 +190,7 @@ extension Evaluator {
 		
 		do {
 			try runFunction(function: function)
+			_ = globalEnvironment.localStack.pop()
 		}
 		catch let err {
 			if case REPLControlFlow.ReturnValue(let val) = err {

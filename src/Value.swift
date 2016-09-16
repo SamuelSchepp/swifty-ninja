@@ -15,7 +15,17 @@ struct IntegerValue: Value {
 	
 	var description: String {
 		get {
-			return "\(value)"
+			return "\(value) <Integer>"
+		}
+	}
+}
+
+struct SizeValue: Value {
+	var value: Int
+	
+	var description: String {
+		get {
+			return "\(value) <Size>"
 		}
 	}
 }
@@ -26,9 +36,9 @@ struct ReferenceValue: Value {
 	var description: String {
 		get {
 			if value == 0 {
-				return "<Null>"
+				return "<Null Reference>"
 			}
-			return "0x\(String(format: "%08x", value))"
+			return "0x\(String(format: "%08x", value)) <Reference>"
 		}
 	}
 	
@@ -50,7 +60,7 @@ struct BooleanValue: Value {
 	
 	var description: String {
 		get {
-			return "\(value)"
+			return "\(value) <Boolean>"
 		}
 	}
 }
@@ -60,7 +70,12 @@ struct CharacterValue: Value {
 	
 	var description: String {
 		get {
-			return "\(value)"
+			if isprint(Int32(UnicodeScalar(String(value))!.value)) > 0 {
+				return "\(value) <Character>"
+			}
+			else {
+				return "0x\(String(format: "%08x", UnicodeScalar(String(value))!.value)) <Character>"
+			}
 		}
 	}
 }

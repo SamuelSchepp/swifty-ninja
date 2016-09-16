@@ -58,4 +58,27 @@ struct Framework {
 			globalInvironment.dump();
 		}
 	)
+	
+	static let writeString = SystemFunction(
+		type: .none,
+		ident: "writeString",
+		par_decs: [Par_Dec(type: ArrayTypeExpression(ident: "Character", dims: 1), ident: "string")],
+		callee: { (globalInvironment: GlobalEnvironment) in
+			let refToArray = try globalInvironment.findReferenceOfVariable(ident: "string")
+			guard let size = try globalInvironment.heap.get(addr: refToArray) as? SizeValue else {
+				throw REPLError.TypeMissmatch
+			}
+			var index = 0;
+			while(index < size.value) {
+				guard let refToValue = try globalInvironment.heap.get(addr: ReferenceValue(value: refToArray.value + index + 1)) as? ReferenceValue else {
+					throw REPLError.TypeMissmatch
+				}
+				guard let char = try globalInvironment.heap.get(addr: refToValue) as? CharacterValue else {
+					throw REPLError.TypeMissmatch
+				}
+				print(char.value, separator: "", terminator: "")
+				index += 1
+			}
+		}
+	)
 }
