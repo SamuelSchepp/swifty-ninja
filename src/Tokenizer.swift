@@ -132,7 +132,6 @@ class Tokenizer {
 	}
 	
 	private func scanCharacterLiteral(scanner: Scanner, line: Int) -> Token? {
-		var buffer: NSString? = ""
 		let location = scanner.scanLocation
 		
 		if !scanner.scanString("'", into: nil) {
@@ -143,16 +142,13 @@ class Tokenizer {
 		let oldskipper = scanner.charactersToBeSkipped
 		scanner.charactersToBeSkipped = .none
 		
-		scanner.scanUpTo("'", into: &buffer)
+		var s = continueScanCharacter(scanner: scanner, line: line)
 		
 		scanner.charactersToBeSkipped = oldskipper
-		
-		var s = buffer! as String
 		
 		s = s.replacingOccurrences(of: "\\n", with: "\n")
 		s = s.replacingOccurrences(of: "\\r", with: "\r")
 		s = s.replacingOccurrences(of: "\\t", with: "\t")
-		s = s.replacingOccurrences(of: "\'", with: "'")
 		s = s.replacingOccurrences(of: "\\\u{22}", with: "\"")
 		
 		if (s.characters.count != 1) {
@@ -165,7 +161,23 @@ class Tokenizer {
 			return .none
 		}
 		
+		
 		return CHARACTERLIT(line: line, value: s.characters.first!)
+	}
+	
+	func continueScanCharacter(scanner: Scanner, line: Int) -> String {
+		var buffer: NSString? = ""
+		if scanner.scanUpTo("'", into: &buffer) {
+			var s = buffer! as String
+			if(s.characters.count > 0) {
+				if s.characters.last! == "\\" {
+					s.characters.append("'")
+					s.append(continueScanCharacter(scanner: scanner, line: line))
+				}
+			}
+			return s
+		}
+		return ""
 	}
 	
 	private func scanStringLiteral(scanner: Scanner, line: Int) -> Token? {
@@ -194,7 +206,6 @@ class Tokenizer {
 		buf = buf.replacingOccurrences(of: "\\n", with: "\n")
 		buf = buf.replacingOccurrences(of: "\\r", with: "\r")
 		buf = buf.replacingOccurrences(of: "\\t", with: "\t")
-		buf = buf.replacingOccurrences(of: "\'", with: "'")
 		buf = buf.replacingOccurrences(of: "\\\u{22}", with: "\"")
 		
 		return STRINGLIT(line: line, value: buf)

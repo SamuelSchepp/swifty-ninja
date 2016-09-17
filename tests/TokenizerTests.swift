@@ -11,6 +11,7 @@ import XCTest
 class TokenizerTests: XCTestCase {
 	func check(_ map: [String: [Token]]) throws {
 		try map.forEach { key, value in
+			print("\(key) -> \(value)")
 			let tokens = try Tokenizer(with: key).tokenize()
 			print(String(describing: value))
 			print(String(describing: tokens))
@@ -87,7 +88,8 @@ class TokenizerTests: XCTestCase {
 			"'7'":		[CHARACTERLIT(line: 1, value: "7")],
 			"'.'":		[CHARACTERLIT(line: 1, value: ".")],
 			"' '":		[CHARACTERLIT(line: 1, value: " ")],
-			"'\\'":		[CHARACTERLIT(line: 1, value: "\\")],
+			"'\u{92}''":	[CHARACTERLIT(line: 1, value: "'")],
+			"'\u{92}\u{92}'":	[CHARACTERLIT(line: 1, value: "\u{92}")],
 			"('ß')":	[LPAREN(line: 1), CHARACTERLIT(line: 1, value: "ß"), RPAREN(line: 1)]
 		])
 	}
