@@ -55,7 +55,7 @@ struct UnresolvedType: Type {
 	
 	var description: String {
 		get {
-			return "\(ident)"
+			return "Unresolved(\(ident))"
 		}
 	}
 }
