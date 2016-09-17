@@ -23,25 +23,13 @@ class Evaluator {
 	}
 	
 	func evaluate(ast: ASTNode) throws -> REPLResult {
-		if let program = ast as? Program {
-			try evaluate(program: program)
-			return .ProgramDec
-		}
 		if let glob_decs = ast as? Glob_Decs {
 			try evaluate(glob_decs: glob_decs)
-			return .FuncDec
+			return .GlobDec
 		}
 		if let stms = ast as? Stms {
 			try evaluateStm(stm: Compound_Stm(stms: stms))
 			return .Stm
-		}
-		if let stm = ast as? Stm {
-			try evaluateStm(stm: stm)
-			return .Stm
-		}
-		if let typeExp = ast as? TypeExpression {
-			let type = try evaluateType(typeExpression: typeExp)
-			return .TypeExp(type: type)
 		}
 		if let exp = ast as? Exp {
 			let ref = try evaluateRefToValue(exp: exp)

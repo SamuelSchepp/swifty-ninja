@@ -221,7 +221,40 @@ class ProgramTests: XCTestCase {
 		let repl = REPL()
 		do {
 			_  = try repl.handleAsProgram(input: source)
-			XCTAssertEqual(repl.evaluator.globalEnvironment.outputBuffer, "0123456789")
+			let list = repl.evaluator.globalEnvironment.outputBuffer.components(separatedBy: "\n")
+			XCTAssertEqual(list[list.count - 4], "11 * 9091")
+		}
+		catch let err {
+			print(err)
+			repl.dump()
+			throw err
+		}
+	}
+	
+	func test_twodim() throws {
+		let source = try String(contentsOfFile: "twodim.nj")
+		
+		let repl = REPL()
+		do {
+			_  = try repl.handleAsProgram(input: source)
+			let list = repl.evaluator.globalEnvironment.outputBuffer.components(separatedBy: "\n")
+			XCTAssertEqual(list[list.count - 2], "31 32 33 34 35 36 37 38 39 ")
+		}
+		catch let err {
+			print(err)
+			repl.dump()
+			throw err
+		}
+	}
+	
+	func test_matinv() throws {
+		let source = try String(contentsOfFile: "matinv.nj")
+		
+		let repl = REPL()
+		do {
+			_  = try repl.handleAsProgram(input: source)
+			let list = repl.evaluator.globalEnvironment.outputBuffer.components(separatedBy: "\n")
+			XCTAssertEqual(list[list.count - 3], "-6/1  -5/1  ")
 		}
 		catch let err {
 			print(err)

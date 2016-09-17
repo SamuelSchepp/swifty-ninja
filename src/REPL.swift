@@ -37,22 +37,17 @@ class REPL {
 		// Global Decs
         if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Glob_Decs() }) {
             return ast
-        }
-		
-		// Stm
-		if let stms = parseWithFunction(tokens: tokens, function: { return $0.parse_Stms() }) {
-			return stms
 		}
 		
 		// Exp
 		if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Exp() }) {
 			return ast
 		}
-        
-        // Type
-        if let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Type() }) {
-            return ast
-        }
+		
+		// Stm
+		if let stms = parseWithFunction(tokens: tokens, function: { return $0.parse_Stms() }) {
+			return stms
+		}
 		
 		return .none
 	}
@@ -62,9 +57,6 @@ class REPL {
 		
 		guard let ast = function(parser) else { return .none }
 		if !parser.isDone() {
-			parser.stack.context.reversed().forEach { token in
-				print(token)
-			}
 			return .none
 		}
 		

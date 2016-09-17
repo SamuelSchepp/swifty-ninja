@@ -28,10 +28,10 @@ void main() {
   local Integer j;
   m = new(Integer[3][]);
   i = 0;
-  while (i < 3) {
-    m[i] = new(Integer[4]);
+  while (i < sizeof(m)) {
+    m[i] = new(Integer[9]);
     j = 0;
-    while (j < 4) {
+    while (j < sizeof(m[i])) {
       m[i][j] = 10 * (i + 1) + (j + 1);
       j = j + 1;
     }

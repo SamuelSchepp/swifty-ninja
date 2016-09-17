@@ -62,11 +62,10 @@ struct UnresolvedType: Type {
 
 struct ArrayType: Type {
     let base: Type
-    let dims: Int
     
     var description: String {
         get {
-            return "Array of \(base) (\(dims) dimensions)"
+            return "Array of \(base))"
         }
     }
 }

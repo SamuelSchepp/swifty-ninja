@@ -8,33 +8,8 @@
 
 import Foundation
 
-enum REPLResult: CustomStringConvertible { case
-	ProgramDec,
-	FuncDec,
-	GvarDec,
-	TypeDec,
+enum REPLResult { case
+	GlobDec,
 	Stm,
-	TypeExp(type: Type),
 	Exp(ref: ReferenceValue)
-	
-	var description: String {
-		get {
-			switch self {
-			case .ProgramDec:
-				return "<Program declaration>"
-			case .FuncDec:
-				return "<Function declaration>"
-			case .GvarDec:
-				return "<Global variable declaration>"
-			case .TypeDec:
-				return "<Type declaraton>"
-			case .Stm:
-				return "<Statement>"
-			case .TypeExp(let ty):
-				return "<Type expression (Base type: \(ty))"
-			case .Exp(let ref):
-				return "<Expression (Result: \(ref)"
-			}
-		}
-	}
 }

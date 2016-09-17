@@ -23,10 +23,10 @@ class GlobalVarTests: XCTestCase {
 		XCTAssertEqual(String(reflecting: envi.globalVariables["myList"]!), String(reflecting: ReferenceValue.null()))
 		XCTAssertEqual(String(reflecting: envi.globalVariables["myNumber"]!), String(reflecting: ReferenceValue.null()))
 		
-		XCTAssertEqual(String(reflecting: envi.varTypeMap["myList"]!), String(reflecting: ArrayType(base: IntegerType(), dims: 1)))
+		XCTAssertEqual(String(reflecting: envi.varTypeMap["myList"]!), String(reflecting: ArrayType(base: IntegerType())))
 		XCTAssertEqual(String(reflecting: envi.varTypeMap["myNumber"]!), String(reflecting: IntegerType()))
 		
-		XCTAssertEqual(String(reflecting: envi.typeDecMap["IntList"]!), String(reflecting: ArrayType(base: IntegerType(), dims: 1)))
+		XCTAssertEqual(String(reflecting: envi.typeDecMap["IntList"]!), String(reflecting: ArrayType(base: IntegerType())))
 		
 		_ = try repl.handle(input: "myNumber = 4 * 6;")
 		

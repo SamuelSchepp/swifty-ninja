@@ -10,6 +10,26 @@ import Foundation
 
 class App {
 	static func run() {
+		if CommandLine.arguments.count == 1 {
+			repl()
+		}
+		else if CommandLine.arguments.count == 2 {
+			let repl = REPL()
+			do {
+				let input = try String(contentsOfFile: CommandLine.arguments[1])
+				_ = try repl.handleAsProgram(input: input)
+			}
+			catch let err {
+				print(err)
+				repl.dump()
+			}
+		}
+		else {
+			print("error")
+		}
+	}
+	
+	static func repl() {
 		hello()
 		
 		var quit = false
@@ -27,16 +47,25 @@ class App {
 			if let input = readLine() {
 				if input == "" {
 					buffer = ""
-					print("Aborted")
-				}
-				else if input == "#dump" {
-					repl.dump()
 				}
 				else {
 					buffer += input
 					do {
 						let res = try repl.handle(input: buffer)
-						print(res)
+						switch res {
+						case .GlobDec:
+							print("<Global declaraton>")
+						case .Stm:
+							print("<Statement>")
+						case .Exp(let ref):
+							if ref.value != ReferenceValue.null().value {
+								let val = try repl.evaluator.globalEnvironment.heap.get(addr: ref)
+								print("<Expression (Result: \(ref) -> \(val))>")
+							}else {
+								print("<Expression (Result: \(ref))>")
+							}
+						}
+						buffer = ""
 					}
 					catch let err {
 						switch err {
@@ -59,6 +88,6 @@ class App {
 	
 	static func hello() {
 		print("swifty-ninja (v0.1) REPL")
-		print("Press ^C or ^D to quit. Enter an empty line to abort the current evaluation.")
+		print("Press ^C or ^D to quit. Enter an empty line to abort the current evaluation.\nExecute sysDump(); to dump the environment.")
 	}
 }

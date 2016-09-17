@@ -227,9 +227,9 @@
 				7E6557CB1D8D43D000ED5016 /* array.nj */,
 				7E6557CC1D8D728000ED5016 /* recursive_record.nj */,
 				7E40CCDA1D7DF90B00D7880C /* factor.nj */,
+				7E40CCE21D7DF90B00D7880C /* twodim.nj */,
 				7E40CCDF1D7DF90B00D7880C /* matinv.nj */,
 				7E40CCE01D7DF90B00D7880C /* njlisp.nj */,
-				7E40CCE21D7DF90B00D7880C /* twodim.nj */,
 			);
 			path = nj;
 			sourceTree = "<group>";

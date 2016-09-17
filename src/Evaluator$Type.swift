@@ -31,7 +31,7 @@ extension Evaluator {
 	
 	func evaluateType(arrayTypeExpression: ArrayTypeExpression) throws -> Type {
 		let baseType = try evaluateType(typeExpressionIdentifier: arrayTypeExpression.ident)
-		return ArrayType(base: baseType, dims: arrayTypeExpression.dims)
+		return ArrayType(base: baseType)
 	}
 	
 	func evaluateType(typeExpressionIdentifier: String) throws -> Type {
@@ -73,7 +73,7 @@ extension Evaluator {
 			return BooleanType()
 		}
 		if let _ = primary_exp as? Primary_Exp_String {
-			return ArrayType(base: CharacterType(), dims: 1)
+			return ArrayType(base: CharacterType())
 		}
 		if let _ = primary_exp as? Primary_Exp_Sizeof {
 			return IntegerType()
@@ -127,6 +127,10 @@ extension Evaluator {
 			
 			return type
 			
+		}
+		
+		if let var_array_access = _var as? Var_Array_Access {
+			return try evaluateType(primary_exp: var_array_access.primary_exp)
 		}
 		
 		throw REPLError.NotExhaustive(msg: "type of Var")
