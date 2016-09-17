@@ -50,6 +50,16 @@ struct CharacterType: Type {
     }
 }
 
+struct UnresolvedType: Type {
+	let ident: String
+	
+	var description: String {
+		get {
+			return "\(ident)"
+		}
+	}
+}
+
 struct ArrayType: Type {
     let base: Type
     let dims: Int
@@ -71,8 +81,8 @@ struct RecordType: Type {
     
     var description: String {
         get {
-            let f = fieldIdents.reduce("") { last, current in
-                return last + current + "; "
+            let f = zip(fieldIdents, fieldTypes).reduce("") { last, current in
+                return "\(last) \(current.1.description) \(current.0); "
             }
             return "Record (\(f))"
         }

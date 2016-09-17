@@ -105,6 +105,7 @@ class ProgramTests: XCTestCase {
 		}
 		catch let err {
 			print(err)
+			repl.dump()
 			throw err
 		}
 	}
@@ -184,12 +185,43 @@ class ProgramTests: XCTestCase {
 		}
 	}
 	
+	func test_array() throws {
+		let source = try String(contentsOfFile: "array.nj")
+		
+		let repl = REPL()
+		do {
+			_  = try repl.handleAsProgram(input: source)
+			XCTAssertEqual(repl.evaluator.globalEnvironment.outputBuffer, "0123456789")
+		}
+		catch let err {
+			print(err)
+			repl.dump()
+			throw err
+		}
+	}
+	
+	func test_recursive_record() throws {
+		let source = try String(contentsOfFile: "recursive_record.nj")
+		
+		let repl = REPL()
+		do {
+			_  = try repl.handleAsProgram(input: source)
+			XCTAssertEqual(repl.evaluator.globalEnvironment.outputBuffer, "0, 1, 2\n-\n")
+		}
+		catch let err {
+			print(err)
+			repl.dump()
+			throw err
+		}
+	}
+	
 	func test_factor() throws {
 		let source = try String(contentsOfFile: "factor.nj")
 		
 		let repl = REPL()
 		do {
 			_  = try repl.handleAsProgram(input: source)
+			XCTAssertEqual(repl.evaluator.globalEnvironment.outputBuffer, "0123456789")
 		}
 		catch let err {
 			print(err)

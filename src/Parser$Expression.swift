@@ -188,37 +188,23 @@ extension Parser {
 			guard let _: RPAREN = stack.pop() else { stack.context = context; return .none }
 			return Primary_Exp_Exp(exp: exp)
 		}
-		if let ident: IDENT = stack.pop() {
-			if let _: LBRACK = stack.pop() {
-				guard let exp = parse_Exp() else { stack.context = context; return .none }
-				guard let _: RBRACK = stack.pop() else { stack.context = context; return .none }
-				return Var_Array_Access(primary_exp: Var_Ident(ident: ident.value), brack_exp: exp)
-			}
-			if let _: DOT = stack.pop() {
-				guard let ident2: IDENT = stack.pop() else { stack.context = context; return .none }
-				return Var_Field_Access(primary_exp: Var_Ident(ident: ident.value), ident: ident2.value)
-			}
-			if let _: LPAREN = stack.pop() { // Call Exp
-				let arg_list = parse_Arg_List()
-				guard let _: RPAREN = stack.pop() else { stack.context = context; return .none }
-				return Primary_Exp_Call(ident: ident.value, args: arg_list)
-			}
-			return Var_Ident(ident: ident.value)
+		if let call = parse_Call_Exp() {
+			return call
 		}
-		else {
-			if !stack.check_Primary_Exp() { stack.context = context; return .none }
-			guard let primary_exp = parse_Primary_Exp() else { stack.context = context; return .none }
-			if let _: LBRACK = stack.pop() {
-				guard let exp = parse_Exp() else { stack.context = context; return .none }
-				guard let _: RBRACK = stack.pop() else { stack.context = context; return .none }
-				return Var_Array_Access(primary_exp: primary_exp, brack_exp: exp)
-			}
-			if let _: DOT = stack.pop() {
-				guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
-				return Var_Field_Access(primary_exp: primary_exp, ident: ident.value)
-			}
+		if let _var = parse_Var() {
+			return _var
 		}
 		return .none
+	}
+	
+	func parse_Call_Exp() -> Primary_Exp_Call? {
+		let context = stack.context
+		
+		guard let ident: IDENT = stack.pop()else { stack.context = context; return .none } 
+		guard let _: LPAREN = stack.pop() else { stack.context = context; return .none } 
+		let arg_list = parse_Arg_List()
+		guard let _: RPAREN = stack.pop() else { stack.context = context; return .none }
+		return Primary_Exp_Call(ident: ident.value, args: arg_list)
 	}
 	
 	func parse_New_Object_Spec() -> New_Obj_Spec? {
@@ -238,31 +224,67 @@ extension Parser {
 	func parse_Var() -> Var? {
 		let context = stack.context
 		
-		if let ident: IDENT = stack.pop() {
-			if let _: LBRACK = stack.pop() {
-				guard let exp = parse_Exp() else { stack.context = context; return .none }
-				guard let _: RBRACK = stack.pop() else { stack.context = context; return .none }
-				return Var_Array_Access(primary_exp: Var_Ident(ident: ident.value), brack_exp: exp)
-			}
-			if let _: DOT = stack.pop() {
-				guard let ident2: IDENT = stack.pop() else { stack.context = context; return .none }
-				return Var_Field_Access(primary_exp: Var_Ident(ident: ident.value), ident: ident2.value)
-			}
-			return Var_Ident(ident: ident.value)
+		if let var_field_access = parse_Var_Field_Access() {
+			return var_field_access
 		}
-		else {
-			if !stack.check_Primary_Exp() { stack.context = context; return .none }
-			guard let primary_exp = parse_Primary_Exp() else { stack.context = context; return .none }
-			if let _: LBRACK = stack.pop() {
-				guard let exp = parse_Exp() else { stack.context = context; return .none }
-				guard let _: RBRACK = stack.pop() else { stack.context = context; return .none }
-				return Var_Array_Access(primary_exp: primary_exp, brack_exp: exp)
-			}
-			if let _: DOT = stack.pop() {
-				guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
-				return Var_Field_Access(primary_exp: primary_exp, ident: ident.value)
-			}
+		if let var_array_access = parse_Var_Array_Access() {
+			return var_array_access
 		}
+		
+		guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
+		return Var_Ident(ident: ident.value)
+	}
+	
+	func parse_Var_Field_Access() -> Var? {
+		let context = stack.context
+		
+		guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
+		guard let _: DOT = stack.pop()  else { stack.context = context; return .none }
+		guard let ident2: IDENT = stack.pop() else { stack.context = context; return .none }
+		let current = Var_Field_Access(primary_exp: Var_Ident(ident: ident.value), ident: ident2.value)
+		guard let another = parse_Another_Var(primary_exp: current) else {
+			return current
+		}
+		return another
+	}
+	
+	func parse_Var_Array_Access() -> Var? {
+		let context = stack.context
+		
+		guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
+		guard let _: LBRACK = stack.pop() else { stack.context = context; return .none }
+		guard let exp = parse_Exp() else { stack.context = context; return .none }
+		guard let _: RBRACK = stack.pop() else { stack.context = context; return .none }
+		let current = Var_Array_Access(primary_exp: Var_Ident(ident: ident.value), brack_exp: exp)
+		guard let another = parse_Another_Var(primary_exp: current) else {
+			return current;
+		}
+		return another
+	}
+	
+	func parse_Another_Var(primary_exp: Primary_Exp) -> Var? {
+		let context = stack.context
+		
+		if let _: DOT = stack.pop() {
+			guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
+			let current = Var_Field_Access(primary_exp: primary_exp, ident: ident.value)
+			guard let another = parse_Another_Var(primary_exp: current) else {
+				return current
+			}
+			return another
+
+		}
+		
+		if let _: LBRACK = stack.pop() {
+			guard let exp = parse_Exp() else { stack.context = context; return .none }
+			guard let _: RBRACK = stack.pop() else { stack.context = context; return .none }
+			let current = Var_Array_Access(primary_exp: primary_exp, brack_exp: exp)
+			guard let another = parse_Another_Var(primary_exp: current) else {
+				return current
+			}
+			return another
+		}
+		
 		return .none
 	}
 	

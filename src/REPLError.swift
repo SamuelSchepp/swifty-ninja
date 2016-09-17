@@ -22,14 +22,14 @@ enum REPLError: Error, CustomStringConvertible { case
 	FatalError,
 	
 	Redeclaration(ident: String),
-	TypeMissmatch,
+	TypeMissmatch(expected: String, context: String),
 	WrongOperator(op: String, type: Type),
 	ParameterMissmatch,
 	LocalVarDeclareInGlobalContext,
     MainNotFound,
 	
-	NotImplemented,
-	NotExhaustive,
+	NotImplemented(msg: String),
+	NotExhaustive(msg: String),
 	
 	ParseError,
 	TokenError
@@ -59,8 +59,8 @@ enum REPLError: Error, CustomStringConvertible { case
 			
 		case .Redeclaration(let ident):
 			return "Redeclaration of \"\(ident)\""
-		case .TypeMissmatch:
-			return "Type missmatch"
+		case .TypeMissmatch(let expected, let context):
+			return "Type missmatch, expected: \"\(expected)\", context: \"\(context)\""
 		case .WrongOperator(let op, let val):
 			return "Wrong operator: \(op) on \(val)"
 		case .ParameterMissmatch:
@@ -70,10 +70,10 @@ enum REPLError: Error, CustomStringConvertible { case
         case .MainNotFound:
             return "Main function not found"
 			
-		case .NotImplemented:
-			return "Not implemented"
-		case .NotExhaustive:
-			return "Not exhaustive"
+		case .NotImplemented(let msg):
+			return "Not implemented \"\(msg)\""
+		case .NotExhaustive(let msg):
+			return "Not exhaustive \"\(msg)\""
 			
 		case .ParseError:
 			return "Parse error\n"

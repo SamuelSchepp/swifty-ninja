@@ -1,0 +1,33 @@
+void main() {
+
+	local Integer[] array;
+	local Integer index;
+
+	array = new(Integer[10]);
+	index = 0;
+
+	while(index < 10) {
+
+		array[index] = index;
+		index = index + 1;
+
+	}
+
+	printArray(array);
+
+}
+
+
+void printArray(Integer[] array) {
+	local Integer index;
+	index = 0;
+
+	while(index < sizeof(array)) {
+
+		writeInteger(array[index]);
+		index = index + 1;
+
+	}
+
+
+}

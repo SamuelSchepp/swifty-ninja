@@ -148,6 +148,8 @@
 		7E4CAA261D83430000636BC2 /* Evaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
 		7E4CAA291D83851300636BC2 /* Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
 		7E593B1B1D88BFF9000773CB /* Framework.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Framework.swift; sourceTree = "<group>"; };
+		7E6557CB1D8D43D000ED5016 /* array.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = array.nj; sourceTree = "<group>"; };
+		7E6557CC1D8D728000ED5016 /* recursive_record.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = recursive_record.nj; sourceTree = "<group>"; };
 		7E7215941D8B52D500D89E84 /* bruch2.nj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = bruch2.nj; sourceTree = "<group>"; };
 		7E76E8291D88933900F7C562 /* REPLResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = REPLResult.swift; sourceTree = "<group>"; };
 		7E87DE1D1D8563A100B3249E /* Evaluator$Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator$Value.swift; sourceTree = "<group>"; };
@@ -222,6 +224,8 @@
 				7E40CCD61D7DF90B00D7880C /* exp_tree.nj */,
 				7E0BF93A1D8C8CF30082E854 /* null.nj */,
 				7E40CCDE1D7DF90B00D7880C /* listrev.nj */,
+				7E6557CB1D8D43D000ED5016 /* array.nj */,
+				7E6557CC1D8D728000ED5016 /* recursive_record.nj */,
 				7E40CCDA1D7DF90B00D7880C /* factor.nj */,
 				7E40CCDF1D7DF90B00D7880C /* matinv.nj */,
 				7E40CCE01D7DF90B00D7880C /* njlisp.nj */,

@@ -54,7 +54,7 @@ extension Evaluator {
 			return
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "Stm")
 	}
 	
 	func evaluateStm(empty_stm: Empty_Stm) throws {
@@ -81,12 +81,20 @@ extension Evaluator {
 		if let var_field_access = assign_stm._var as? Var_Field_Access {
 			return try evaluateVarFieldAccessAssignStm(var_field_access: var_field_access, refRHS: ref)
 		}
+		if let var_array_access = assign_stm._var as? Var_Array_Access {
+			return try evaluateVarArrayAccessAssignStm(var_array_access: var_array_access, refRHS: ref)
+		}
 		
-		throw REPLError.NotImplemented
+		throw REPLError.NotExhaustive(msg: "Assign_Stm")
 	}
 	
 	func evaluateVarFieldAccessAssignStm(var_field_access: Var_Field_Access, refRHS: ReferenceValue) throws {
 		let ref = try evaluateRefToField(var_field_access: var_field_access)
+		try globalEnvironment.heap.set(value: refRHS, addr: ref)
+	}
+	
+	func evaluateVarArrayAccessAssignStm(var_array_access: Var_Array_Access, refRHS: ReferenceValue) throws {
+		let ref = try evaluateRefToField(var_array_access: var_array_access)
 		try globalEnvironment.heap.set(value: refRHS, addr: ref)
 	}
 	
@@ -220,7 +228,7 @@ extension Evaluator {
 			return
 		}
         
-        throw REPLError.NotExhaustive
+        throw REPLError.NotExhaustive(msg: "Function")
 	}
 	
 	func evaluate(lvar_dec: Lvar_Dec) throws {

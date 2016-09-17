@@ -48,7 +48,7 @@ class Evaluator {
 			return .Exp(ref: ref)
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "ASTNode")
 	}
 	
 	// MARK: Program
@@ -88,7 +88,7 @@ class Evaluator {
 			return
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "Glob_Dec")
 	}
 	
 	// MARK: Gvar Dec
@@ -110,7 +110,6 @@ class Evaluator {
 			throw REPLError.Redeclaration(ident: "type decl \(type_dec.ident)")
         }
 		
-		globalEnvironment.typeDecMap[type_dec.ident] = RecordType(fieldIdents: [], fieldTypes: [])
         let type = try evaluateType(typeExpression: type_dec.type)
         globalEnvironment.typeDecMap[type_dec.ident] = type
     }

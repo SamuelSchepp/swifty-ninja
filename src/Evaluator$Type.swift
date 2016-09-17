@@ -22,7 +22,7 @@ extension Evaluator {
 			return try evaluateType(recordTypeExpression: recordTypeExpression)
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "TypeExpression")
 	}
 	
 	func evaluateType(identifierTypeExpression: IdentifierTypeExpression) throws -> Type {
@@ -35,10 +35,12 @@ extension Evaluator {
 	}
 	
 	func evaluateType(typeExpressionIdentifier: String) throws -> Type {
-		if let ty = globalEnvironment.typeDecMap[typeExpressionIdentifier] {
-			return ty
+		do {
+			return try globalEnvironment.findTypeOfTypeIdentifier(ident: typeExpressionIdentifier)
 		}
-		throw REPLError.UnresolvableType(ident: typeExpressionIdentifier)
+		catch {
+			return UnresolvedType(ident: typeExpressionIdentifier)
+		}
 	}
 	
 	func evaluateType(recordTypeExpression: RecordTypeExpression) throws -> Type {
@@ -58,7 +60,8 @@ extension Evaluator {
 			return VoidType()
 		}
 		if let _ = primary_exp as? Primary_Exp_Exp {
-			throw REPLError.NotImplemented
+			throw REPLError.NotImplemented(msg: "type of Primary_Exp_Exp")
+			// return evaluateType(exp: primary_exp)
 		}
 		if let _ = primary_exp as? Primary_Exp_Integer {
 			return IntegerType()
@@ -82,10 +85,10 @@ extension Evaluator {
 			return try evaluateType(primary_exp_call: primary_exp_call)
 		}
 		if let _ = primary_exp as? New_Obj_Spec {
-			throw REPLError.NotImplemented
+			throw REPLError.NotImplemented(msg: "type of New_Obj_Spec")
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "type of Primary_Exp")
 	}
 	
 	// Mark: Var Type
@@ -94,8 +97,39 @@ extension Evaluator {
 		if let var_ident = _var as? Var_Ident {
 			return try evaluateType(var_ident: var_ident)
 		}
+		if let var_field_access = _var as? Var_Field_Access {
+			let base = try evaluateType(primary_exp: var_field_access.primary_exp)
+			var recordType: RecordType? = .none
+			
+			if let record = base as? RecordType {
+				recordType = record
+			}
+			if let unresolved = base as? UnresolvedType {
+				guard let record = try globalEnvironment.findTypeOfTypeIdentifier(ident: unresolved.ident) as? RecordType else {
+					throw REPLError.TypeMissmatch(expected: "RecordType", context: "type of Var_Field_Access")
+				}
+				recordType = record
+			}
+			
+			/* find index based on string */
+			guard let index = recordType!.fieldIdents.index(of: var_field_access.ident) else {
+				throw REPLError.UnresolvableReference(ident: var_field_access.ident)
+			}
+			
+			var type = recordType!.fieldTypes[index]
+			if let unresolved = type as? UnresolvedType {
+				guard let fieldType = try globalEnvironment.findTypeOfTypeIdentifier(ident: unresolved.ident) as? RecordType else {
+					throw REPLError.TypeMissmatch(expected: "RecordType", context: "type of Var_Field_Access")
+				}
+				type = fieldType
+			}
+			
+			
+			return type
+			
+		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "type of Var")
 	}
 	
 	func evaluateType(var_ident: Var_Ident) throws -> Type {
@@ -112,7 +146,8 @@ extension Evaluator {
 			return try evaluateType(typeExpression: type)
 		}
 		else {
-			throw REPLError.TypeMissmatch
+			let tyString = function.type?.description ?? "void"
+			throw REPLError.TypeMissmatch(expected: tyString, context: "Primary_Exp_Call")
 		}
 	}
 }

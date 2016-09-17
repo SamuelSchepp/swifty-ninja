@@ -1,0 +1,35 @@
+type List = record {
+	Integer value;
+	List next;
+};
+
+void main() {
+local List root;
+root = new(List);
+root.value = 0;
+
+root.next = new(List);
+root.next.value = 1;
+
+root.next.next = new(List);
+root.next.next.value = 2;
+
+showList(root);
+showList(root.next.next.next);
+}
+
+void showList(List list) {
+if (list == nil) {
+writeString("-");
+} else {
+while (true) {
+writeInteger(list.value);
+list = list.next;
+if (list == nil) {
+break;
+}
+writeString(", ");
+}
+}
+writeString("\n");
+}

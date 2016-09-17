@@ -19,7 +19,7 @@ struct Framework {
 				globalInvironment.output(string: String(value.value))
 				throw REPLControlFlow.ReturnVoid
 			}
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "writeInteger")
 		}
 	)
 	
@@ -33,7 +33,7 @@ struct Framework {
 				globalInvironment.output(string: String(value.value))
 				throw REPLControlFlow.ReturnVoid
 			}
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "CharacterValue", context: "writeCharacter")
 		}
 	)
 	
@@ -42,8 +42,8 @@ struct Framework {
 	    ident: "readInteger",
 	    par_decs: [],
 	    callee: { (globalInvironment: GlobalEnvironment) in
-			guard let input = readLine() else { throw REPLError.TypeMissmatch }
-			guard let nr = Int(input) else { throw REPLError.TypeMissmatch }
+			guard let input = readLine() else { throw REPLError.TypeMissmatch(expected: "Integer Input", context: "readInteger") }
+			guard let nr = Int(input) else { throw REPLError.TypeMissmatch(expected: "Integer Input", context: "readInteger") }
 			let ref = try globalInvironment.heap.malloc(size: 1);
 			try globalInvironment.heap.set(value: IntegerValue(value: nr), addr: ref);
 			throw REPLControlFlow.ReturnValue(ref: ref);
@@ -66,15 +66,15 @@ struct Framework {
 		callee: { (globalInvironment: GlobalEnvironment) in
 			let refToArray = try globalInvironment.findReferenceOfVariable(ident: "string")
 			guard let size = try globalInvironment.heap.get(addr: refToArray) as? SizeValue else {
-				throw REPLError.TypeMissmatch
+				throw REPLError.TypeMissmatch(expected: "SizeValue", context: "writeString")
 			}
 			var index = 0;
 			while(index < size.value) {
 				guard let refToValue = try globalInvironment.heap.get(addr: ReferenceValue(value: refToArray.value + index + 1)) as? ReferenceValue else {
-					throw REPLError.TypeMissmatch
+					throw REPLError.TypeMissmatch(expected: "ReferenceValue", context: "writeString")
 				}
 				guard let char = try globalInvironment.heap.get(addr: refToValue) as? CharacterValue else {
-					throw REPLError.TypeMissmatch
+					throw REPLError.TypeMissmatch(expected: "CharacterValue", context: "writeString")
 				}
 				globalInvironment.output(string: String(char.value))
 				index += 1
@@ -89,7 +89,7 @@ struct Framework {
 		callee: { globInvi in
 			let refToChar = try globInvi.findReferenceOfVariable(ident: "c")
 			guard let charValue = try globInvi.heap.get(addr: refToChar) as? CharacterValue else {
-				throw REPLError.TypeMissmatch
+				throw REPLError.TypeMissmatch(expected: "CharacterValue", context: "char2int")
 			}
 			let refToInt = try globInvi.heap.malloc(size: 1)
 			let s = String(charValue.value).unicodeScalars
@@ -106,7 +106,7 @@ struct Framework {
 		callee: { globInvi in
 			let refToInt = try globInvi.findReferenceOfVariable(ident: "i")
 			guard let intValue = try globInvi.heap.get(addr: refToInt) as? IntegerValue else {
-				throw REPLError.TypeMissmatch
+				throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "int2char")
 			}
 			let refToChar = try globInvi.heap.malloc(size: 1)
 			try globInvi.heap.set(value: CharacterValue(value: Character(UnicodeScalar(intValue.value)!)), addr: refToChar)

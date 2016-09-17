@@ -20,7 +20,7 @@ class CPU {
 			return value.value
 		}
 		else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "BooleanValue", context: "isTrue")
 		}
 	}
 	
@@ -28,7 +28,7 @@ class CPU {
 	
     func unaryPlus(unaryRef: ReferenceValue) throws -> ReferenceValue {
 		guard let unary = try globalEnvironment.heap.get(addr: unaryRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "unaryPlus")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -39,7 +39,7 @@ class CPU {
 	
 	func unaryMinus(unaryRef: ReferenceValue) throws -> ReferenceValue {
 		guard let unary = try globalEnvironment.heap.get(addr: unaryRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "unaryMinus")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -50,7 +50,7 @@ class CPU {
 	
 	func unaryLogNot(unaryRef: ReferenceValue) throws -> ReferenceValue {
 		guard let unary = try globalEnvironment.heap.get(addr: unaryRef) as? BooleanValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "BooleanValue", context: "unaryLogNot")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -63,10 +63,10 @@ class CPU {
 	
     func binaryMul(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryMul")
 		}
 		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryMul")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -77,10 +77,10 @@ class CPU {
 	
 	func binaryDiv(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryDiv")
 		}
 		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryDiv")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -91,10 +91,10 @@ class CPU {
 	
 	func binaryMod(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryMod")
 		}
 		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryMod")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -105,10 +105,10 @@ class CPU {
 	
 	func binaryPlus(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryPlus")
 		}
 		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryPlus")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -119,10 +119,10 @@ class CPU {
 	
 	func binaryMinus(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryMinus")
 		}
 		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryMinus")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -137,10 +137,10 @@ class CPU {
 		do {
 			/* Compare Integer */
 			guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-				throw REPLError.TypeMissmatch
+				throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relEQ")
 			}
 			guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-				throw REPLError.TypeMissmatch
+				throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relEQ")
 			}
 			
 			let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -152,10 +152,10 @@ class CPU {
 			do {
 				/* Compare Character */
 				guard let left = try globalEnvironment.heap.get(addr: leftRef) as? CharacterValue else {
-					throw REPLError.TypeMissmatch
+					throw REPLError.TypeMissmatch(expected: "CharacterValue", context: "relEQ")
 				}
 				guard let right = try globalEnvironment.heap.get(addr: rightRef) as? CharacterValue else {
-					throw REPLError.TypeMissmatch
+					throw REPLError.TypeMissmatch(expected: "CharacterValue", context: "relEQ")
 				}
 				
 				let ref = try self.globalEnvironment.heap.malloc(size: 1)
@@ -177,10 +177,10 @@ class CPU {
 		do {
 			/* Compare Integer */
 			guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-				throw REPLError.TypeMissmatch
+				throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relNE")
 			}
 			guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-				throw REPLError.TypeMissmatch
+				throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relNE")
 			}
 			
 			let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -192,10 +192,10 @@ class CPU {
 			do {
 				/* Compare Character */
 				guard let left = try globalEnvironment.heap.get(addr: leftRef) as? CharacterValue else {
-					throw REPLError.TypeMissmatch
+					throw REPLError.TypeMissmatch(expected: "CharacterValue", context: "relNE")
 				}
 				guard let right = try globalEnvironment.heap.get(addr: rightRef) as? CharacterValue else {
-					throw REPLError.TypeMissmatch
+					throw REPLError.TypeMissmatch(expected: "CharacterValue", context: "relNE")
 				}
 				
 				let ref = try self.globalEnvironment.heap.malloc(size: 1)
@@ -215,10 +215,10 @@ class CPU {
 	
 	func relGT(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relGT")
 		}
 		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relGT")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -229,10 +229,10 @@ class CPU {
 	
 	func relGE(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relGE")
 		}
 		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relGE")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -243,10 +243,10 @@ class CPU {
 	
 	func relLT(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relLT")
 		}
 		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relLT")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
@@ -257,45 +257,15 @@ class CPU {
 	
 	func relLE(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relLE")
 		}
 		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? IntegerValue else {
-			throw REPLError.TypeMissmatch
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relLE")
 		}
 		
 		let ref = try globalEnvironment.heap.malloc(size: 1)
 		let value = BooleanValue(value: left.value <= right.value)
 		try globalEnvironment.heap.set(value: value, addr: ref)
-		return ref
-	}
-	
-	// MARK: Boolean
-	
-	func booleanAnd(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
-		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? BooleanValue else {
-			throw REPLError.TypeMissmatch
-		}
-		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? BooleanValue else {
-			throw REPLError.TypeMissmatch
-		}
-		
-		let ref = try globalEnvironment.heap.malloc(size: 1)
-		let value = BooleanValue(value: left.value && right.value)
-		try globalEnvironment.heap.set(value: value, addr: ref)
-		return ref
-	}
-	
-	func booleanOr(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
-		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? BooleanValue else {
-			throw REPLError.TypeMissmatch
-		}
-		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? BooleanValue else {
-			throw REPLError.TypeMissmatch
-		}
-		
-        let ref = try globalEnvironment.heap.malloc(size: 1)
-		let value = BooleanValue(value: left.value || right.value)
-        try globalEnvironment.heap.set(value: value, addr: ref)
 		return ref
 	}
 }

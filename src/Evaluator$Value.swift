@@ -17,7 +17,7 @@ extension Evaluator {
 			return try evaluateRefToValue(or_exp: or_exp)
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "Exp")
 	}
 	
 	// MARK: Or
@@ -30,14 +30,31 @@ extension Evaluator {
 			return try evaluateRefToValue(and_exp: and_exp)
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "Or_Exp")
 	}
 	
 	func evaluateRefToValue(or_exp_binary: Or_Exp_Binary) throws -> ReferenceValue {
         let leftRef = try evaluateRefToValue(or_exp: or_exp_binary.lhs)
+		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? BooleanValue else {
+			throw REPLError.TypeMissmatch(expected: "BooleanValue", context: "booleanOr")
+		}
+		
+		if(left.value) {
+			let ref = try globalEnvironment.heap.malloc(size: 1)
+			let value = BooleanValue(value: true)
+			try globalEnvironment.heap.set(value: value, addr: ref)
+			return ref
+		}
+		
         let rightRef = try evaluateRefToValue(and_exp: or_exp_binary.rhs)
-        
-        return try cpu.booleanOr(leftRef: leftRef, rightRef: rightRef)
+		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? BooleanValue else {
+			throw REPLError.TypeMissmatch(expected: "BooleanValue", context: "booleanOr")
+		}
+		
+		let ref = try globalEnvironment.heap.malloc(size: 1)
+		let value = BooleanValue(value: left.value || right.value)
+		try globalEnvironment.heap.set(value: value, addr: ref)
+		return ref
 	}
 	
 	// MARK: And
@@ -50,14 +67,31 @@ extension Evaluator {
 			return try evaluateRefToValue(rel_exp: rel_exp)
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "And_Exp")
 	}
 	
 	func evaluateRefToValue(and_exp_binary: And_Exp_Binary) throws -> ReferenceValue {
         let leftRef = try evaluateRefToValue(and_exp: and_exp_binary.lhs)
-        let rightRef = try evaluateRefToValue(rel_exp: and_exp_binary.rhs)
+		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? BooleanValue else {
+			throw REPLError.TypeMissmatch(expected: "BooleanValue", context: "booleanAnd")
+		}
 		
-		return try cpu.booleanAnd(leftRef: leftRef, rightRef: rightRef)
+		if(!left.value) {
+			let ref = try globalEnvironment.heap.malloc(size: 1)
+			let value = BooleanValue(value: false)
+			try globalEnvironment.heap.set(value: value, addr: ref)
+			return ref
+		}
+		
+        let rightRef = try evaluateRefToValue(rel_exp: and_exp_binary.rhs)
+		guard let right = try globalEnvironment.heap.get(addr: rightRef) as? BooleanValue else {
+			throw REPLError.TypeMissmatch(expected: "BooleanValue", context: "booleanAnd")
+		}
+		
+		let ref = try globalEnvironment.heap.malloc(size: 1)
+		let value = BooleanValue(value: left.value && right.value)
+		try globalEnvironment.heap.set(value: value, addr: ref)
+		return ref
 	}
 	
 	// MARK: Rel
@@ -70,7 +104,7 @@ extension Evaluator {
 			return try evaluateRefToValue(add_exp: add_exp)
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "Rel_Exp")
 	}
 	
 	func evaluateRefToValue(rel_exp_binary: Rel_Exp_Binary) throws -> ReferenceValue {
@@ -103,7 +137,7 @@ extension Evaluator {
 			return try evaluateRefToValue(mul_exp: mul_exp)
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "Add_Exp")
 	}
 	
 	func evaluateRefToValue(add_exp_binary: Add_Exp_Binary) throws -> ReferenceValue {
@@ -128,7 +162,7 @@ extension Evaluator {
 			return try evaluateRefToValue(unary_exp: unary_exp)
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "Mul_Exp")
 	}
 	
 	func evaluateRefToValue(mul_exp_binary: Mul_Exp_Binary) throws -> ReferenceValue {
@@ -155,7 +189,7 @@ extension Evaluator {
 			return try evaluateRefToValue(primary_exp: primary_exp)
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "Unary_Exp")
 	}
 	
 	func evaluateRefToValue(unary_exp_impl: Unary_Exp_Impl) throws -> ReferenceValue {
@@ -205,7 +239,7 @@ extension Evaluator {
 			return try evaluateRefToValue(new_obj_spec: new_obj_spec)
 		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "Primary_Exp")
 	}
 	
 	func evaluateRefToValue(primary_exp_nil: Primary_Exp_Nil) throws -> ReferenceValue {
@@ -247,7 +281,15 @@ extension Evaluator {
 	}
 	
 	func evaluateRefToValue(primary_exp_sizeof: Primary_Exp_Sizeof) throws -> ReferenceValue {
-		throw REPLError.NotImplemented
+		let ref = try evaluateRefToValue(exp: primary_exp_sizeof.exp)
+		guard let size = try globalEnvironment.heap.get(addr: ref) as? SizeValue else {
+			throw REPLError.TypeMissmatch(expected: "SizeValue", context: "Primary_Exp_Sizeof")
+		}
+		
+		let refToInt = try globalEnvironment.heap.malloc(size: 1)
+		try globalEnvironment.heap.set(value: IntegerValue(value: size.value), addr: refToInt)
+		
+		return refToInt
 	}
 	
 	func evaluateRefToValue(primary_exp_call: Primary_Exp_Call) throws -> ReferenceValue {
@@ -269,11 +311,16 @@ extension Evaluator {
 		if let new_obj_spec_ident = new_obj_spec as? New_Obj_Spec_Ident {
 			return try evaluateRefToValue(new_obj_spec_ident: new_obj_spec_ident)
 		}
-		throw REPLError.NotImplemented
+		if let new_obj_spec_array = new_obj_spec as? New_Obj_Spec_Array {
+			return try evaluateRefToValue(new_obj_spec_array: new_obj_spec_array)
+		}
+		throw REPLError.NotExhaustive(msg: "New_Obj_Spec")
 	}
 	
 	func evaluateRefToValue(new_obj_spec_ident: New_Obj_Spec_Ident) throws -> ReferenceValue {
-		guard let type = try globalEnvironment.findTypeOfTypeIdentifier(ident: new_obj_spec_ident.ident) as? RecordType else { throw REPLError.TypeMissmatch }
+		guard let type = try globalEnvironment.findTypeOfTypeIdentifier(ident: new_obj_spec_ident.ident) as? RecordType else { 
+			throw REPLError.TypeMissmatch(expected: "RecordType", context: "New_Obj_Spec_Ident")
+		}
 		let ref = try globalEnvironment.heap.malloc(size: type.size + 1)
 		try globalEnvironment.heap.set(value: SizeValue(value: type.size), addr: ref)
 		/* init obj with null references */
@@ -281,6 +328,20 @@ extension Evaluator {
 			try globalEnvironment.heap.set(value: ReferenceValue.null(), addr: ReferenceValue(value: ref.value + i))
 		}
 		return ref;
+	}
+	
+	func evaluateRefToValue(new_obj_spec_array: New_Obj_Spec_Array) throws -> ReferenceValue {
+		let refToSize = try evaluateRefToValue(exp: new_obj_spec_array.exp)
+		guard let size = try globalEnvironment.heap.get(addr: refToSize) as? IntegerValue else {
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "new_obj_spec_array.exp")
+		}
+		
+		let refToArray = try globalEnvironment.heap.malloc(size: size.value + 1)
+		try globalEnvironment.heap.set(value: SizeValue(value: size.value), addr: refToArray)
+		for i in 1...size.value {
+			try globalEnvironment.heap.set(value: ReferenceValue.null(), addr: ReferenceValue(value: refToArray.value + i))
+		}
+		return refToArray
 	}
 	
 	// MARK: Var Value
@@ -292,27 +353,61 @@ extension Evaluator {
 		if let var_field_access = _var as? Var_Field_Access {
 			return try evaluateRefToValue(var_field_access: var_field_access)
 		}
+		if let var_array_access = _var as? Var_Array_Access {
+			return try evaluateRefToValue(var_array_access: var_array_access)
+		}
 		
-		throw REPLError.NotExhaustive
+		throw REPLError.NotExhaustive(msg: "Var")
 	}
 	
 	func evaluateRefToField(var_field_access: Var_Field_Access) throws -> ReferenceValue {
-		guard let type = try evaluateType(primary_exp: var_field_access.primary_exp) as? RecordType else {
-			throw REPLError.TypeMissmatch
+		guard let base = try evaluateType(primary_exp: var_field_access.primary_exp) as? RecordType else {
+			throw REPLError.TypeMissmatch(expected: "RecordType", context: "Var_Field_Access")
 		}
 		let ref = try evaluateRefToValue(primary_exp: var_field_access.primary_exp)
 		
+		if ref.value == 0 {
+			throw REPLError.NullPointer
+		}
+		
 		/* find index based on string */
-		guard let index = type.fieldIdents.index(of: var_field_access.ident) else {
+		guard let index = base.fieldIdents.index(of: var_field_access.ident) else {
 			throw REPLError.UnresolvableReference(ident: var_field_access.ident)
 		}
 		
 		return ReferenceValue(value: ref.value + index + 1)
 	}
 	
+	func evaluateRefToField(var_array_access: Var_Array_Access) throws -> ReferenceValue {
+		guard let _ = try evaluateType(primary_exp: var_array_access.primary_exp) as? ArrayType else {
+			throw REPLError.TypeMissmatch(expected: "ArrayType", context: "Var_Array_Access")
+		}
+		let ref = try evaluateRefToValue(primary_exp: var_array_access.primary_exp)
+		
+		let refToIndex = try evaluateRefToValue(exp: var_array_access.brack_exp)
+		guard let index = try globalEnvironment.heap.get(addr: refToIndex) as? IntegerValue else {
+			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "Var_Array_Access.brack_exp")
+		}
+		
+		return ReferenceValue(value: ref.value + index.value + 1)
+	}
+	
 	func evaluateRefToValue(var_field_access: Var_Field_Access) throws -> ReferenceValue {
-		guard let valRef = try globalEnvironment.heap.get(addr: evaluateRefToField(var_field_access: var_field_access)) as? ReferenceValue else {
-			throw REPLError.TypeMissmatch
+		let ref = try evaluateRefToField(var_field_access: var_field_access)
+		if ref.value == ReferenceValue.null().value {
+			return ref
+		}
+		
+		guard let valRef = try globalEnvironment.heap.get(addr: ref) as? ReferenceValue else {
+			throw REPLError.TypeMissmatch(expected: "ReferenceValue", context: "Var_Field_Access")
+		}
+		
+		return valRef
+	}
+	
+	func evaluateRefToValue(var_array_access: Var_Array_Access) throws -> ReferenceValue {
+		guard let valRef = try globalEnvironment.heap.get(addr: evaluateRefToField(var_array_access: var_array_access)) as? ReferenceValue else {
+			throw REPLError.TypeMissmatch(expected: "ReferenceValue", context: "Var_Array_Access")
 		}
 		
 		return valRef

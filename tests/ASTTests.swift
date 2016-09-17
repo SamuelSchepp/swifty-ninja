@@ -200,4 +200,19 @@ class ASTTests: XCTestCase {
 			)
 		)
 	}
+	
+	func testMultiField2() {
+		checkExp(input: "p.next.value.key", targetAST:
+			Var_Field_Access(
+				primary_exp: Var_Field_Access(
+					primary_exp: Var_Field_Access(
+						primary_exp: Var_Ident(ident: "p"), 
+						ident: "next"
+					), 
+					ident: "value"
+				), 
+				ident: "key"
+			)
+		)
+	}
 }
