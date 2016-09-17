@@ -31,8 +31,7 @@ enum REPLError: Error, CustomStringConvertible { case
 	NotImplemented(msg: String),
 	NotExhaustive(msg: String),
 	
-	ParseError,
-	TokenError
+	ParseError
 
 	var description : String {
 		switch self {
@@ -77,8 +76,6 @@ enum REPLError: Error, CustomStringConvertible { case
 			
 		case .ParseError:
 			return "Parse error\n"
-		case .TokenError:
-			return "Token error"
 		}
 	}
 }

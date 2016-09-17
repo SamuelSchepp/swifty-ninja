@@ -9,131 +9,127 @@
 import XCTest
 
 class TokenizerTests: XCTestCase {
-	func check(_ map: [String: [Token]]) {
-		map.forEach { key, value in
-			if let tokens = Tokenizer(with: key).tokenize() {
-				// print(String(describing: value))
-				// print(String(describing: tokens))
-                XCTAssertEqual(String(reflecting: tokens), String(reflecting: value))
-			}
-			else {
-				XCTFail()
-			}
+	func check(_ map: [String: [Token]]) throws {
+		try map.forEach { key, value in
+			let tokens = try Tokenizer(with: key).tokenize()
+			print(String(describing: value))
+			print(String(describing: tokens))
+			XCTAssertEqual(String(reflecting: tokens), String(reflecting: value))
 		}
 	}
 	
-	func testKeywords() {
-		check([
-			"break":	[BREAK()],
-			"if":		[IF()],
-			"local":	[LOCAL()],
-			"void":		[VOID()],
-			"while () {}":	[WHILE(), LPAREN(), RPAREN(), LCURL(), RCURL()],
-			"void hello() {}":	[VOID(), IDENT(value: "hello"), LPAREN(), RPAREN(), LCURL(), RCURL()],
-			"void main() {}":	[VOID(), IDENT(value: "main"), LPAREN(), RPAREN(), LCURL(), RCURL()],
-			"void doNothing() {}":	[VOID(), IDENT(value: "doNothing"), LPAREN(), RPAREN(), LCURL(), RCURL()]
+	func testKeywords() throws {
+		try check([
+			"break":	[BREAK(line: 1)],
+			"if":		[IF(line: 1)],
+			"local":	[LOCAL(line: 1)],
+			"void":		[VOID(line: 1)],
+			"while () {}":	[WHILE(line: 1), LPAREN(line: 1), RPAREN(line: 1), LCURL(line: 1), RCURL(line: 1)],
+			"void hello() {}":	[VOID(line: 1), IDENT(line: 1, value: "hello"), LPAREN(line: 1), RPAREN(line: 1), LCURL(line: 1), RCURL(line: 1)],
+			"void main() {}":	[VOID(line: 1), IDENT(line: 1, value: "main"), LPAREN(line: 1), RPAREN(line: 1), LCURL(line: 1), RCURL(line: 1)],
+			"void doNothing() {}":	[VOID(line: 1), IDENT(line: 1, value: "doNothing"), LPAREN(line: 1), RPAREN(line: 1), LCURL(line: 1), RCURL(line: 1)]
 		])
 	}
 	
-	func testOperators() {
-		check([
-			"()":		[LPAREN(), RPAREN()],
-			"{}":		[LCURL(), RCURL()],
-			"||&&":		[LOGOR(), LOGAND()],
-			"<=!=<":	[LE(), NE(), LT()],
-			"==":		[EQ()],
-			"<= != <":	[LE(), NE(), LT()],
-			"/%":		[SLASH(), PERCENT()],
-			"/ %":		[SLASH(), PERCENT()]
+	func testOperators() throws {
+		try check([
+			"()":		[LPAREN(line: 1), RPAREN(line: 1)],
+			"{}":		[LCURL(line: 1), RCURL(line: 1)],
+			"||&&":		[LOGOR(line: 1), LOGAND(line: 1)],
+			"<=!=<":	[LE(line: 1), NE(line: 1), LT(line: 1)],
+			"==":		[EQ(line: 1)],
+			"<= != <":	[LE(line: 1), NE(line: 1), LT(line: 1)],
+			"/%":		[SLASH(line: 1), PERCENT(line: 1)],
+			"/ %":		[SLASH(line: 1), PERCENT(line: 1)]
 		])
 	}
 	
-	func testNil() {
-		check([
-			"nil":		[NIL()],
-			"nil    nil":	[NIL(), NIL()],
-			"nil nil":	[NIL(), NIL()]
-		])
-	}
-	
-	
-	func testBool() {
-		check([
-			"true":			[BOOLEANLIT(value: true)],
-			"false":		[BOOLEANLIT(value: false)],
-			"true false":	[BOOLEANLIT(value: true), BOOLEANLIT(value: false)]
-		])
-	}
-	
-	func testDecimalInteger() {
-		check([
-			"234":		[INTEGERLIT(value: 234)],
-			"-2":		[MINUS(), INTEGERLIT(value: 2)],
-			"0.5":		[INTEGERLIT(value: 0), DOT(), INTEGERLIT(value: 5)],
-			"-27 45":	[MINUS(), INTEGERLIT(value: 27), INTEGERLIT(value: 45)],
-			"- 27 45":	[MINUS(), INTEGERLIT(value: 27), INTEGERLIT(value: 45)]
-		])
-	}
-	
-	func testHexInteger() {
-		check([
-			"0x123":	[INTEGERLIT(value: 291)],
-			"-0x123":	[MINUS(), INTEGERLIT(value: 291)]
-		])
-	}
-	
-	func testCharacter() {
-		check([
-			"'ä'":		[CHARACTERLIT(value: "ä")],
-			"'\\n'":	[CHARACTERLIT(value: "\n")],
-			"'\\t'":	[CHARACTERLIT(value: "\t")],
-			"'='":		[CHARACTERLIT(value: "=")],
-			"'7'":		[CHARACTERLIT(value: "7")],
-			"'.'":		[CHARACTERLIT(value: ".")],
-			"' '":		[CHARACTERLIT(value: " ")],
-			"'\\'":		[CHARACTERLIT(value: "\\")],
-			"('ß')":	[LPAREN(), CHARACTERLIT(value: "ß"), RPAREN()]
-		])
-	}
-	
-	func testString() {
-		check([
-			"\"\"":											[STRINGLIT(value: "")],
-			"\"Hello, World!\"":							[STRINGLIT(value: "Hello, World!")],
-			"\"A\"":										[STRINGLIT(value: "A")],
-			"\"rgdgdrrhtf3857232§$%&/()+#äö-,;_:'ÄÖÄ*Ü\"":	[STRINGLIT(value: "rgdgdrrhtf3857232§$%&/()+#äö-,;_:'ÄÖÄ*Ü")]
-		])
-	}
-	
-	func testIdentifier() {
-		check([
-			"main":		[IDENT(value: "main")],
-			"x":		[IDENT(value: "x")],
-			"y":		[IDENT(value: "y")],
-			"x y":		[IDENT(value: "x"), IDENT(value: "y")],
-			"test1":	[IDENT(value: "test1")],
-			"2test":	[INTEGERLIT(value: 2), IDENT(value: "test")],
-			"test-id":	[IDENT(value: "test"), MINUS(), IDENT(value: "id")],
+	func testNil() throws {
+		try check([
+			"nil":			[NIL(line: 1)],
+			"nil    nil":	[NIL(line: 1), NIL(line: 1)],
+			"nil nil":		[NIL(line: 1), NIL(line: 1)]
 		])
 	}
 	
 	
-	func testProgram1() {
+	func testBool() throws {
+		try check([
+			"true":			[BOOLEANLIT(line: 1, value: true)],
+			"false":		[BOOLEANLIT(line: 1, value: false)],
+			"true false":	[BOOLEANLIT(line: 1, value: true), BOOLEANLIT(line: 1, value: false)]
+		])
+	}
+	
+	func testDecimalInteger() throws {
+		try check([
+			"234":		[INTEGERLIT(line: 1, value: 234)],
+			"-2":		[MINUS(line: 1), INTEGERLIT(line: 1, value: 2)],
+			"0.5":		[INTEGERLIT(line: 1, value: 0), DOT(line: 1), INTEGERLIT(line: 1, value: 5)],
+			"-27 45":	[MINUS(line: 1), INTEGERLIT(line: 1, value: 27), INTEGERLIT(line: 1, value: 45)],
+			"- 27 45":	[MINUS(line: 1), INTEGERLIT(line: 1, value: 27), INTEGERLIT(line: 1, value: 45)]
+		])
+	}
+	
+	func testHexInteger() throws {
+		try check([
+			"0x123":	[INTEGERLIT(line: 1, value: 291)],
+			"-0x123":	[MINUS(line: 1), INTEGERLIT(line: 1, value: 291)]
+		])
+	}
+	
+	func testCharacter() throws {
+		try check([
+			"'ä'":		[CHARACTERLIT(line: 1, value: "ä")],
+			"'\\n'":	[CHARACTERLIT(line: 1, value: "\n")],
+			"'\\t'":	[CHARACTERLIT(line: 1, value: "\t")],
+			"'='":		[CHARACTERLIT(line: 1, value: "=")],
+			"'7'":		[CHARACTERLIT(line: 1, value: "7")],
+			"'.'":		[CHARACTERLIT(line: 1, value: ".")],
+			"' '":		[CHARACTERLIT(line: 1, value: " ")],
+			"'\\'":		[CHARACTERLIT(line: 1, value: "\\")],
+			"('ß')":	[LPAREN(line: 1), CHARACTERLIT(line: 1, value: "ß"), RPAREN(line: 1)]
+		])
+	}
+	
+	func testString() throws {
+		try check([
+			"\"\"":											[STRINGLIT(line: 1, value: "")],
+			"\"Hello, World!\"":							[STRINGLIT(line: 1, value: "Hello, World!")],
+			"\"A\"":										[STRINGLIT(line: 1, value: "A")],
+			"\"rgdgdrrhtf3857232§$%&/()+#äö-,;_:'ÄÖÄ*Ü\"":	[STRINGLIT(line: 1, value: "rgdgdrrhtf3857232§$%&/()+#äö-,;_:'ÄÖÄ*Ü")]
+		])
+	}
+	
+	func testIdentifier() throws {
+		try check([
+			"main":		[IDENT(line: 1, value: "main")],
+			"x":		[IDENT(line: 1, value: "x")],
+			"y":		[IDENT(line: 1, value: "y")],
+			"x y":		[IDENT(line: 1, value: "x"), IDENT(line: 1, value: "y")],
+			"test1":	[IDENT(line: 1, value: "test1")],
+			"2test":	[INTEGERLIT(line: 1, value: 2), IDENT(line: 1, value: "test")],
+			"test-id":	[IDENT(line: 1, value: "test"), MINUS(line: 1), IDENT(line: 1, value: "id")],
+		])
+	}
+	
+	
+	func testProgram1() throws {
 		let program = "// Mein kleines Programm\n//\nvoid main() { /* kommentar */ local Integer x; // Kommentar2\n local Integer y; x = readInteger(); y = readInteger(); while (x != y) { if (x > y) { x = x - y; // lel\n} else { y = y - x; } } writeInteger(x); writeCharacter('\\n'); }"
-		let tokens = Tokenizer(with: program).tokenize()
-		tokens?.forEach({ print($0) })
-		XCTAssertEqual(tokens?.count, 67)
+		let tokens = try Tokenizer(with: program).tokenize()
+		tokens.forEach({ print($0) })
+		XCTAssertEqual(tokens.count, 67)
 	}
 	
-	func testProgram2() {
+	func testProgram2() throws {
 		let program = "void main() { local Integer x; local Integer y; x = readInteger(); y = readInteger(); while (x != y) { if (x > y) { x = x - y; } else { y = y - x; } } writeInteger(x); writeCharacter('\\n'); }"
-		let tokens = Tokenizer(with: program).tokenize()
-		XCTAssertEqual(tokens?.count, 67)
+		let tokens = try Tokenizer(with: program).tokenize()
+		XCTAssertEqual(tokens.count, 67)
 	}
 	
-	func testProgram3() {
+	func testProgram3() throws {
 		let program = "void main(){writeInteger(10%3);writeCharacter('\\n');}"
-		let tokens = Tokenizer(with: program).tokenize()
-		XCTAssertEqual(tokens?.count, 18)
+		let tokens = try Tokenizer(with: program).tokenize()
+		XCTAssertEqual(tokens.count, 18)
 	}
 }

@@ -10,10 +10,10 @@ import Foundation
 import XCTest
 
 class ASTTests: XCTestCase {
-	func checkStm(input: String, targetAST: ASTNode) {
+	func checkStm(input: String, targetAST: ASTNode) throws {
 		let tokenizer = Tokenizer(with: input)
-		let tokens = tokenizer.tokenize()
-		let parser = Parser(with: tokens!)
+		let tokens = try tokenizer.tokenize()
+		let parser = Parser(with: tokens)
 		if let ast = parser.parse_Stm() {
 			let isString = ast.description
 			let targetString = targetAST.description
@@ -25,10 +25,10 @@ class ASTTests: XCTestCase {
 		}
 	}
 	
-	func checkFunc(input: String, targetAST: ASTNode) {
+	func checkFunc(input: String, targetAST: ASTNode) throws {
 		let tokenizer = Tokenizer(with: input)
-		let tokens = tokenizer.tokenize()
-		let parser = Parser(with: tokens!)
+		let tokens = try tokenizer.tokenize()
+		let parser = Parser(with: tokens)
 		if let ast = parser.parse_Func_Dec() {
 			let isString = ast.description
 			let targetString = targetAST.description
@@ -40,10 +40,10 @@ class ASTTests: XCTestCase {
 		}
 	}
 	
-	func checkExp(input: String, targetAST: ASTNode) {
+	func checkExp(input: String, targetAST: ASTNode) throws {
 		let tokenizer = Tokenizer(with: input)
-		let tokens = tokenizer.tokenize()
-		let parser = Parser(with: tokens!)
+		let tokens = try tokenizer.tokenize()
+		let parser = Parser(with: tokens)
 		if let ast = parser.parse_Exp() {
 			let isString = ast.description
 			let targetString = targetAST.description
@@ -55,8 +55,8 @@ class ASTTests: XCTestCase {
 		}
 	}
 	
-	func testAssign() {
-		checkStm(input: "myInt = 3 + 4;", targetAST:
+	func testAssign() throws {
+		try checkStm(input: "myInt = 3 + 4;", targetAST:
 			Assign_Stm(
 				_var: Var_Ident(
 					ident: "myInt"
@@ -69,8 +69,8 @@ class ASTTests: XCTestCase {
 			)
 	}
 	
-	func testIf() {
-		checkStm(input: "if ( a == 4) { b = b + a; } else { b = 0; }", targetAST:
+	func testIf() throws {
+		try checkStm(input: "if ( a == 4) { b = b + a; } else { b = 0; }", targetAST:
 			If_Stm(
 				exp: Rel_Exp_Binary(
 					lhs: Var_Ident(ident: "a"),
@@ -97,8 +97,8 @@ class ASTTests: XCTestCase {
 		)
 	}
 	
-	func testWhile() {
-		checkStm(input: "while ( a == 4) { b = b + a; }", targetAST:
+	func testWhile() throws {
+		try checkStm(input: "while ( a == 4) { b = b + a; }", targetAST:
 			While_Stm(
 				exp: Rel_Exp_Binary(
 					lhs: Var_Ident(ident: "a"),
@@ -120,8 +120,8 @@ class ASTTests: XCTestCase {
 		)
 	}
 	
-	func testFuncDec() {
-		checkFunc(input: "Integer add(Integer in) { return in + 1; }", targetAST:
+	func testFuncDec() throws {
+		try checkFunc(input: "Integer add(Integer in) { return in + 1; }", targetAST:
 			Func_Dec(
 				type: IdentifierTypeExpression(ident: "Integer"),
 				ident: "add",
@@ -145,8 +145,8 @@ class ASTTests: XCTestCase {
 		)
 	}
 	
-	func testFuncDec2() {
-		checkFunc(input: "void doNothing() { }", targetAST:
+	func testFuncDec2() throws {
+		try checkFunc(input: "void doNothing() { }", targetAST:
 			Func_Dec(
 				type: .none,
 				ident: "doNothing",
@@ -157,8 +157,8 @@ class ASTTests: XCTestCase {
 		)
 	}
 	
-	func testFuncDec3() {
-		checkFunc(input: "void main() { }", targetAST:
+	func testFuncDec3() throws {
+		try checkFunc(input: "void main() { }", targetAST:
 			Func_Dec(
 				type: .none,
 				ident: "main",
@@ -169,14 +169,14 @@ class ASTTests: XCTestCase {
 		)
 	}
 	
-	func testCall() {
-		checkStm(input: "res = call(4);", targetAST:
+	func testCall() throws {
+		try checkStm(input: "res = call(4);", targetAST:
 			Assign_Stm(_var: Var_Ident(ident: "res"), exp: Primary_Exp_Call(ident: "call", args: [Arg(exp: Primary_Exp_Integer(value: 4))]))
 		)
 	}
 	
-	func testCall2() {
-		checkStm(input: "writeInteger(b.zaehler);", targetAST:
+	func testCall2() throws {
+		try checkStm(input: "writeInteger(b.zaehler);", targetAST:
 			Call_Stm(
 				ident: "writeInteger",
 				args: [Arg(
@@ -189,8 +189,8 @@ class ASTTests: XCTestCase {
 		)
 	}
 	
-	func testMultiField() {
-		checkExp(input: "p.next.value", targetAST:
+	func testMultiField() throws {
+		try checkExp(input: "p.next.value", targetAST:
 			Var_Field_Access(
 				primary_exp: Var_Field_Access(
 					primary_exp: Var_Ident(ident: "p"), 
@@ -201,8 +201,8 @@ class ASTTests: XCTestCase {
 		)
 	}
 	
-	func testMultiField2() {
-		checkExp(input: "p.next.value.key", targetAST:
+	func testMultiField2() throws {
+		try checkExp(input: "p.next.value.key", targetAST:
 			Var_Field_Access(
 				primary_exp: Var_Field_Access(
 					primary_exp: Var_Field_Access(

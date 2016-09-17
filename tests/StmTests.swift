@@ -160,34 +160,29 @@ class StmTests: XCTestCase {
 		print(result)
 		envi().dump()
 		
-		if case .FuncDec = result {
-			let isString = envi().functions["add"]!.description
-            let targetString = UserFunction(func_dec: Func_Dec(
-				type: IdentifierTypeExpression(ident: "Integer"),
-				ident: "add",
-				par_decs: [
-					Par_Dec(
-						type: IdentifierTypeExpression(
-							ident: "Integer"),
-						ident: "in")
-				],
-				lvar_decs: [],
-				stms: Stms(stms: [
-					Return_Stm(
-						exp: Add_Exp_Binary(
-							lhs: Var_Ident(ident: "in"),
-							rhs: Primary_Exp_Integer(value: 1),
-							op: .PLUS
-						)
+		let isString = envi().functions["add"]!.description
+		let targetString = UserFunction(func_dec: Func_Dec(
+			type: IdentifierTypeExpression(ident: "Integer"),
+			ident: "add",
+			par_decs: [
+				Par_Dec(
+					type: IdentifierTypeExpression(
+						ident: "Integer"),
+					ident: "in")
+			],
+			lvar_decs: [],
+			stms: Stms(stms: [
+				Return_Stm(
+					exp: Add_Exp_Binary(
+						lhs: Var_Ident(ident: "in"),
+						rhs: Primary_Exp_Integer(value: 1),
+						op: .PLUS
 					)
-				])
-			)).description
-			
-			XCTAssertEqual(isString, targetString)
-		}
-		else {
-			XCTFail()
-		}
+				)
+			])
+		)).description
+		
+		XCTAssertEqual(isString, targetString)
 	}
 	
 	func testFuncDec2() throws {

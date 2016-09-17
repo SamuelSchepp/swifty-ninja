@@ -14,7 +14,7 @@ class REPL {
 	func handle(input: String) throws -> REPLResult {
 		let tokenizer = Tokenizer(with: input)
 		
-		guard let tokens = tokenizer.tokenize() else { throw REPLError.TokenError }
+		let tokens = try tokenizer.tokenize()
 		
 		guard let ast = parse(tokens: tokens) else { throw REPLError.ParseError }
 		
@@ -22,15 +22,14 @@ class REPL {
 		return eval
 	}
 	
-	func handleAsProgram(input: String) throws -> REPLResult {
+	func handleAsProgram(input: String) throws {
 		let tokenizer = Tokenizer(with: input)
 		
-		guard let tokens = tokenizer.tokenize() else { throw REPLError.TokenError }
+		let tokens = try tokenizer.tokenize()
 		
-		guard let ast = parseWithFunction(tokens: tokens, function: { return $0.parse_Program() }) else { throw REPLError.ParseError}
+		guard let program = parseWithFunction(tokens: tokens, function: { return $0.parse_Program() }) as? Program else { throw REPLError.ParseError }
 		
-		let eval = try evaluator.evaluate(ast: ast)
-		return eval
+		try evaluator.evaluate(program: program)
 	}
 	
 	private func parse(tokens: [Token]) -> ASTNode? {

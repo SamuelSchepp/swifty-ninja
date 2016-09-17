@@ -69,7 +69,7 @@ class App {
 					}
 					catch let err {
 						switch err {
-						case REPLError.TokenError:
+						case TokenizerError.TokenizerError(_):
 							break
 						case REPLError.ParseError(_):
 							break

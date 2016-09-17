@@ -75,7 +75,7 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "njlisp.nj"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>
