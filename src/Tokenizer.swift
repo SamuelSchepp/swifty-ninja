@@ -133,6 +133,8 @@ class Tokenizer {
 	
 	private func scanCharacterLiteral(scanner: Scanner, line: Int) -> Token? {
 		let location = scanner.scanLocation
+		var buffer: NSString? = ""
+		
 		
 		if !scanner.scanString("'", into: nil) {
 			scanner.scanLocation = location
@@ -142,14 +144,23 @@ class Tokenizer {
 		let oldskipper = scanner.charactersToBeSkipped
 		scanner.charactersToBeSkipped = .none
 		
-		var s = continueScanCharacter(scanner: scanner, line: line)
+		if scanner.scanString("\u{5C}\u{27}", into: nil) {
+			if !scanner.scanString("'", into: nil) {
+				scanner.scanLocation = location
+				return .none
+			}
+			return CHARACTERLIT(line: line, value: "\u{27}")
+		}
 		
+		scanner.scanUpTo("'", into: &buffer)
 		scanner.charactersToBeSkipped = oldskipper
 		
-		s = s.replacingOccurrences(of: "\\n", with: "\n")
-		s = s.replacingOccurrences(of: "\\r", with: "\r")
-		s = s.replacingOccurrences(of: "\\t", with: "\t")
-		s = s.replacingOccurrences(of: "\\\u{22}", with: "\"")
+		var s = buffer! as String
+		s = s.replacingOccurrences(of: "\u{5C}n", with: "\u{A}")		// \n 
+		s = s.replacingOccurrences(of: "\u{5C}r", with: "\u{D}")		// \r
+		s = s.replacingOccurrences(of: "\u{5C}t", with: "\u{9}")		// \t
+		s = s.replacingOccurrences(of: "\u{5C}\u{22}", with: "\u{22}")	// \"
+		s = s.replacingOccurrences(of: "\u{5C}\u{5C}", with: "\u{5C}")	// \\
 		
 		if (s.characters.count != 1) {
 			scanner.scanLocation = location
@@ -164,22 +175,6 @@ class Tokenizer {
 		
 		return CHARACTERLIT(line: line, value: s.characters.first!)
 	}
-	
-	func continueScanCharacter(scanner: Scanner, line: Int) -> String {
-		var buffer: NSString? = ""
-		if scanner.scanUpTo("'", into: &buffer) {
-			var s = buffer! as String
-			if(s.characters.count > 0) {
-				if s.characters.last! == "\\" {
-					s.characters.append("'")
-					s.append(continueScanCharacter(scanner: scanner, line: line))
-				}
-			}
-			return s
-		}
-		return ""
-	}
-	
 	private func scanStringLiteral(scanner: Scanner, line: Int) -> Token? {
 		var buffer: NSString? = ""
 		let location = scanner.scanLocation

@@ -82,14 +82,14 @@ class TokenizerTests: XCTestCase {
 	func testCharacter() throws {
 		try check([
 			"'ä'":		[CHARACTERLIT(line: 1, value: "ä")],
-			"'\\n'":	[CHARACTERLIT(line: 1, value: "\n")],
-			"'\\t'":	[CHARACTERLIT(line: 1, value: "\t")],
+			"'\u{5C}n'":	[CHARACTERLIT(line: 1, value: "\n")],
+			"'\u{5C}t'":	[CHARACTERLIT(line: 1, value: "\t")],
 			"'='":		[CHARACTERLIT(line: 1, value: "=")],
 			"'7'":		[CHARACTERLIT(line: 1, value: "7")],
 			"'.'":		[CHARACTERLIT(line: 1, value: ".")],
 			"' '":		[CHARACTERLIT(line: 1, value: " ")],
-			"'\u{92}''":	[CHARACTERLIT(line: 1, value: "'")],
-			"'\u{92}\u{92}'":	[CHARACTERLIT(line: 1, value: "\u{92}")],
+			"('\u{5C}'')":	[LPAREN(line: 1), CHARACTERLIT(line: 1, value: "'"), RPAREN(line: 1)],
+			"'\u{5C}\u{5C}'":	[CHARACTERLIT(line: 1, value: "\u{5C}")],
 			"('ß')":	[LPAREN(line: 1), CHARACTERLIT(line: 1, value: "ß"), RPAREN(line: 1)]
 		])
 	}
