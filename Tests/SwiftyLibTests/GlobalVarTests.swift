@@ -8,6 +8,7 @@
 
 import Foundation
 import XCTest
+@testable import SwiftyLib
 
 class GlobalVarTests: XCTestCase {
 	let repl = REPL()

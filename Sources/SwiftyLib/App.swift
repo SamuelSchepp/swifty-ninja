@@ -8,8 +8,8 @@
 
 import Foundation
 
-class App {
-	static func run() {
+public class App {
+	public static func run() {
 		if CommandLine.arguments.count == 1 {
 			repl()
 		}
