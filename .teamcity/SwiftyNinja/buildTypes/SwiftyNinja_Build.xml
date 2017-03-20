@@ -15,7 +15,11 @@
     </build-runners>
     <vcs-settings />
     <requirements />
-    <build-triggers />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters />
+      </build-trigger>
+    </build-triggers>
     <cleanup />
   </settings>
 </build-type>
