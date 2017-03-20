@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="cfd29003-ff01-4ada-a5b2-f6e984408169" type="jetbrains.git" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/10.0/project-config.xsd">
+  <name>gitlab</name>
+  <param name="agentCleanFilesPolicy" value="ALL_UNTRACKED" />
+  <param name="agentCleanPolicy" value="ON_BRANCH_CHANGE" />
+  <param name="authMethod" value="TEAMCITY_SSH_KEY" />
+  <param name="branch" value="refs/heads/master" />
+  <param name="ignoreKnownHosts" value="true" />
+  <param name="submoduleCheckout" value="CHECKOUT" />
+  <param name="teamcitySshKey" value="imac" />
+  <param name="url" value="git@git.thm.de:sspp77/swifty-ninja.git" />
+  <param name="useAlternates" value="true" />
+  <param name="username" value="git" />
+  <param name="usernameStyle" value="USERID" />
+</vcs-root>
+
