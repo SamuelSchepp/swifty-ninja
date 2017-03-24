@@ -8,10 +8,10 @@
 
 import Foundation
 
-class LocalEnvironment {
-	var varTypeMap: [String: Type]
-	var variables: [String: ReferenceValue]
-	var identifier: String
+public class LocalEnvironment {
+	public var varTypeMap: [String: Type]
+	public var variables: [String: ReferenceValue]
+	public var identifier: String
 	
 	init(ident: String) {
 		varTypeMap = [:]
@@ -19,12 +19,12 @@ class LocalEnvironment {
 		identifier = ident
 	}
 	
-	func identifierExists(ident: String) -> Bool {
+	public func identifierExists(ident: String) -> Bool {
 		return varTypeMap.keys.contains(ident) ||
 			variables.keys.contains(ident)
 	}
 	
-	func dump() {
+	public func dump() {
 		print("==== Stack Slot Start \"\(identifier)\" ====")
 		let width = 20
 		print("==== Local Variable Types ====")

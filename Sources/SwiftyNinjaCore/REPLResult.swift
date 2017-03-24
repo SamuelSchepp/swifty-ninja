@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum REPLResult { case
+public enum REPLResult { case
 	GlobDec,
 	Stm,
 	Exp(ref: ReferenceValue)

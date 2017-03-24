@@ -8,23 +8,23 @@
 
 import Foundation
 
-struct TokenStack {
+public struct TokenStack {
 	private var stack: Stack<Token>
 	private var transactionStack: Stack<Stack<Token>>
 	
-	init(with: [Token]) {
+	public init(with: [Token]) {
 		stack = Stack(withList: with.reversed())
 		transactionStack = Stack()
 	}
 	
-	mutating func pop<T: Token>() -> T? {
+	public mutating func pop<T: Token>() -> T? {
 		if let _ = stack.peek() as? T {
 			return stack.pop() as? T
 		}
 		return .none
 	}
 	
-	mutating func pop_Rel_Exp_Binary_Op() -> Rel_Exp_Binary_Op? {
+	public mutating func pop_Rel_Exp_Binary_Op() -> Rel_Exp_Binary_Op? {
 		if let _: EQ = pop() {
 			return .EQ
 		}
@@ -46,7 +46,7 @@ struct TokenStack {
 		return .none
 	}
 	
-	mutating func pop_Add_Exp_Binary_Op() -> Add_Exp_Binary_Op? {
+	public mutating func pop_Add_Exp_Binary_Op() -> Add_Exp_Binary_Op? {
 		if let _: PLUS = pop() {
 			return .PLUS
 		}
@@ -56,7 +56,7 @@ struct TokenStack {
 		return .none
 	}
 	
-	mutating func pop_Mul_Exp_Binary_Op() -> Mul_Exp_Binary_Op? {
+	public mutating func pop_Mul_Exp_Binary_Op() -> Mul_Exp_Binary_Op? {
 		if let _: STAR = pop() {
 			return .STAR
 		}
@@ -69,7 +69,7 @@ struct TokenStack {
 		return .none
 	}
 	
-	mutating func pop_Unary_Exp_Impl_Op() -> Unary_Exp_Impl_Op? {
+	public mutating func pop_Unary_Exp_Impl_Op() -> Unary_Exp_Impl_Op? {
 		if let _: PLUS = pop() {
 			return .PLUS
 		}
@@ -82,7 +82,7 @@ struct TokenStack {
 		return .none
 	}
 	
-	func check_Primary_Exp() -> Bool {
+	public func check_Primary_Exp() -> Bool {
 		if let _ = stack.peek() as? NIL { return true }
 		if let _ = stack.peek() as? INTEGERLIT { return true }
 		if let _ = stack.peek() as? CHARACTERLIT { return true }
@@ -96,7 +96,7 @@ struct TokenStack {
 		return false
 	}
 	
-	var context: [Token] {
+	public var context: [Token] {
 		get {
 			return stack.context
 		}
@@ -105,7 +105,7 @@ struct TokenStack {
 		}
 	}
 	
-	func hasElements() -> Bool {
+	public func hasElements() -> Bool {
 		return stack.hasElements()
 	}
 }

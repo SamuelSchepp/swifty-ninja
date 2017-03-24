@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum REPLControlFlow: Error { case
+public enum REPLControlFlow: Error { case
 	Break,
 	ReturnVoid,
 	ReturnValue(ref: ReferenceValue)

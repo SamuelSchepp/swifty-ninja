@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Heap {
+public class Heap {
     private var heap: [Value]
     
     init() {
@@ -17,7 +17,7 @@ class Heap {
     
     // MARK: Heap
     
-    func get(addr: ReferenceValue) throws -> Value {
+    public func get(addr: ReferenceValue) throws -> Value {
 		if addr.value == 0 {
 			throw REPLError.NullPointer
 		}
@@ -25,7 +25,7 @@ class Heap {
 		return heap[addr.value]
     }
     
-    func set(value: Value, addr: ReferenceValue) throws {
+    public func set(value: Value, addr: ReferenceValue) throws {
 		try checkBounds(addr: addr)
 		heap[addr.value] = value
     }
@@ -40,7 +40,7 @@ class Heap {
         }
     }
     
-	func malloc(size: Int) throws -> ReferenceValue {
+	public func malloc(size: Int) throws -> ReferenceValue {
         if size <= 0 {
 			throw REPLError.FatalError
         }
@@ -53,7 +53,7 @@ class Heap {
 		return ReferenceValue(value: start)
     }
     
-    func last() throws -> Value {
+    public func last() throws -> Value {
 		if let l = heap.last {
 			return l
 		}
@@ -62,7 +62,7 @@ class Heap {
 		}
     }
     
-    func dump() {
+    public func dump() {
         for i in 1..<heap.count {
             print("\(ReferenceValue(value: i))  \(heap[i])")
         }

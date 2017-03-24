@@ -8,26 +8,26 @@
 
 import Foundation
 
-struct Stack<T> {
+public struct Stack<T> {
 	private var list: [T]
 	
-	init(withList: [T]) {
+	public init(withList: [T]) {
 		list = withList
 	}
 	
-	init(withList: ArraySlice<T>) {
+	public init(withList: ArraySlice<T>) {
 		list = [T](withList)
 	}
 	
-	init() {
+	public init() {
 		self.init(withList: [])
 	}
 	
-	mutating func push(value: T) {
+	public mutating func push(value: T) {
 		list.append(value)
 	}
 	
-	mutating func pop() -> T? {
+	public mutating func pop() -> T? {
 		if(list.count == 0) {
 			return .none
 		}
@@ -36,19 +36,19 @@ struct Stack<T> {
 		}
 	}
     
-    func hasElements() -> Bool {
+    public func hasElements() -> Bool {
         return list.count > 0
     }
 	
-	func count() -> Int {
+	public func count() -> Int {
 		return list.count
 	}
 	
-	func peek() -> T? {
+	public func peek() -> T? {
 		return list.last
 	}
 	
-	var context: [T] {
+	public var context: [T] {
 		get {
 			return list
 		}

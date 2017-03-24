@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum REPLError: Error, CustomStringConvertible { case
+public enum REPLError: Error, CustomStringConvertible { case
 	UnresolvableValue(ident: String),
 	UnresolvableReference(ident: String),
 	UnresolvableType(ident: String),
@@ -33,7 +33,7 @@ enum REPLError: Error, CustomStringConvertible { case
 	
 	ParseError
 
-	var description : String {
+	public var description : String {
 		switch self {
 		case .UnresolvableValue(let ident):
 			return "Unresolvable value of identifier \"\(ident)\""

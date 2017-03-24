@@ -8,14 +8,14 @@
 
 import Foundation
 
-class CPU {
-	let globalEnvironment: GlobalEnvironment
+public class CPU {
+	public let globalEnvironment: GlobalEnvironment
 	
-	init(globalEnvironment: GlobalEnvironment) {
+	public init(globalEnvironment: GlobalEnvironment) {
 		self.globalEnvironment = globalEnvironment
 	}
 	
-    func isTrue(addr: ReferenceValue) throws -> Bool {
+    public func isTrue(addr: ReferenceValue) throws -> Bool {
 		if let value = try globalEnvironment.heap.get(addr: addr) as? BooleanValue {
 			return value.value
 		}
@@ -26,7 +26,7 @@ class CPU {
 	
 	// MARK: Unary
 	
-    func unaryPlus(unaryRef: ReferenceValue) throws -> ReferenceValue {
+    public func unaryPlus(unaryRef: ReferenceValue) throws -> ReferenceValue {
 		guard let unary = try globalEnvironment.heap.get(addr: unaryRef) as? IntegerValue else {
 			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "unaryPlus")
 		}
@@ -37,7 +37,7 @@ class CPU {
 		return ref
 	}
 	
-	func unaryMinus(unaryRef: ReferenceValue) throws -> ReferenceValue {
+	public func unaryMinus(unaryRef: ReferenceValue) throws -> ReferenceValue {
 		guard let unary = try globalEnvironment.heap.get(addr: unaryRef) as? IntegerValue else {
 			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "unaryMinus")
 		}
@@ -48,7 +48,7 @@ class CPU {
 		return ref
 	}
 	
-	func unaryLogNot(unaryRef: ReferenceValue) throws -> ReferenceValue {
+	public func unaryLogNot(unaryRef: ReferenceValue) throws -> ReferenceValue {
 		guard let unary = try globalEnvironment.heap.get(addr: unaryRef) as? BooleanValue else {
 			throw REPLError.TypeMissmatch(expected: "BooleanValue", context: "unaryLogNot")
 		}
@@ -61,7 +61,7 @@ class CPU {
 	
 	// MARK: Binary
 	
-    func binaryMul(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
+    public func binaryMul(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
 			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryMul")
 		}
@@ -75,7 +75,7 @@ class CPU {
 		return ref
 	}
 	
-	func binaryDiv(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
+	public func binaryDiv(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
 			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryDiv")
 		}
@@ -89,7 +89,7 @@ class CPU {
 		return ref
 	}
 	
-	func binaryMod(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
+	public func binaryMod(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
 			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryMod")
 		}
@@ -103,7 +103,7 @@ class CPU {
 		return ref
 	}
 	
-	func binaryPlus(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
+	public func binaryPlus(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
 			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryPlus")
 		}
@@ -117,7 +117,7 @@ class CPU {
 		return ref
 	}
 	
-	func binaryMinus(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
+	public func binaryMinus(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
 			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "binaryMinus")
 		}
@@ -133,7 +133,7 @@ class CPU {
 	
 	// MARJK: Rel
 	
-	func relEQ(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
+	public func relEQ(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		do {
 			/* Compare Integer */
 			guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
@@ -173,7 +173,7 @@ class CPU {
 		}
 	}
 	
-	func relNE(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
+	public func relNE(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		do {
 			/* Compare Integer */
 			guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
@@ -213,7 +213,7 @@ class CPU {
 		}
 	}
 	
-	func relGT(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
+	public func relGT(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
 			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relGT")
 		}
@@ -227,7 +227,7 @@ class CPU {
 		return ref
 	}
 	
-	func relGE(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
+	public func relGE(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
 			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relGE")
 		}
@@ -241,7 +241,7 @@ class CPU {
 		return ref
 	}
 	
-	func relLT(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
+	public func relLT(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
 			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relLT")
 		}
@@ -255,7 +255,7 @@ class CPU {
 		return ref
 	}
 	
-	func relLE(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
+	public func relLE(leftRef: ReferenceValue, rightRef: ReferenceValue) throws -> ReferenceValue {
 		guard let left = try globalEnvironment.heap.get(addr: leftRef) as? IntegerValue else {
 			throw REPLError.TypeMissmatch(expected: "IntegerValue", context: "relLE")
 		}
