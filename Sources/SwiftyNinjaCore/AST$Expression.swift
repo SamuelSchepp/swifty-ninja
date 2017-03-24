@@ -157,6 +157,10 @@ public enum Unary_Exp_Impl_Op: String { case
 public protocol Primary_Exp: Unary_Exp { }
 
 public struct Primary_Exp_Nil: Primary_Exp {
+	public init() {
+		
+	}
+	
 	public var description: String {
 		get {
 			return "Primary_Exp_Nil"

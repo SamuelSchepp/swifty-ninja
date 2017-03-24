@@ -9,10 +9,14 @@
 import Foundation
 import SwiftyNinjaCore
 
-class REPL {
-	let evaluator = Evaluator()
+public class REPL {
+	public let evaluator = Evaluator()
 	
-	func handle(input: String) throws -> REPLResult {
+	public init() {
+		
+	}
+	
+	public func handle(input: String) throws -> REPLResult {
 		let tokenizer = Tokenizer(with: input)
 		
 		let tokens = try tokenizer.tokenize()
@@ -23,7 +27,7 @@ class REPL {
 		return eval
 	}
 	
-	func handleAsProgram(input: String) throws {
+	public func handleAsProgram(input: String) throws {
 		let tokenizer = Tokenizer(with: input)
 		
 		let tokens = try tokenizer.tokenize()
@@ -63,7 +67,7 @@ class REPL {
 		return ast
 	}
 	
-	func dump() {
+	public func dump() {
 		evaluator.dump()
 	}
 }

@@ -18,7 +18,7 @@ public class GlobalEnvironment {
     public var localStack: Stack<LocalEnvironment>
     public let heap: Heap
     
-    init() {
+    public init() {
         typeDecMap = [
             "Integer": IntegerType(),
             "Boolean": BooleanType(),

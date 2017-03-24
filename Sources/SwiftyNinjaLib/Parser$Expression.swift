@@ -12,7 +12,7 @@ import SwiftyNinjaCore
 extension Parser {
 	// MARK: Expression
 	
-	func parse_Exp() -> Exp? {
+	public func parse_Exp() -> Exp? {
 		let context = stack.context
 		
 		guard let or_exp = parse_Or_Exp() else { stack.context = context; return .none }
@@ -22,7 +22,7 @@ extension Parser {
 	
 	// MARK: Or
 	
-	func parse_Or_Exp() -> Or_Exp? {
+	public func parse_Or_Exp() -> Or_Exp? {
 		let context = stack.context
 		
 		guard let lhs = parse_And_Exp() else { stack.context = context; return .none }
@@ -34,7 +34,7 @@ extension Parser {
 		}
 	}
 	
-	func parse_Or_Exp_Tail(currentExp: Or_Exp) -> Or_Exp? {
+	public func parse_Or_Exp_Tail(currentExp: Or_Exp) -> Or_Exp? {
 		let context = stack.context
 		
 		guard let _: LOGOR = stack.pop() else { stack.context = context; return .none }
@@ -48,7 +48,7 @@ extension Parser {
 	
 	// MARK: And
 	
-	func parse_And_Exp() -> And_Exp? {
+	public func parse_And_Exp() -> And_Exp? {
 		let context = stack.context
 		
 		guard let lhs = parse_Rel_Exp() else { stack.context = context; return .none }
@@ -60,7 +60,7 @@ extension Parser {
 		}
 	}
 	
-	func parse_And_Exp_Tail(currentExp: And_Exp) -> And_Exp? {
+	public func parse_And_Exp_Tail(currentExp: And_Exp) -> And_Exp? {
 		let context = stack.context
 		
 		guard let _: LOGAND = stack.pop() else { stack.context = context; return .none }
@@ -74,7 +74,7 @@ extension Parser {
 	
 	// MARK: Rel
 	
-	func parse_Rel_Exp() -> Rel_Exp? {
+	public func parse_Rel_Exp() -> Rel_Exp? {
 		let context = stack.context
 		
 		guard let lhs = parse_Add_Exp() else { stack.context = context; return .none }
@@ -89,7 +89,7 @@ extension Parser {
 	
 	// MARK: Add
 	
-	func parse_Add_Exp() -> Add_Exp? {
+	public func parse_Add_Exp() -> Add_Exp? {
 		let context = stack.context
 		
 		guard let lhs = parse_Mul_Exp() else { stack.context = context; return .none }
@@ -101,7 +101,7 @@ extension Parser {
 		}
 	}
 	
-	func parse_Add_Exp_Tail(currentExp: Add_Exp) -> Add_Exp? {
+	public func parse_Add_Exp_Tail(currentExp: Add_Exp) -> Add_Exp? {
 		let context = stack.context
 		
 		guard let op = stack.pop_Add_Exp_Binary_Op() else { stack.context = context; return .none }
@@ -115,7 +115,7 @@ extension Parser {
 	
 	// MARK: Mul
 	
-	func parse_Mul_Exp() -> Mul_Exp? {
+	public func parse_Mul_Exp() -> Mul_Exp? {
 		let context = stack.context
 		
 		guard let lhs = parse_Unary_Exp() else { stack.context = context; return .none }
@@ -127,7 +127,7 @@ extension Parser {
 		}
 	}
 	
-	func parse_Mul_Exp_Tail(currentExp: Mul_Exp) -> Mul_Exp? {
+	public func parse_Mul_Exp_Tail(currentExp: Mul_Exp) -> Mul_Exp? {
 		let context = stack.context
 		
 		guard let op = stack.pop_Mul_Exp_Binary_Op() else { stack.context = context; return .none }
@@ -141,7 +141,7 @@ extension Parser {
 	
 	// MARK: Unary
 	
-	func parse_Unary_Exp() -> Unary_Exp? {
+	public func parse_Unary_Exp() -> Unary_Exp? {
 		let context = stack.context
 		
 		if let primary_exp = parse_Primary_Exp() {
@@ -154,7 +154,7 @@ extension Parser {
 		}
 	}
 	
-	func parse_Primary_Exp() -> Primary_Exp? {
+	public func parse_Primary_Exp() -> Primary_Exp? {
 		let context = stack.context
 		
 		if let _: NIL = stack.pop() {
@@ -198,7 +198,7 @@ extension Parser {
 		return .none
 	}
 	
-	func parse_Call_Exp() -> Primary_Exp_Call? {
+	public func parse_Call_Exp() -> Primary_Exp_Call? {
 		let context = stack.context
 		
 		guard let ident: IDENT = stack.pop()else { stack.context = context; return .none } 
@@ -208,7 +208,7 @@ extension Parser {
 		return Primary_Exp_Call(ident: ident.value, args: arg_list)
 	}
 	
-	func parse_New_Object_Spec() -> New_Obj_Spec? {
+	public func parse_New_Object_Spec() -> New_Obj_Spec? {
 		let context = stack.context
 		
 		guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
@@ -222,7 +222,7 @@ extension Parser {
 		return New_Obj_Spec_Ident(ident: ident.value)
 	}
 	
-	func parse_Var() -> Var? {
+	public func parse_Var() -> Var? {
 		let context = stack.context
 		
 		if let var_field_access = parse_Var_Field_Access() {
@@ -236,7 +236,7 @@ extension Parser {
 		return Var_Ident(ident: ident.value)
 	}
 	
-	func parse_Var_Field_Access() -> Var? {
+	public func parse_Var_Field_Access() -> Var? {
 		let context = stack.context
 		
 		guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
@@ -249,7 +249,7 @@ extension Parser {
 		return another
 	}
 	
-	func parse_Var_Array_Access() -> Var? {
+	public func parse_Var_Array_Access() -> Var? {
 		let context = stack.context
 		
 		guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
@@ -263,7 +263,7 @@ extension Parser {
 		return another
 	}
 	
-	func parse_Another_Var(primary_exp: Primary_Exp) -> Var? {
+	public func parse_Another_Var(primary_exp: Primary_Exp) -> Var? {
 		let context = stack.context
 		
 		if let _: DOT = stack.pop() {
@@ -289,7 +289,7 @@ extension Parser {
 		return .none
 	}
 	
-	func parse_Arg_List() -> [Arg] {
+	public func parse_Arg_List() -> [Arg] {
 		var list = [Arg]()
 		if let exp = parse_Exp() {
 			list.append(Arg(exp: exp))

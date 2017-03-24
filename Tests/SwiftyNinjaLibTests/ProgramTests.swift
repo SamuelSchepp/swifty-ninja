@@ -8,9 +8,11 @@
 
 import Foundation
 import XCTest
-@testable import SwiftyNinjaLib
+import SwiftyNinjaLib
+import SwiftyNinjaCore
 
 class ProgramTests: XCTestCase {
+	
 	func test_ggt() throws {
 		let source = try String(contentsOfFile: "Examples/nj/ggt.nj")
 		

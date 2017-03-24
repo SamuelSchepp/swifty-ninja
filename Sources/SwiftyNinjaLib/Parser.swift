@@ -9,19 +9,19 @@
 import Foundation
 import SwiftyNinjaCore
 
-class Parser {
-	var stack: TokenStack
+public class Parser {
+	public var stack: TokenStack
 	
-	init(with: [Token]) {
+	public init(with: [Token]) {
 		stack = TokenStack(with: with)
 	}
 	
-	func isDone() -> Bool {
+	public func isDone() -> Bool {
 		let done = !stack.hasElements()
 		return done
 	}
 	
-	func parse_Program() -> Program? {
+	public func parse_Program() -> Program? {
 		let context = stack.context
 		
 		guard let glob_decs = parse_Glob_Decs() else { stack.context = context; return .none }
@@ -29,7 +29,7 @@ class Parser {
 		return Program(glob_decs: glob_decs)
 	}
 	
-	func parse_Glob_Decs() -> Glob_Decs? {
+	public func parse_Glob_Decs() -> Glob_Decs? {
 		var glob_decs = [Glob_Dec]()
 		
 		while(true) {
@@ -54,7 +54,7 @@ class Parser {
 	
 	// MARK: Type Dec
 	
-	func parse_Type_Dec() -> Type_Dec? {
+	public func parse_Type_Dec() -> Type_Dec? {
 		let context = stack.context
 		
 		guard let _: TYPE		= stack.pop() else { stack.context = context; return .none }
@@ -68,7 +68,7 @@ class Parser {
 	
 	// MARK: Gvar Dec
 	
-	func parse_Gvar_Dec() -> Gvar_Dec? {
+	public func parse_Gvar_Dec() -> Gvar_Dec? {
 		let context = stack.context
 		
 		guard let _: GLOBAL		= stack.pop() else { stack.context = context; return .none }
@@ -76,10 +76,10 @@ class Parser {
 		guard let ident: IDENT	= stack.pop() else { stack.context = context; return .none }
 		guard let _: SEMIC		= stack.pop() else { stack.context = context; return .none }
 		
-		return Gvar_Dec(type: type, ident: ident.value)
+		return Gvar_Dec(ident: ident.value, type: type)
 	}
 	
-	func parse_Func_Dec() -> Func_Dec? {
+	public func parse_Func_Dec() -> Func_Dec? {
 		let context = stack.context
 		
 		let type = parse_Type()
@@ -100,7 +100,7 @@ class Parser {
 		return Func_Dec(type: type, ident: ident.value, par_decs: par_decs, lvar_decs: lvar_decs, stms: stms)
 	}
 	
-	func parse_Par_Decs() -> [Par_Dec] {
+	public func parse_Par_Decs() -> [Par_Dec] {
 		var par_decs = [Par_Dec]()
 		
 		if let par_dec = parse_Par_Dec() {
@@ -114,7 +114,7 @@ class Parser {
 		return par_decs
 	}
 	
-	func parse_Par_Dec() -> Par_Dec? {
+	public func parse_Par_Dec() -> Par_Dec? {
 		let context = stack.context
 		
 		guard let type = parse_Type() else { stack.context = context; return .none }
@@ -123,7 +123,7 @@ class Parser {
 		return Par_Dec(type: type, ident: ident.value)
 	}
 	
-	func parse_Lvar_Decs() -> [Lvar_Dec] {
+	public func parse_Lvar_Decs() -> [Lvar_Dec] {
 		var lvar_decs = [Lvar_Dec]()
 		
 		if let lvar_dec = parse_Lvar_Dec() {
@@ -134,7 +134,7 @@ class Parser {
 		return lvar_decs
 	}
 	
-	func parse_Lvar_Dec() -> Lvar_Dec? {
+	public func parse_Lvar_Dec() -> Lvar_Dec? {
 		let context = stack.context
 		
 		guard let _: LOCAL		= stack.pop() else { stack.context = context; return .none }

@@ -13,7 +13,7 @@ extension Parser {
 	
 	// MARK: Type
 	
-	func parse_Type() -> TypeExpression? {
+	public func parse_Type() -> TypeExpression? {
 		let context = stack.context
 		
 		if let ident: IDENT = stack.pop() {
@@ -36,7 +36,7 @@ extension Parser {
 		}
 	}
 	
-	func parse_More_Dims() -> Int? {
+	public func parse_More_Dims() -> Int? {
 		let context = stack.context
 		
 		var dims = 0
@@ -48,7 +48,7 @@ extension Parser {
 		return dims
 	}
 	
-	func parse_Mem_Dec_List() -> [Memb_Dec]? {
+	public func parse_Mem_Dec_List() -> [Memb_Dec]? {
 		var memb_dec_list = [Memb_Dec]()
 		
 		while(true) {

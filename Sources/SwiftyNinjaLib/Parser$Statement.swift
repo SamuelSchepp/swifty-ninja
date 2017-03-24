@@ -12,7 +12,7 @@ import SwiftyNinjaCore
 extension Parser {
 	// MARK: Stm List
 	
-	func parse_Stms() -> Stms? {
+	public func parse_Stms() -> Stms? {
 		if let stm = parse_Stm() {
 			var stms = [Stm]()
 			stms.append(stm)
@@ -25,7 +25,7 @@ extension Parser {
 		return Stms(stms: [])
 	}
 	
-	func parse_Stm() -> Stm? {
+	public func parse_Stm() -> Stm? {
 		if let stm = parse_Empty_Stm() {
 			return stm
 		}
@@ -57,13 +57,13 @@ extension Parser {
 		return .none
 	}
 	
-	func parse_Empty_Stm() -> Empty_Stm? {
+	public func parse_Empty_Stm() -> Empty_Stm? {
 		let context = stack.context
 		guard let _: SEMIC = stack.pop() else { stack.context = context; return .none }
 		return Empty_Stm()
 	}
 	
-	func parse_Compound_Stm() -> Compound_Stm? {
+	public func parse_Compound_Stm() -> Compound_Stm? {
 		let context = stack.context
 		
 		guard let _: LCURL = stack.pop() else { stack.context = context; return .none }
@@ -73,7 +73,7 @@ extension Parser {
 		return Compound_Stm(stms: stms)
 	}
 	
-	func parse_Assign_Stm() -> Assign_Stm? {
+	public func parse_Assign_Stm() -> Assign_Stm? {
 		let context = stack.context
 		
 		guard let _var = parse_Var() else { stack.context = context; return .none }
@@ -84,7 +84,7 @@ extension Parser {
 		return Assign_Stm(_var: _var, exp: exp)
 	}
 	
-	func parse_If_Stm() -> If_Stm? {
+	public func parse_If_Stm() -> If_Stm? {
 		let context = stack.context
 		
 		guard let _: IF = stack.pop() else { stack.context = context; return .none }
@@ -101,7 +101,7 @@ extension Parser {
 		}
 	}
 	
-	func parse_While_Stm() -> While_Stm? {
+	public func parse_While_Stm() -> While_Stm? {
 		let context = stack.context
 		
 		guard let _: WHILE = stack.pop() else { stack.context = context; return .none }
@@ -113,7 +113,7 @@ extension Parser {
 		return While_Stm(exp: exp, stm: stm)
 	}
 	
-	func parse_Do_Stm() -> Do_Stm? {
+	public func parse_Do_Stm() -> Do_Stm? {
 		let context = stack.context
 		
 		guard let _: DO = stack.pop() else { stack.context = context; return .none }
@@ -124,10 +124,10 @@ extension Parser {
 		guard let _: RPAREN = stack.pop() else { stack.context = context; return .none }
 		guard let _: SEMIC = stack.pop() else { stack.context = context; return .none }
 		
-		return Do_Stm(stm: stm, exp: exp)
+		return Do_Stm(exp: exp, stm: stm)
 	}
 	
-	func parse_Break_Stm() -> Break_Stm? {
+	public func parse_Break_Stm() -> Break_Stm? {
 		let context = stack.context
 		
 		guard let _: BREAK = stack.pop() else { stack.context = context; return .none }
@@ -136,7 +136,7 @@ extension Parser {
 		return Break_Stm()
 	}
 	
-	func parse_Call_Stm() -> Call_Stm? {
+	public func parse_Call_Stm() -> Call_Stm? {
 		let context = stack.context
 		
 		guard let ident: IDENT = stack.pop() else { stack.context = context; return .none }
@@ -148,7 +148,7 @@ extension Parser {
 		return Call_Stm(ident: ident.value, args: arg_list)
 	}
 	
-	func parse_Return_Stm() -> Return_Stm? {
+	public func parse_Return_Stm() -> Return_Stm? {
 		let context = stack.context
 		
 		guard let _: RETURN = stack.pop() else { stack.context = context; return .none }

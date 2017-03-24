@@ -9,18 +9,18 @@
 import Foundation
 import SwiftyNinjaCore
 
-enum TokenizerError: Error {
+public enum TokenizerError: Error {
 	case TokenizerError(line: Int)
 }
 
-class Tokenizer {
-	let input: String
+public class Tokenizer {
+	public let input: String
 	
-	init(with: String) {
+	public init(with: String) {
 		input = with
 	}
 	
-	func tokenize() throws -> [Token]  {
+	public func tokenize() throws -> [Token]  {
 		var tokens = [Token]()
 		
 		let lines = input.components(separatedBy: "\n")

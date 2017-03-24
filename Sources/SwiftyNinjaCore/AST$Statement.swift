@@ -13,6 +13,10 @@ import Foundation
 public protocol Stm: ASTNode { }
 
 public struct Empty_Stm: Stm {
+	public init() {
+		
+	}
+	
 	public var description: String {
 		get {
 			return "Empty_Stm()"
@@ -21,7 +25,7 @@ public struct Empty_Stm: Stm {
 }
 
 public struct Compound_Stm: Stm {
-	let stms: Stms
+	public let stms: Stms
 	
 	public init(stms: Stms) {
 		self.stms = stms
@@ -35,7 +39,7 @@ public struct Compound_Stm: Stm {
 }
 
 public struct Stms: ASTNode {
-	let stms: [Stm]
+	public let stms: [Stm]
 	
 	public init(stms: [Stm]) {
 		self.stms = stms
@@ -49,8 +53,8 @@ public struct Stms: ASTNode {
 }
 
 public struct Assign_Stm: Stm {
-	let _var: Var
-	let exp: Exp
+	public let _var: Var
+	public let exp: Exp
 	
 	public init(_var: Var, exp: Exp) {
 		self._var = _var
@@ -65,9 +69,9 @@ public struct Assign_Stm: Stm {
 }
 
 public struct If_Stm: Stm {
-	let exp: Exp
-	let stm: Stm
-	let elseStm: Stm?
+	public let exp: Exp
+	public let stm: Stm
+	public let elseStm: Stm?
 	
 	public init(exp: Exp, stm: Stm, elseStm: Stm?) {
 		self.exp = exp
@@ -83,8 +87,8 @@ public struct If_Stm: Stm {
 }
 
 public struct While_Stm: Stm {
-	let exp: Exp
-	let stm: Stm
+	public let exp: Exp
+	public let stm: Stm
 	
 	public init(exp: Exp, stm: Stm) {
 		self.exp = exp
@@ -99,8 +103,8 @@ public struct While_Stm: Stm {
 }
 
 public struct Do_Stm: Stm {
-	let stm: Stm
-	let exp: Exp
+	public let stm: Stm
+	public let exp: Exp
 	
 	public init(exp: Exp, stm: Stm) {
 		self.exp = exp
@@ -115,6 +119,10 @@ public struct Do_Stm: Stm {
 }
 
 public struct Break_Stm: Stm {
+	public init() {
+		
+	}
+	
 	public var description: String {
 		get {
 			return "break;"
@@ -123,8 +131,8 @@ public struct Break_Stm: Stm {
 }
 
 public struct Call_Stm: Stm {
-	let ident: String
-	let args: [Arg]
+	public let ident: String
+	public let args: [Arg]
 	
 	public init(ident: String, args: [Arg]) {
 		self.ident = ident
@@ -139,7 +147,7 @@ public struct Call_Stm: Stm {
 }
 
 public struct Arg: ASTNode {
-	let exp: Exp
+	public let exp: Exp
 	
 	public init(exp: Exp) {
 		self.exp = exp
@@ -153,7 +161,7 @@ public struct Arg: ASTNode {
 }
 
 public struct Return_Stm: Stm {
-	let exp: Exp?
+	public let exp: Exp?
 	
 	public init(exp: Exp?) {
 		self.exp = exp

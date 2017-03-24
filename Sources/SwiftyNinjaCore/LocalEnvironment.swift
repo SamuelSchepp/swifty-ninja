@@ -13,7 +13,7 @@ public class LocalEnvironment {
 	public var variables: [String: ReferenceValue]
 	public var identifier: String
 	
-	init(ident: String) {
+	public init(ident: String) {
 		varTypeMap = [:]
 		variables = [:]
 		identifier = ident

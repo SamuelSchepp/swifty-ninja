@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import SwiftyNinjaLib
+import SwiftyNinjaCore
 
 public class App {
 	public static func run() {

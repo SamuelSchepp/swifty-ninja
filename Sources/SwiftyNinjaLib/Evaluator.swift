@@ -10,20 +10,20 @@ import Foundation
 import SwiftyNinjaCore
 
 
-class Evaluator {
-	let globalEnvironment: GlobalEnvironment
-	let cpu: CPU
+public class Evaluator {
+	public let globalEnvironment: GlobalEnvironment
+	public let cpu: CPU
 	
-	init() {
+	public init() {
 		globalEnvironment = GlobalEnvironment()
 		cpu = CPU(globalEnvironment: globalEnvironment)
 	}
 	
-	func dump() {
+	public func dump() {
 		globalEnvironment.dump()
 	}
 	
-	func evaluate(ast: ASTNode) throws -> REPLResult {
+	public func evaluate(ast: ASTNode) throws -> REPLResult {
 		if let glob_decs = ast as? Glob_Decs {
 			try evaluate(glob_decs: glob_decs)
 			return .GlobDec
@@ -42,7 +42,7 @@ class Evaluator {
 	
 	// MARK: Program
 	
-	func evaluate(program: Program) throws {
+	public func evaluate(program: Program) throws {
         for i in 0..<program.glob_decs.glob_decs.count {
 			try evaluate(glob_dec: program.glob_decs.glob_decs[i])
 		}
@@ -50,20 +50,20 @@ class Evaluator {
         try runMain()
 	}
     
-    func runMain() throws {
+    public func runMain() throws {
         try evaluateStm(stm: Call_Stm(ident: "main", args: []))
     }
 	
 	// MARK: Glob Dec
 	
-	func evaluate(glob_decs: Glob_Decs) throws {
+	public func evaluate(glob_decs: Glob_Decs) throws {
 		for i in 0..<glob_decs.glob_decs.count {
 			let glob_dec = glob_decs.glob_decs[i]
 			try evaluate(glob_dec: glob_dec)
 		}
 	}
 	
-	func evaluate(glob_dec: Glob_Dec) throws {
+	public func evaluate(glob_dec: Glob_Dec) throws {
 		if let type_dec = glob_dec as? Type_Dec {
 			try evaluate(type_dec: type_dec)
 			return
@@ -82,7 +82,7 @@ class Evaluator {
 	
 	// MARK: Gvar Dec
 	
-	func evaluate(gvar_dec: Gvar_Dec) throws {
+	public func evaluate(gvar_dec: Gvar_Dec) throws {
 		if globalEnvironment.identifierExists(ident: gvar_dec.ident) {
 			throw REPLError.Redeclaration(ident: "global var decl \(gvar_dec.ident)")
 		}
@@ -94,7 +94,7 @@ class Evaluator {
     
     // MARK: Type Dec
     
-    func evaluate(type_dec: Type_Dec) throws {
+    public func evaluate(type_dec: Type_Dec) throws {
         if globalEnvironment.identifierExists(ident: type_dec.ident) {
 			throw REPLError.Redeclaration(ident: "type decl \(type_dec.ident)")
         }
@@ -105,7 +105,7 @@ class Evaluator {
 	
 	// MARK: Func Dec
 	
-	func evaluate(func_dec: Func_Dec) throws {
+	public func evaluate(func_dec: Func_Dec) throws {
 		if globalEnvironment.identifierExists(ident: func_dec.ident) {
 			throw REPLError.Redeclaration(ident: "func \(func_dec.ident)")
 		}

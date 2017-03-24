@@ -8,7 +8,8 @@
 
 import Foundation
 import XCTest
-@testable import SwiftyNinjaLib
+import SwiftyNinjaLib
+import SwiftyNinjaCore
 
 class Helper {
 	class func checkHeap(map: [String: Value]) throws {
