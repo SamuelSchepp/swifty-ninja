@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-@testable import SwiftyLib
+@testable import SwiftyNinjaLib
 
 class ExpressionTests: XCTestCase {
 	func testArithmeticValue1() throws {

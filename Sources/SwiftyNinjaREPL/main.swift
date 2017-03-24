@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SwiftyLib
+import SwiftyNinjaLib
 
 App.run()
 

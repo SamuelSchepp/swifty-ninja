@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-@testable import SwiftyLib
+@testable import SwiftyNinjaLib
 
 class StmTests: XCTestCase {
 	let repl = REPL()

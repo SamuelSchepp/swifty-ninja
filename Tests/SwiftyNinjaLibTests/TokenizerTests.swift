@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import SwiftyLib
+@testable import SwiftyNinjaLib
 
 class TokenizerTests: XCTestCase {
 	func check(_ map: [String: [Token]]) throws {
