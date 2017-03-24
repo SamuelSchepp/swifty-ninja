@@ -7,7 +7,9 @@
     <build-runners>
       <runner id="RUNNER_7" name="swift build" type="simpleRunner">
         <parameters>
-          <param name="script.content" value="swift build" />
+          <param name="script.content"><![CDATA[pwd
+ls -al
+swift build]]></param>
           <param name="teamcity.step.mode" value="default" />
           <param name="use.custom.script" value="true" />
         </parameters>
