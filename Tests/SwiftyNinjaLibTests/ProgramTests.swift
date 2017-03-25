@@ -15,7 +15,7 @@ import SwiftyNinjaRuntime
 class ProgramTests: XCTestCase {
 	
 	func test_ggt() throws {
-		let source = try String(contentsOfFile: "Examples/nj/ggt.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/ggt.nj")
 		
 		let repl = REPL()
 		do {
@@ -29,7 +29,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_ggt_glob() throws {
-		let source = try String(contentsOfFile: "Examples/nj/ggt_glob.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/ggt_glob.nj")
 		
 		let repl = REPL()
 		do {
@@ -43,7 +43,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_fib_it() throws {
-		let source = try String(contentsOfFile: "Examples/nj/fib_it.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/fib_it.nj")
 		
 		let repl = REPL()
 		do {
@@ -57,7 +57,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_fac_it() throws {
-		let source = try String(contentsOfFile: "Examples/nj/fac_it.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/fac_it.nj")
 		
 		let repl = REPL()
 		do {
@@ -71,7 +71,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_fac_rec() throws {
-		let source = try String(contentsOfFile: "Examples/nj/fac_rec.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/fac_rec.nj")
 		
 		let repl = REPL()
 		do {
@@ -85,7 +85,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_t() throws {
-		let source = try String(contentsOfFile: "Examples/nj/t.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/t.nj")
 		
 		let repl = REPL()
 		do {
@@ -99,7 +99,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_bruch() throws {
-		let source = try String(contentsOfFile: "Examples/nj/bruch.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/bruch.nj")
 		
 		let repl = REPL()
 		do {
@@ -115,7 +115,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_bruch2() throws {
-		let source = try String(contentsOfFile: "Examples/nj/bruch2.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/bruch2.nj")
 		
 		let repl = REPL()
 		do {
@@ -129,7 +129,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_caesar() throws {
-		let source = try String(contentsOfFile: "Examples/nj/caesar.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/caesar.nj")
 		
 		let repl = REPL()
 		do {
@@ -143,7 +143,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_exp_tree() throws {
-		let source = try String(contentsOfFile: "Examples/nj/exp_tree.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/exp_tree.nj")
 		
 		let repl = REPL()
 		do {
@@ -159,7 +159,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_null() throws {
-		let source = try String(contentsOfFile: "Examples/nj/null.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/null.nj")
 		
 		let repl = REPL()
 		do {
@@ -173,7 +173,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_listrev() throws {
-		let source = try String(contentsOfFile: "Examples/nj/listrev.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/listrev.nj")
 		
 		let repl = REPL()
 		do {
@@ -190,7 +190,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_array() throws {
-		let source = try String(contentsOfFile: "Examples/nj/array.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/array.nj")
 		
 		let repl = REPL()
 		do {
@@ -205,7 +205,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_recursive_record() throws {
-		let source = try String(contentsOfFile: "Examples/nj/recursive_record.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/recursive_record.nj")
 		
 		let repl = REPL()
 		do {
@@ -220,7 +220,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_factor() throws {
-		let source = try String(contentsOfFile: "Examples/nj/factor.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/factor.nj")
 		
 		let repl = REPL()
 		do {
@@ -236,7 +236,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_twodim() throws {
-		let source = try String(contentsOfFile: "Examples/nj/twodim.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/twodim.nj")
 		
 		let repl = REPL()
 		do {
@@ -252,7 +252,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_matinv() throws {
-		let source = try String(contentsOfFile: "Examples/nj/matinv.nj")
+		let source = try String(contentsOfFile: Helper.baseURL() + "/matinv.nj")
 		
 		let repl = REPL()
 		do {

@@ -13,6 +13,10 @@ import SwiftyNinjaLang
 import SwiftyNinjaRuntime
 
 class Helper {
+	class func baseURL() -> String {
+		return "/Users/samuel/Documents/Git/swifty-ninja/Examples/nj";
+	}
+	
 	class func checkHeap(map: [String: Value]) throws {
 		do {
 		try map.forEach { source, shouldValue in
