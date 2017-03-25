@@ -7,6 +7,6 @@ let package = Package(
 		Target(name: "SwiftyNinjaLib", dependencies: ["SwiftyNinjaLang", "SwiftyNinjaRuntime"]),
 		Target(name: "SwiftyNinjaLang", dependencies: ["SwiftyNinjaUtils"]),
 		Target(name: "SwiftyNinjaUtils"),
-		Target(name: "SwiftyNinjaRuntime")
+		Target(name: "SwiftyNinjaRuntime", dependencies: ["SwiftyNinjaLang"])
 	]
 )
