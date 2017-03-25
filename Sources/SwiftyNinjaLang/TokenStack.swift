@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyNinjaUtils
 
 public struct TokenStack {
 	private var stack: Stack<Token>

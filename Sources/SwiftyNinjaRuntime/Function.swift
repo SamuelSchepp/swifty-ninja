@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyNinjaLang
 
 public protocol Function: CustomStringConvertible {
     var type: TypeExpression? { get }

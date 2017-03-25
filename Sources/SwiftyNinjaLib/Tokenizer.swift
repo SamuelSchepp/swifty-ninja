@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SwiftyNinjaCore
+import SwiftyNinjaLang
 
 public enum TokenizerError: Error {
 	case TokenizerError(line: Int)

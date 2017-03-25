@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SwiftyNinjaCore
+import SwiftyNinjaLang
 
 extension Parser {
 	// MARK: Expression

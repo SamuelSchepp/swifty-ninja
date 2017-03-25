@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import SwiftyNinjaCore
+import SwiftyNinjaLang
+import SwiftyNinjaRuntime
 
 extension Evaluator {
 	

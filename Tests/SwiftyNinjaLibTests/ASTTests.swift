@@ -9,7 +9,8 @@
 import Foundation
 import XCTest
 import SwiftyNinjaLib
-import SwiftyNinjaCore
+import SwiftyNinjaLang
+import SwiftyNinjaRuntime
 
 class ASTTests: XCTestCase {
 	func checkStm(input: String, targetAST: ASTNode) throws {

@@ -8,7 +8,8 @@
 
 import Foundation
 import SwiftyNinjaLib
-import SwiftyNinjaCore
+import SwiftyNinjaLang
+import SwiftyNinjaRuntime
 
 public class App {
 	public static func run() {

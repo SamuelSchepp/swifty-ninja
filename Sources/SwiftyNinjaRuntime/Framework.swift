@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyNinjaLang
 
 struct Framework {
 	static let writeInteger = SystemFunction(

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyNinjaUtils
 
 public class GlobalEnvironment {
     public var typeDecMap: [String: Type]

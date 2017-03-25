@@ -9,7 +9,8 @@
 import Foundation
 import XCTest
 import SwiftyNinjaLib
-import SwiftyNinjaCore
+import SwiftyNinjaLang
+import SwiftyNinjaRuntime
 
 class ProgramTests: XCTestCase {
 	

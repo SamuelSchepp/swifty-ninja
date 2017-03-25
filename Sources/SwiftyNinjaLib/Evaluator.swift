@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import SwiftyNinjaCore
-
+import SwiftyNinjaLang
+import SwiftyNinjaRuntime
 
 public class Evaluator {
 	public let globalEnvironment: GlobalEnvironment

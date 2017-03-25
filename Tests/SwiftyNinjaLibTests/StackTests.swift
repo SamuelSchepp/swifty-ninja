@@ -8,7 +8,9 @@
 
 import XCTest
 import SwiftyNinjaLib
-import SwiftyNinjaCore
+import SwiftyNinjaLang
+import SwiftyNinjaRuntime
+import SwiftyNinjaUtils
 
 class StackTests: XCTestCase {
 

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SwiftyNinjaCore
+import SwiftyNinjaLang
 
 public class Parser {
 	public var stack: TokenStack
