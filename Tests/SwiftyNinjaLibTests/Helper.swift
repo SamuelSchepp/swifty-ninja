@@ -14,7 +14,11 @@ import SwiftyNinjaRuntime
 
 class Helper {
 	class func baseURL() -> String {
-		return "/Users/samuel/Documents/Git/swifty-ninja/Examples/nj";
+		#if SWIFT_PACKAGE
+		return "Examples/nj"
+		#else
+		return "/Users/samuel/Documents/Git/swifty-ninja/Examples/nj"
+		#endif
 	}
 	
 	class func checkHeap(map: [String: Value]) throws {
