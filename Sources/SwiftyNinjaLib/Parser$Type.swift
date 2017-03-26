@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyNinjaLang
 
-extension Parser {
+extension SParser {
 	
 	// MARK: Type
 	

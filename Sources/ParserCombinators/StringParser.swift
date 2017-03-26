@@ -8,7 +8,7 @@
 
 import Foundation
 
-public let StringParser: (String) -> Parser<String> = { keyword in
+public func StringParser(keyword : String) -> Parser<String> {
 	return { string in
 		var result: NSString?
 		let scanner = Scanner(string: string)

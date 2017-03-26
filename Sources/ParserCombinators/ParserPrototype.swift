@@ -18,7 +18,7 @@ extension Scanner {
 
 extension String {
 	public var p: Parser<String> {
-		return StringParser(self)
+		return StringParser(keyword: self)
 	}
 }
 

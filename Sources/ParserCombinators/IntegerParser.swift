@@ -8,7 +8,7 @@
 
 import Foundation
 
-public let IntegerParser: () -> Parser<Int> = { 
+public func IntegerParser() -> Parser<Int> { 
 	return { string in
 		var result: Int = 0
 		let scanner = Scanner(string: string)

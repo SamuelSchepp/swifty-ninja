@@ -13,7 +13,7 @@ import XCTest
 class ParserCombinators: XCTestCase {
 	func testKeywordparserSimple1() {
 		let input = "global Integer a;"
-		let parser = StringParser("global")
+		let parser = StringParser(keyword: "global")
 		let result = parser(input)
 		print(result)
 		
@@ -23,7 +23,7 @@ class ParserCombinators: XCTestCase {
 	
 	func testKeywordparserSimple2() {
 		let input = " Integer a;"
-		let parser = StringParser("Integer")
+		let parser = StringParser(keyword: "Integer")
 		let result = parser(input)
 		print(result)
 		
