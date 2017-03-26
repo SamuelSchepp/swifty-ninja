@@ -14,7 +14,7 @@ public protocol Exp: ASTNode { }
 
 public protocol Or_Exp: Exp { }
 
-public class Or_Exp_Binary: Or_Exp {
+public struct Or_Exp_Binary: Or_Exp {
 	public let lhs: Or_Exp
 	public let rhs: And_Exp
 	
@@ -32,7 +32,7 @@ public class Or_Exp_Binary: Or_Exp {
 
 public protocol And_Exp: Or_Exp { }
 
-public class And_Exp_Binary: And_Exp {
+public struct And_Exp_Binary: And_Exp {
 	public let lhs: And_Exp
 	public let rhs: Rel_Exp
 	
@@ -50,7 +50,7 @@ public class And_Exp_Binary: And_Exp {
 
 public protocol Rel_Exp: And_Exp { }
 
-public class Rel_Exp_Binary: Rel_Exp {
+public struct Rel_Exp_Binary: Rel_Exp {
 	public let lhs: Add_Exp
 	public let rhs: Add_Exp
 	public let op: Rel_Exp_Binary_Op
@@ -81,7 +81,7 @@ public enum Rel_Exp_Binary_Op: String { case
 
 public protocol Add_Exp: Rel_Exp { }
 
-public class Add_Exp_Binary: Add_Exp {
+public struct Add_Exp_Binary: Add_Exp {
 	public let lhs: Add_Exp
 	public let rhs: Mul_Exp
 	public let op: Add_Exp_Binary_Op
@@ -106,7 +106,7 @@ public enum Add_Exp_Binary_Op: String { case
 
 public protocol Mul_Exp: Add_Exp { }
 
-public class Mul_Exp_Binary: Mul_Exp {
+public struct Mul_Exp_Binary: Mul_Exp {
 	public let lhs: Mul_Exp
 	public let rhs: Unary_Exp
 	public let op: Mul_Exp_Binary_Op
@@ -132,7 +132,7 @@ public enum Mul_Exp_Binary_Op: String { case
 
 public protocol Unary_Exp: Mul_Exp { }
 
-public class Unary_Exp_Impl: Unary_Exp {
+public struct Unary_Exp_Impl: Unary_Exp {
 	public let op: Unary_Exp_Impl_Op
 	public let rhs: Unary_Exp
 	
@@ -156,7 +156,7 @@ public enum Unary_Exp_Impl_Op: String { case
 
 public protocol Primary_Exp: Unary_Exp { }
 
-public class Primary_Exp_Nil: Primary_Exp {
+public struct Primary_Exp_Nil: Primary_Exp {
 	public init() {
 		
 	}
@@ -168,7 +168,7 @@ public class Primary_Exp_Nil: Primary_Exp {
 	}
 }
 
-public class Primary_Exp_Integer: Primary_Exp {
+public struct Primary_Exp_Integer: Primary_Exp {
 	public let value: Int
 	
 	public init(value: Int) {
@@ -182,7 +182,7 @@ public class Primary_Exp_Integer: Primary_Exp {
 	}
 }
 
-public class Primary_Exp_Character: Primary_Exp {
+public struct Primary_Exp_Character: Primary_Exp {
 	public let value: Character
 	
 	public init(value: Character) {
@@ -196,7 +196,7 @@ public class Primary_Exp_Character: Primary_Exp {
 	}
 }
 
-public class Primary_Exp_Boolean: Primary_Exp {
+public struct Primary_Exp_Boolean: Primary_Exp {
 	public let value: Bool
 	
 	public init(value: Bool) {
@@ -210,7 +210,7 @@ public class Primary_Exp_Boolean: Primary_Exp {
 	}
 }
 
-public class Primary_Exp_String: Primary_Exp {
+public struct Primary_Exp_String: Primary_Exp {
 	public let value: String
 	
 	public init(value: String) {
@@ -224,7 +224,7 @@ public class Primary_Exp_String: Primary_Exp {
 	}
 }
 
-public class Primary_Exp_Sizeof: Primary_Exp {
+public struct Primary_Exp_Sizeof: Primary_Exp {
 	public let exp: Exp
 	
 	public init(exp: Exp) {
@@ -238,7 +238,7 @@ public class Primary_Exp_Sizeof: Primary_Exp {
 	}
 }
 
-public class Primary_Exp_Exp: Primary_Exp {
+public struct Primary_Exp_Exp: Primary_Exp {
 	public let exp: Exp
 	
 	public init(exp: Exp) {
@@ -252,7 +252,7 @@ public class Primary_Exp_Exp: Primary_Exp {
 	}
 }
 
-public class Primary_Exp_Call: Primary_Exp {
+public struct Primary_Exp_Call: Primary_Exp {
 	public let ident: String
 	public let args: [Arg]
 	
@@ -270,7 +270,7 @@ public class Primary_Exp_Call: Primary_Exp {
 
 public protocol Var: Primary_Exp { }
 
-public class Var_Ident: Var {
+public struct Var_Ident: Var {
 	public let ident: String
 	
 	public init(ident: String) {
@@ -284,7 +284,7 @@ public class Var_Ident: Var {
 	}
 }
 
-public class Var_Array_Access: Var {
+public struct Var_Array_Access: Var {
 	public let primary_exp: Primary_Exp
 	public let brack_exp: Exp
 	
@@ -300,7 +300,7 @@ public class Var_Array_Access: Var {
 	}
 }
 
-public class Var_Field_Access: Var {
+public struct Var_Field_Access: Var {
 	public let primary_exp: Primary_Exp
 	public let ident: String
 	
@@ -318,7 +318,7 @@ public class Var_Field_Access: Var {
 
 public protocol New_Obj_Spec: Primary_Exp { }
 
-public class New_Obj_Spec_Ident: New_Obj_Spec {
+public struct New_Obj_Spec_Ident: New_Obj_Spec {
 	public let ident: String
 	
 	public init(ident: String) {
@@ -332,7 +332,7 @@ public class New_Obj_Spec_Ident: New_Obj_Spec {
 	}
 }
 
-public class New_Obj_Spec_Array: New_Obj_Spec {
+public struct New_Obj_Spec_Array: New_Obj_Spec {
 	public let ident: String
 	public let exp: Exp
 	public let more_dims: Int

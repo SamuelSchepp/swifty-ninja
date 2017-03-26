@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyNinjaLang
 
-public class SParser {
+public class Parser {
 	public var stack: TokenStack
 	
 	public init(with: [Token]) {
