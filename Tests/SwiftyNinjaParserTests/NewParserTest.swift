@@ -11,7 +11,7 @@ import SwiftyNinjaParser
 import XCTest
 
 class NewParserTest: XCTestCase {
-	func testKeywordparser1() {
+	func testKeywordparserSimple1() {
 		let input = "global Integer a;"
 		let parser = StringParser(keyword: "global")
 		let result = parser.parse(string: input)
@@ -21,7 +21,7 @@ class NewParserTest: XCTestCase {
 		XCTAssertEqual(" Integer a;", result.1)
 	}
 	
-	func testKeywordparser2() {
+	func testKeywordparserSimple2() {
 		let input = " Integer a;"
 		let parser = StringParser(keyword: "Integer")
 		let result = parser.parse(string: input)
@@ -31,10 +31,24 @@ class NewParserTest: XCTestCase {
 		XCTAssertEqual(" a;", result.1)
 	}
 	
-	func testKeywordparser3() {
+	func testKeywordparserSingleFollow() {
 		let input = "global Integer a;"
 		
-		let combi = "global".p ~>~ "Integer".p ~>~ IdentParser() ^^ { t in
+		let combi = "global".p ~>~ "Integer".p ^^ { t in
+			return "\(t.0) \(t.1)"
+		}
+		
+		let result = combi.parse(string: input)
+		print(result)
+		
+		XCTAssertEqual("global Integer", result.0!)
+		XCTAssertEqual(" a;", result.1)
+	}
+	
+	func testKeywordparserFolloewdByChained() {
+		let input = "global Integer a;"
+		
+		let combi = "global".p ~>~ "Integer".p ~>~ IdentifierParser() ^^ { t in
 			return "\(t.0.0) \(t.0.1) \(t.1)"
 		}
 		
@@ -45,10 +59,10 @@ class NewParserTest: XCTestCase {
 		XCTAssertEqual(";", result.1)
 	}
 	
-	func testKeywordparser4() {
+	func testKeywordparserAssociation() {
 		let input = "global Integer a;"
 		
-		let combi = "global".p ~>~ ("Integer".p ~>~ IdentParser()) ^^ { t in
+		let combi = "global".p ~>~ ("Integer".p ~>~ IdentifierParser()) ^^ { t in
 			return "\(t.0) \(t.1.0) \(t.1.1)"
 		}
 		
@@ -59,11 +73,11 @@ class NewParserTest: XCTestCase {
 		XCTAssertEqual(";", result.1)
 	}
 	
-	func testKeywordparser5() {
+	func testKeywordparserOptional() {
 		let input0 = "global Integer a;"
 		let input1 = "global Integer a = 5;"
 		
-		let dec = "global".p ~>~ "Integer".p ~>~ IdentParser() ^^ { t in
+		let dec = "global".p ~>~ "Integer".p ~>~ IdentifierParser() ^^ { t in
 			return "\(t.0.0) \(t.0.1) \(t.1)"
 		}
 		
@@ -83,5 +97,35 @@ class NewParserTest: XCTestCase {
 		
 		XCTAssertEqual("global Integer a;", result0.0!)
 		XCTAssertEqual("global Integer a = 5;", result1.0!)
+	}
+	
+	func testKeywordparserOr1() {
+		let input0 = "local test"
+		
+		let comb = "global".p ~|~ "local".p ^^ { t in
+			return "res: \(t)"
+		}
+		
+		let result0 = comb.parse(string: input0)
+		
+		print(result0)
+		
+		XCTAssertEqual("res: local", result0.0!)
+		XCTAssertEqual(" test", result0.1)
+	}
+	
+	func testKeywordparserOr2() {
+		let input0 = "global test2"
+		
+		let comb = "global".p ~|~ "local".p ^^ { t in
+			return "res: \(t)"
+		}
+		
+		let result0 = comb.parse(string: input0)
+		
+		print(result0)
+		
+		XCTAssertEqual("res: global", result0.0!)
+		XCTAssertEqual(" test2", result0.1)
 	}
 }
