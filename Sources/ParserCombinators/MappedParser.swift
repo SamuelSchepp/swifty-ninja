@@ -8,14 +8,17 @@
 
 import Foundation
 
-public func ^^ <R, M>(parser: @escaping Parser<R>, function: @escaping (R) -> M) -> Parser<M> {
+public func ^^ <R, M>(parser: @escaping Parser<R>, function: @escaping (R) -> M?) -> Parser<M> {
 	return { string in
 		let parseResult = parser(string)
 		guard let res = parseResult.result else {
 			return ParseResult(remaining: string)
 		}
+		guard let map = function(res) else {
+			return ParseResult(remaining: string)
+		}
 		
-		return ParseResult(result: function(res), remaining: parseResult.remaining)
+		return ParseResult(result: map, remaining: parseResult.remaining)
 	}
 }
 

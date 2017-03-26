@@ -12,7 +12,7 @@ import Foundation
 
 public protocol Stm: ASTNode { }
 
-public struct Empty_Stm: Stm {
+public class Empty_Stm: Stm {
 	public init() {
 		
 	}
@@ -24,7 +24,7 @@ public struct Empty_Stm: Stm {
 	}
 }
 
-public struct Compound_Stm: Stm {
+public class Compound_Stm: Stm {
 	public let stms: Stms
 	
 	public init(stms: Stms) {
@@ -38,7 +38,7 @@ public struct Compound_Stm: Stm {
 	}
 }
 
-public struct Stms: ASTNode {
+public class Stms: ASTNode {
 	public let stms: [Stm]
 	
 	public init(stms: [Stm]) {
@@ -52,7 +52,7 @@ public struct Stms: ASTNode {
 	}
 }
 
-public struct Assign_Stm: Stm {
+public class Assign_Stm: Stm {
 	public let _var: Var
 	public let exp: Exp
 	
@@ -68,7 +68,7 @@ public struct Assign_Stm: Stm {
 	}
 }
 
-public struct If_Stm: Stm {
+public class If_Stm: Stm {
 	public let exp: Exp
 	public let stm: Stm
 	public let elseStm: Stm?
@@ -86,7 +86,7 @@ public struct If_Stm: Stm {
 	}
 }
 
-public struct While_Stm: Stm {
+public class While_Stm: Stm {
 	public let exp: Exp
 	public let stm: Stm
 	
@@ -102,7 +102,7 @@ public struct While_Stm: Stm {
 	}
 }
 
-public struct Do_Stm: Stm {
+public class Do_Stm: Stm {
 	public let stm: Stm
 	public let exp: Exp
 	
@@ -118,7 +118,7 @@ public struct Do_Stm: Stm {
 	}
 }
 
-public struct Break_Stm: Stm {
+public class Break_Stm: Stm {
 	public init() {
 		
 	}
@@ -130,7 +130,7 @@ public struct Break_Stm: Stm {
 	}
 }
 
-public struct Call_Stm: Stm {
+public class Call_Stm: Stm {
 	public let ident: String
 	public let args: [Arg]
 	
@@ -146,7 +146,7 @@ public struct Call_Stm: Stm {
 	}
 }
 
-public struct Arg: ASTNode {
+public class Arg: ASTNode {
 	public let exp: Exp
 	
 	public init(exp: Exp) {
@@ -160,7 +160,7 @@ public struct Arg: ASTNode {
 	}
 }
 
-public struct Return_Stm: Stm {
+public class Return_Stm: Stm {
 	public let exp: Exp?
 	
 	public init(exp: Exp?) {

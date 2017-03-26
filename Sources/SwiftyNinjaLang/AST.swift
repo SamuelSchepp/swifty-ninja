@@ -20,7 +20,7 @@ extension String {
 
 public protocol ASTNode: CustomStringConvertible { }
 
-public struct Program: ASTNode {
+public class Program: ASTNode {
 	public let glob_decs: Glob_Decs
 	
 	public init(glob_decs: Glob_Decs) {
@@ -32,7 +32,7 @@ public struct Program: ASTNode {
 
 // MARK: Global Declarations
 
-public struct Glob_Decs: ASTNode {
+public class Glob_Decs: ASTNode {
 	public let glob_decs: [Glob_Dec]
 	
 	public init(glob_decs: [Glob_Dec]) {
@@ -44,7 +44,7 @@ public struct Glob_Decs: ASTNode {
 
 public protocol Glob_Dec: ASTNode { }
 
-public struct Type_Dec: Glob_Dec {
+public class Type_Dec: Glob_Dec {
 	public let ident: String
 	public let type: TypeExpression
 	
@@ -60,7 +60,7 @@ public struct Type_Dec: Glob_Dec {
 	}
 }
 
-public struct Gvar_Dec: Glob_Dec {
+public class Gvar_Dec: Glob_Dec {
 	public let ident: String
 	public let type: TypeExpression
 	
@@ -76,7 +76,7 @@ public struct Gvar_Dec: Glob_Dec {
 	}
 }
 
-public struct Func_Dec: Glob_Dec {
+public class Func_Dec: Glob_Dec {
 	public let type: TypeExpression?
 	public let ident: String
 	public let par_decs: [Par_Dec]
@@ -102,7 +102,7 @@ public struct Func_Dec: Glob_Dec {
 
 public protocol TypeExpression: ASTNode { }
 
-public struct IdentifierTypeExpression: TypeExpression {
+public class IdentifierTypeExpression: TypeExpression {
 	public let ident: String
 	
 	public init(ident: String) {
@@ -116,7 +116,7 @@ public struct IdentifierTypeExpression: TypeExpression {
 	}
 }
 
-public struct ArrayTypeExpression: TypeExpression {
+public class ArrayTypeExpression: TypeExpression {
 	public let ident: String
 	public let dims: Int
 	
@@ -133,7 +133,7 @@ public struct ArrayTypeExpression: TypeExpression {
 	}
 }
 
-public struct RecordTypeExpression: TypeExpression {
+public class RecordTypeExpression: TypeExpression {
 	public let memb_decs: [Memb_Dec]
 	
 	public init(memb_decs: [Memb_Dec]) {
@@ -148,7 +148,7 @@ public struct RecordTypeExpression: TypeExpression {
 	}
 }
 
-public struct Memb_Dec: ASTNode {
+public class Memb_Dec: ASTNode {
 	public let type: TypeExpression
 	public let ident: String
 	
@@ -166,7 +166,7 @@ public struct Memb_Dec: ASTNode {
 
 // MARK: Function
 
-public struct Par_Dec: ASTNode {
+public class Par_Dec: ASTNode {
 	public let type: TypeExpression
 	public let ident: String
 	
@@ -182,7 +182,7 @@ public struct Par_Dec: ASTNode {
 	}
 }
 
-public struct Lvar_Dec: ASTNode {
+public class Lvar_Dec: ASTNode {
 	public let type: TypeExpression
 	public let ident: String
 	

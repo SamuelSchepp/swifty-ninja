@@ -8,6 +8,10 @@
 
 import Foundation
 
-class CParser {
+public class CParser {
 	
+}
+
+public enum CParserError: Error {
+	case internalError
 }
