@@ -8,20 +8,16 @@
 
 import Foundation
 
-public class IdentifierParser : Parser<String> {
-	public override init() {
-		super.init()
-	}
-	
-	public override func parse(string: String) -> (String?, String) {
+public let IdentifierParser: () -> Parser<String> = { keyword in
+	return { string in
 		var result: NSString?
 		let scanner = Scanner(string: string)
 		scanner.scanCharacters(from: CharacterSet.alphanumerics, into: &result)
 		
 		guard let res = result as? String else {
-			return (nil, string)
+			return ParseResult(remaining: string)
 		}
 		
-		return (res, scanner.remainingString)
+		return ParseResult(result: res, remaining: scanner.remainingString)
 	}
 }
