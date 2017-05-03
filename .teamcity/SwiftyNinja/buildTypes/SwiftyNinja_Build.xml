@@ -21,7 +21,9 @@ swift build]]></param>
     <requirements />
     <build-triggers>
       <build-trigger id="vcsTrigger" type="vcsTrigger">
-        <parameters />
+        <parameters>
+          <param name="enableQueueOptimization" value="true" />
+        </parameters>
       </build-trigger>
     </build-triggers>
     <cleanup />
