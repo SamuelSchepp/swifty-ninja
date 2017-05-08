@@ -1,4 +1,4 @@
-FROM swiftdocker/swift
+FROM swiftdocker/swift:latest
 RUN uname
 RUN swift --version
 
