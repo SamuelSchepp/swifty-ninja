@@ -4,7 +4,14 @@
   <description />
   <settings>
     <parameters />
-    <build-runners />
+    <build-runners>
+      <runner id="RUNNER_28" name="" type="simpleRunner">
+        <parameters>
+          <param name="command.executable" value="dockertest.sh" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
     <vcs-settings>
       <vcs-entry-ref root-id="SwiftyNinja_Gitlab" />
     </vcs-settings>
