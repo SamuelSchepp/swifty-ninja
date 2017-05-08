@@ -1,7 +1,7 @@
 docker rm "swifty-ninja-test" -f
 # ignore exit code
 
-docker build -t "swifty-ninja" . && \
+docker build -t --no-cache=true "swifty-ninja" . && \
 docker run                 \
 -i                         \
 --name "swifty-ninja-test" \
