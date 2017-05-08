@@ -7,7 +7,7 @@
     <build-runners>
       <runner id="RUNNER_19" name="docker rm swifty-ninja -f" type="simpleRunner">
         <parameters>
-          <param name="script.content"><![CDATA[docker rm swifty-ninja -f
+          <param name="script.content"><![CDATA[docker rm swifty-ninja-test -f
 echo "Exit Code ignore"]]></param>
           <param name="teamcity.step.mode" value="default" />
           <param name="use.custom.script" value="true" />
