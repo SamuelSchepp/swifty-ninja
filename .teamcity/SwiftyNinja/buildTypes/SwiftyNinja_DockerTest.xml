@@ -4,19 +4,7 @@
   <description />
   <settings>
     <parameters />
-    <build-runners>
-      <runner id="RUNNER_21" name="docker run" type="simpleRunner">
-        <parameters>
-          <param name="script.content"><![CDATA[docker run \
--i \
---name swifty-ninja-test \
-swifty-ninja \
-swift test]]></param>
-          <param name="teamcity.step.mode" value="default" />
-          <param name="use.custom.script" value="true" />
-        </parameters>
-      </runner>
-    </build-runners>
+    <build-runners />
     <vcs-settings>
       <vcs-entry-ref root-id="SwiftyNinja_Gitlab" />
     </vcs-settings>
