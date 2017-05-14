@@ -81,7 +81,7 @@ public struct If_Stm: Stm {
 	
 	public var description: String {
 		get {
-			return "If_Stm(\(exp) \(stm) \(elseStm))"
+			return "If_Stm(\(exp) \(stm) \(String(describing: elseStm)))"
 		}
 	}
 }
@@ -169,7 +169,7 @@ public struct Return_Stm: Stm {
 	
 	public var description: String {
 		get {
-			return "return \(exp);"
+			return "return \(String(describing: exp));"
 		}
 	}
 }

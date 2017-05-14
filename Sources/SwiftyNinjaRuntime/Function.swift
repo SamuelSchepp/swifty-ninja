@@ -17,7 +17,7 @@ public protocol Function: CustomStringConvertible {
 
 extension Function {
     func signature() -> String {
-        return "\(type) \(ident)(\(par_decs)) { ... }"
+        return "\(String(describing: type)) \(ident)(\(par_decs)) { ... }"
     }
 }
 

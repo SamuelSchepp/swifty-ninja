@@ -93,7 +93,7 @@ public struct Func_Dec: Glob_Dec {
 	
 	public var description: String {
 		get {
-			return "Func_Dec(\(type) \(ident) (\(par_decs)) { \(lvar_decs) \n \(stms) }"
+			return "Func_Dec(\(String(describing: type)) \(ident) (\(par_decs)) { \(lvar_decs) \n \(stms) }"
 		}
 	}
 }
