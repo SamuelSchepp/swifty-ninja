@@ -13,7 +13,7 @@
       </runner>
     </build-runners>
     <vcs-settings>
-      <vcs-entry-ref root-id="SwiftyNinja_Gitlab" />
+      <vcs-entry-ref root-id="SwiftyNinja_GitlabVserv" />
     </vcs-settings>
     <requirements />
     <build-triggers>
