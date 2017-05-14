@@ -7,7 +7,7 @@
       <parameters>
         <param name="buildSettings" value="PREFER_VCS" />
         <param name="enabled" value="true" />
-        <param name="rootId" value="SwiftyNinja_Gitlab" />
+        <param name="rootId" value="SwiftyNinja_GitlabVserv" />
         <param name="showChanges" value="true" />
       </parameters>
     </extension>
