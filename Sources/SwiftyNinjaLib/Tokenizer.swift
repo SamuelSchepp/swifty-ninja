@@ -33,7 +33,7 @@ public class Tokenizer {
 				guard let nT = scan(scanner: scanner, line: i + 1) else { break }
 				tokens.append(nT)
 			}
-			if !scanner.isAtEnd {
+			if !scanner.isAtEndPlatform {
 				throw TokenizerError.TokenizerError(line: i + 1)
 			}
 		}
