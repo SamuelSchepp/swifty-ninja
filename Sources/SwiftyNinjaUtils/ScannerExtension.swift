@@ -1,7 +1,15 @@
 import Foundation
 
-#if !os(Linux)
+
 extension Scanner {
+	
+	#if os(Linux)
+	var isAtEnd: Bool {
+		return curChar == _NSStringBuffer.EndCharacter
+	}
+	#endif
+	
+	#if !os(Linux)
     public func scanInt() -> Int32? {
         var value: Int32 = 0
         return withUnsafeMutablePointer(to: &value) { (ptr: UnsafeMutablePointer<Int32>) -> Int32? in
@@ -196,7 +204,6 @@ extension Scanner {
             return res
         }
         return nil
-    }
+	}
+	#endif
 }
-
-#endif

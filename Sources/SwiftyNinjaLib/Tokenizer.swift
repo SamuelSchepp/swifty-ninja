@@ -56,7 +56,7 @@ public class Tokenizer {
 	}
 	
 	private func skipComments(scanner: Scanner, line: Int) {
-		if scanner.scanString("//", into: nil) {
+		if scanner.scanString(string: "//") != nil {
 			let oldskipper = scanner.charactersToBeSkipped
 			scanner.charactersToBeSkipped = CharacterSet()
 			_ = scanner.scanUpToString("\n")
@@ -64,7 +64,7 @@ public class Tokenizer {
 			scanner.charactersToBeSkipped = oldskipper
 			skipComments(scanner: scanner, line: line)
 		}
-		if(scanner.scanString("/*", into: nil)) {
+		if scanner.scanString(string: "/*") != nil {
 			let oldskipper = scanner.charactersToBeSkipped
 			scanner.charactersToBeSkipped = CharacterSet()
 			_ = scanner.scanUpToString("*/")
