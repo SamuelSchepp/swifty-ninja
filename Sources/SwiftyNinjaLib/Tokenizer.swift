@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyNinjaLang
+import SwiftyNinjaUtils
 
 public enum TokenizerError: Error {
 	case TokenizerError(line: Int)
@@ -58,16 +59,16 @@ public class Tokenizer {
 		if scanner.scanString("//", into: nil) {
 			let oldskipper = scanner.charactersToBeSkipped
 			scanner.charactersToBeSkipped = CharacterSet()
-			scanner.scanUpTo("\n", into: nil)
-			scanner.scanString("\n", into: nil)
+			_ = scanner.scanUpToString("\n")
+			_ = scanner.scanString(string: "\n")
 			scanner.charactersToBeSkipped = oldskipper
 			skipComments(scanner: scanner, line: line)
 		}
 		if(scanner.scanString("/*", into: nil)) {
 			let oldskipper = scanner.charactersToBeSkipped
 			scanner.charactersToBeSkipped = CharacterSet()
-			scanner.scanUpTo("*/", into: nil)
-			scanner.scanString("*/", into: nil)
+			_ = scanner.scanUpToString("*/")
+			_ = scanner.scanString(string: "*/")
 			scanner.charactersToBeSkipped = oldskipper
 			skipComments(scanner: scanner, line: line)
 		}
@@ -76,7 +77,7 @@ public class Tokenizer {
 	private func scanOperators(scanner: Scanner, line: Int) -> Token? {
 		for token in TokenMap.operatorMap(line: line).keys {
 			let location = scanner.scanLocation
-			if scanner.scanString(token, into: nil) {
+			if scanner.scanString(string: token) != nil {
 				return TokenMap.operatorMap(line: line)[token]
 			}
 			else {
@@ -87,10 +88,9 @@ public class Tokenizer {
 	}
 	
 	private func scanDecimalIntegerLiteral(scanner: Scanner, line: Int) -> Token? {
-		var buffer: Int = 0
 		let location = scanner.scanLocation
 		
-		if !scanner.scanInt(&buffer) {
+		guard let buffer = scanner.scanInteger() else {
 			scanner.scanLocation = location
 			return .none
 		}
@@ -100,14 +100,14 @@ public class Tokenizer {
 	
 	private func scanBooleanLiteral(scanner: Scanner, line: Int) -> Token? {
 		let location = scanner.scanLocation
-		if scanner.scanString("true", into: nil) {
+		if scanner.scanString(string: "true") != nil {
 			return BOOLEANLIT(line: line, value: true)
 		}
 		else {
 			scanner.scanLocation = location
 		}
 		
-		if !scanner.scanString("false", into: nil) {
+		if scanner.scanString(string: "false") == nil {
 			scanner.scanLocation = location
 			return .none
 		}
@@ -117,15 +117,14 @@ public class Tokenizer {
 
 	
 	private func scanHexIntegerLiteral(scanner: Scanner, line: Int) -> Token? {
-		var buffer: UInt32 = 0
 		let location = scanner.scanLocation
 		
-		if !scanner.scanString("0x", into: nil) {
+		if scanner.scanString(string: "0x") == nil {
 			scanner.scanLocation = location
 			return .none
 		}
 		
-		if !scanner.scanHexInt32(&buffer) {
+		guard let buffer = scanner.scanHexInt() else {
 			scanner.scanLocation = location
 			return .none
 		}
@@ -134,10 +133,8 @@ public class Tokenizer {
 	
 	private func scanCharacterLiteral(scanner: Scanner, line: Int) -> Token? {
 		let location = scanner.scanLocation
-		var buffer: NSString? = ""
 		
-		
-		if !scanner.scanString("'", into: nil) {
+		if scanner.scanString(string: "'") == nil {
 			scanner.scanLocation = location
 			return .none
 		}
@@ -145,18 +142,18 @@ public class Tokenizer {
 		let oldskipper = scanner.charactersToBeSkipped
 		scanner.charactersToBeSkipped = .none
 		
-		if scanner.scanString("\u{5C}\u{27}", into: nil) {
-			if !scanner.scanString("'", into: nil) {
+		if scanner.scanString(string: "\u{5C}\u{27}") != nil {
+			if scanner.scanString(string: "'") == nil {
 				scanner.scanLocation = location
 				return .none
 			}
 			return CHARACTERLIT(line: line, value: "\u{27}")
 		}
 		
-		scanner.scanUpTo("'", into: &buffer)
+		let buffer = scanner.scanUpToString("'")
 		scanner.charactersToBeSkipped = oldskipper
 		
-		var s = buffer! as String
+		var s = buffer ?? "" as String
 		s = s.replacingOccurrences(of: "\u{5C}n", with: "\u{A}")		// \n 
 		s = s.replacingOccurrences(of: "\u{5C}r", with: "\u{D}")		// \r
 		s = s.replacingOccurrences(of: "\u{5C}t", with: "\u{9}")		// \t
@@ -168,7 +165,7 @@ public class Tokenizer {
 			return .none
 		}
 		
-		if !scanner.scanString("'", into: nil) {
+		if scanner.scanString(string: "'") == nil {
 			scanner.scanLocation = location
 			return .none
 		}
@@ -177,19 +174,18 @@ public class Tokenizer {
 		return CHARACTERLIT(line: line, value: s.characters.first!)
 	}
 	private func scanStringLiteral(scanner: Scanner, line: Int) -> Token? {
-		var buffer: NSString? = ""
 		let location = scanner.scanLocation
 		
-		if !scanner.scanString("\"", into: nil) {
+		if scanner.scanString(string: "\"") == nil {
 			scanner.scanLocation = location
 			return .none
 		}
 		
 		let oldskipper = scanner.charactersToBeSkipped
 		scanner.charactersToBeSkipped = .none
-		scanner.scanUpTo("\"", into: &buffer)
+		let buffer = scanner.scanUpToString("\"")
 		
-		if !scanner.scanString("\"", into: nil) {
+		if scanner.scanString(string: "\"") == nil {
 			scanner.scanLocation = location
 			scanner.charactersToBeSkipped = oldskipper
 			return .none
@@ -197,7 +193,7 @@ public class Tokenizer {
 		
 		scanner.charactersToBeSkipped = oldskipper
 		
-		var buf: String = buffer! as String
+		var buf: String = buffer ?? "" as String
 		
 		buf = buf.replacingOccurrences(of: "\\n", with: "\n")
 		buf = buf.replacingOccurrences(of: "\\r", with: "\r")
@@ -208,20 +204,19 @@ public class Tokenizer {
 	}
 	
 	private func scanIdentifier(scanner: Scanner, line: Int) -> Token? {
-		var buffer: NSString? = ""
 		let location = scanner.scanLocation
 		
-		if !scanner.scanCharacters(from: CharacterSet.alphanumerics, into: &buffer) {
+		guard let buffer = scanner.scanCharactersFromSet(CharacterSet.alphanumerics) else {
 			scanner.scanLocation = location
 			return .none
 		}
         
-        let s = buffer! as String
+        let s = buffer as String
 		if let keyword = TokenMap.keywordMap(line: line)[s] {
             return keyword
         }
         else {
-            return IDENT(line: line, value: buffer! as String)
+            return IDENT(line: line, value: s)
         }
 	}
 }
