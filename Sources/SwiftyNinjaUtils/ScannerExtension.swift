@@ -1,5 +1,6 @@
 import Foundation
 
+#if !os(Linux)
 extension Scanner {
     public func scanInt() -> Int32? {
         var value: Int32 = 0
@@ -197,3 +198,5 @@ extension Scanner {
         return nil
     }
 }
+
+#endif
