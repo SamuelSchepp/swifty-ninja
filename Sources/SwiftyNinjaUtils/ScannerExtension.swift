@@ -4,8 +4,14 @@ import Foundation
 extension Scanner {
 	
 	#if os(Linux)
-	var isAtEnd: Bool {
-		return curChar == _NSStringBuffer.EndCharacter
+	public var isAtEnd: Bool {
+		var stringLoc = scanLocation
+		let stringLen = string.length
+		if let invSet = invertedSkipSet {
+			let range = string._nsObject.rangeOfCharacter(from: invSet, options: [], range: NSMakeRange(stringLoc, stringLen - stringLoc))
+			stringLoc = range.length > 0 ? range.location : stringLen
+		}
+		return stringLoc == stringLen
 	}
 	#endif
 	
