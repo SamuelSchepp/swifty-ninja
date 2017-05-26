@@ -3,18 +3,6 @@ import Foundation
 
 extension Scanner {
 	
-	// #if os(Linux)
-	public var isAtEndPlatform: Bool {
-		var stringLoc = scanLocation
-		let stringLen = string.characters.count
-		if let invSet = self.charactersToBeSkipped?.inverted {
-			let range = (string as NSString).rangeOfCharacter(from: invSet, options: [], range: NSMakeRange(stringLoc, stringLen - stringLoc))
-			stringLoc = range.length > 0 ? range.location : stringLen
-		}
-		return stringLoc == stringLen
-	}
-	// #endif
-	
 	#if !os(Linux)
     public func scanInt() -> Int32? {
         var value: Int32 = 0
