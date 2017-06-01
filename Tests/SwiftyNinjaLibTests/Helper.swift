@@ -28,6 +28,9 @@ class Helper {
 			print(source)
 			
 			print("==== Result ====")
+			let tokens = try Tokenizer(with: source).tokenize()
+			print(tokens, separator: ",", terminator: "\n")
+			
 			let repl = REPL()
 			let result = try repl.handle(input: source)
 			

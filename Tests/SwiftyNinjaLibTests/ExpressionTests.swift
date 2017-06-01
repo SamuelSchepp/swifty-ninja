@@ -12,6 +12,17 @@ import SwiftyNinjaLib
 import SwiftyNinjaLang
 import SwiftyNinjaRuntime
 
+extension ExpressionTests {
+	static var allTests : [(String, (ExpressionTests) -> () throws -> Void)] {
+		return [
+			("testArithmeticValue1", testArithmeticValue1),
+			("testArithmeticValue2", testArithmeticValue2),
+			("testBool", testBool),
+			("testAllTestCount", testAllTestCount),
+		]
+	}
+}
+
 class ExpressionTests: XCTestCase {
 	func testArithmeticValue1() throws {
 		try Helper.checkHeap(map: [
@@ -61,5 +72,9 @@ class ExpressionTests: XCTestCase {
                 BooleanValue(value: true)
 			]
 		)
+	}
+	
+	func testAllTestCount() throws {
+		XCTAssertEqual(4, ExpressionTests.allTests.count)
 	}
 }
