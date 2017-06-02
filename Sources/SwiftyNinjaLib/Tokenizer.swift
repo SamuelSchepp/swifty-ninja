@@ -75,7 +75,9 @@ public class Tokenizer {
 	}
 	
 	private func scanOperators(scanner: Scanner, line: Int) -> Token? {
-		for token in TokenMap.operatorMap(line: line).keys {
+		for token in TokenMap.operatorMap(line: line).keys.sorted(by: { a, b in
+			return a.characters.count > b.characters.count
+		}) {
 			let location = scanner.scanLocation
 			if scanner.scanString(string: token) != nil {
 				return TokenMap.operatorMap(line: line)[token]

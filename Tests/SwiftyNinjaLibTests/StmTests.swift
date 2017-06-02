@@ -12,6 +12,24 @@ import SwiftyNinjaLib
 import SwiftyNinjaLang
 import SwiftyNinjaRuntime
 
+extension StmTests {
+	static var allTests : [(String, (StmTests) -> () throws -> Void)] {
+		return [
+			("testIf", testIf),
+			("testNull", testNull),
+			("testNull2", testNull2),
+			("testWhile", testWhile),
+			("testWhile2", testWhile2),
+			("testDo", testDo),
+			("testDo2", testDo2),
+			("testFuncDec", testFuncDec),
+			("testFuncDec2", testFuncDec2),
+			("testFuncDec3", testFuncDec3),
+			("testAllTestCount", testAllTestCount),
+		]
+	}
+}
+
 class StmTests: XCTestCase {
 	let repl = REPL()
 	
@@ -235,5 +253,9 @@ class StmTests: XCTestCase {
 		else {
 			XCTFail()
 		}
+	}
+	
+	func testAllTestCount() throws {
+		XCTAssertEqual(11, StmTests.allTests.count)
 	}
 }

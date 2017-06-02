@@ -12,8 +12,32 @@ import SwiftyNinjaLib
 import SwiftyNinjaLang
 import SwiftyNinjaRuntime
 
+extension ProgramTests {
+	static var allTests : [(String, (ProgramTests) -> () throws -> Void)] {
+		return [
+			("test_ggt", test_ggt),
+			("test_ggt_glob", test_ggt_glob),
+			("test_fib_it", test_fib_it),
+			("test_fac_it", test_fac_it),
+			("test_fac_rec", test_fac_rec),
+			("test_t", test_t),
+			("test_bruch", test_bruch),
+			("test_bruch2", test_bruch2),
+			("test_caesar", test_caesar),
+			("test_exp_tree", test_exp_tree),
+			("test_null", test_null),
+			("test_listrev", test_listrev),
+			("test_array", test_array),
+			("test_recursive_record", test_recursive_record),
+			("test_factor", test_factor),
+			("test_twodim", test_twodim),
+			("test_matinv", test_matinv),
+			("testAllTestCount", testAllTestCount),
+		]
+	}
+}
+
 class ProgramTests: XCTestCase {
-	
 	func test_ggt() throws {
 		let source = try String(contentsOfFile: Helper.baseURL() + "/ggt.nj")
 		
@@ -265,5 +289,9 @@ class ProgramTests: XCTestCase {
 			repl.dump()
 			throw err
 		}
+	}
+	
+	func testAllTestCount() throws {
+		XCTAssertEqual(18, ProgramTests.allTests.count)
 	}
 }

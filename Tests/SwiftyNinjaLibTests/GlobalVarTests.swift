@@ -12,6 +12,15 @@ import SwiftyNinjaLib
 import SwiftyNinjaLang
 import SwiftyNinjaRuntime
 
+extension GlobalVarTests {
+	static var allTests : [(String, (GlobalVarTests) -> () throws -> Void)] {
+		return [
+			("test1", test1),
+			("testAllTestCount", testAllTestCount),
+		]
+	}
+}
+
 class GlobalVarTests: XCTestCase {
 	let repl = REPL()
 	
@@ -48,5 +57,9 @@ class GlobalVarTests: XCTestCase {
 		print(shouldString)
 		
 		XCTAssertEqual(isString, shouldString)
+	}
+	
+	func testAllTestCount() throws {
+		XCTAssertEqual(2, GlobalVarTests.allTests.count)
 	}
 }

@@ -12,6 +12,16 @@ import SwiftyNinjaLang
 import SwiftyNinjaRuntime
 import SwiftyNinjaUtils
 
+extension StackTests {
+	static var allTests : [(String, (StackTests) -> () throws -> Void)] {
+		return [
+			("testNormal", testNormal),
+			("testInit", testInit),
+			("testAllTestCount", testAllTestCount),
+		]
+	}
+}
+
 class StackTests: XCTestCase {
 
 	func testNormal() {
@@ -37,5 +47,9 @@ class StackTests: XCTestCase {
 		XCTAssertEqual(stack.pop(), .none)
 		XCTAssertEqual(stack.pop(), .none)
 		XCTAssertEqual(stack.peek(), .none)
+	}
+	
+	func testAllTestCount() throws {
+		XCTAssertEqual(3, StackTests.allTests.count)
 	}
 }

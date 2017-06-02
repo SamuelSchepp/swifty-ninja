@@ -12,14 +12,37 @@ import SwiftyNinjaLib
 import SwiftyNinjaLang
 import SwiftyNinjaRuntime
 
+extension ASTTests {
+	static var allTests : [(String, (ASTTests) -> () throws -> Void)] {
+		return [
+			("testAssign", testAssign),
+			("testIf", testIf),
+			("testWhile", testWhile),
+			("testFuncDec", testFuncDec),
+			("testFuncDec2", testFuncDec2),
+			("testFuncDec3", testFuncDec3),
+			("testCall", testCall),
+			("testCall2", testCall2),
+			("testMultiField", testMultiField),
+			("testMultiField2", testMultiField2),
+			("testAllTestCount", testAllTestCount),
+		]
+	}
+}
+
 class ASTTests: XCTestCase {
 	func checkStm(input: String, targetAST: ASTNode) throws {
 		let tokenizer = Tokenizer(with: input)
 		let tokens = try tokenizer.tokenize()
+		print(tokens, separator: ", ", terminator: "")
+		
+		
 		let parser = Parser(with: tokens)
 		if let ast = parser.parse_Stm() {
 			let isString = ast.description
+			print("Is: \(isString)")
 			let targetString = targetAST.description
+			print("Target: \(targetString)")
 			
 			XCTAssertEqual(isString, targetString)
 		}
@@ -217,5 +240,9 @@ class ASTTests: XCTestCase {
 				ident: "key"
 			)
 		)
+	}
+	
+	func testAllTestCount() throws {
+		XCTAssertEqual(11, ASTTests.allTests.count)
 	}
 }

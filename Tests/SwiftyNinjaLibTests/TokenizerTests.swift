@@ -11,6 +11,26 @@ import SwiftyNinjaLib
 import SwiftyNinjaLang
 import SwiftyNinjaRuntime
 
+extension TokenizerTests {
+	static var allTests : [(String, (TokenizerTests) -> () throws -> Void)] {
+		return [
+			("testKeywords", testKeywords),
+			("testOperators", testOperators),
+			("testNil", testNil),
+			("testBool", testBool),
+			("testDecimalInteger", testDecimalInteger),
+			("testHexInteger", testHexInteger),
+			("testCharacter", testCharacter),
+			("testString", testString),
+			("testIdentifier", testIdentifier),
+			("testProgram1", testProgram1),
+			("testProgram2", testProgram2),
+			("testProgram3", testProgram3),
+			("testAllTestCount", testAllTestCount),
+		]
+	}
+}
+
 class TokenizerTests: XCTestCase {
 	func check(_ map: [String: [Token]]) throws {
 		try map.forEach { key, value in
@@ -137,5 +157,9 @@ class TokenizerTests: XCTestCase {
 		let program = "void main(){writeInteger(10%3);writeCharacter('\\n');}"
 		let tokens = try Tokenizer(with: program).tokenize()
 		XCTAssertEqual(tokens.count, 18)
+	}
+	
+	func testAllTestCount() throws {
+		XCTAssertEqual(13, TokenizerTests.allTests.count)
 	}
 }
