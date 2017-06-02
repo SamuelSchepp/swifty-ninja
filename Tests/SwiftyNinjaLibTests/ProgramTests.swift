@@ -39,7 +39,9 @@ extension ProgramTests {
 
 class ProgramTests: XCTestCase {
 	func test_ggt() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/ggt.nj")
+		let url = Helper.baseURL() + "/ggt.nj"
+		print("url: \(url)")
+		let source = try String(contentsOfFile: url)
 		
 		let repl = REPL()
 		do {
