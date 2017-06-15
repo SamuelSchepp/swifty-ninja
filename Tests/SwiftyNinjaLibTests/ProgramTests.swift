@@ -37,11 +37,27 @@ extension ProgramTests {
 	}
 }
 
+
 class ProgramTests: XCTestCase {
+	private enum FileError: Error {
+		case CannotRead
+		case Encoding
+	}
+	
+	private func readFile(filename: String) throws -> String {
+		guard let data = NSData(contentsOfFile: filename) else {
+			throw FileError.CannotRead
+		}
+		guard let string = String(data: data as Data, encoding: String.Encoding.utf8) else {
+			throw FileError.Encoding
+		}
+		return string
+	}
+	
 	func test_ggt() throws {
 		let url = Helper.baseURL() + "/ggt.nj"
 		print("url: \(url)")
-		let source = try String(contentsOfFile: url)
+		let source = try readFile(filename: url)
 		
 		let repl = REPL()
 		do {
@@ -55,7 +71,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_ggt_glob() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/ggt_glob.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/ggt_glob.nj")
 		
 		let repl = REPL()
 		do {
@@ -69,7 +85,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_fib_it() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/fib_it.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/fib_it.nj")
 		
 		let repl = REPL()
 		do {
@@ -83,7 +99,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_fac_it() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/fac_it.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/fac_it.nj")
 		
 		let repl = REPL()
 		do {
@@ -97,7 +113,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_fac_rec() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/fac_rec.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/fac_rec.nj")
 		
 		let repl = REPL()
 		do {
@@ -111,7 +127,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_t() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/t.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/t.nj")
 		
 		let repl = REPL()
 		do {
@@ -125,7 +141,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_bruch() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/bruch.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/bruch.nj")
 		
 		let repl = REPL()
 		do {
@@ -141,7 +157,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_bruch2() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/bruch2.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/bruch2.nj")
 		
 		let repl = REPL()
 		do {
@@ -155,7 +171,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_caesar() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/caesar.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/caesar.nj")
 		
 		let repl = REPL()
 		do {
@@ -169,7 +185,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_exp_tree() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/exp_tree.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/exp_tree.nj")
 		
 		let repl = REPL()
 		do {
@@ -185,7 +201,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_null() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/null.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/null.nj")
 		
 		let repl = REPL()
 		do {
@@ -199,7 +215,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_listrev() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/listrev.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/listrev.nj")
 		
 		let repl = REPL()
 		do {
@@ -216,7 +232,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_array() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/array.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/array.nj")
 		
 		let repl = REPL()
 		do {
@@ -231,7 +247,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_recursive_record() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/recursive_record.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/recursive_record.nj")
 		
 		let repl = REPL()
 		do {
@@ -246,7 +262,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_factor() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/factor.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/factor.nj")
 		
 		let repl = REPL()
 		do {
@@ -262,7 +278,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_twodim() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/twodim.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/twodim.nj")
 		
 		let repl = REPL()
 		do {
@@ -278,7 +294,7 @@ class ProgramTests: XCTestCase {
 	}
 	
 	func test_matinv() throws {
-		let source = try String(contentsOfFile: Helper.baseURL() + "/matinv.nj")
+		let source = try readFile(filename: Helper.baseURL() + "/matinv.nj")
 		
 		let repl = REPL()
 		do {
