@@ -1,6 +1,5 @@
 sudo: required
 dist: xenial
-language: swift
 
 services:
   - docker
