@@ -7,8 +7,12 @@ services:
   - docker
 
 install:
-  - docker build -t "swifty-ninja" .
+  - docker build -t "swiftyninja" .
 
 script:
-  - docker run -it "swifty-ninja" swift test
+  - docker run -it "swifty-inja" swift test
+  - docker tag "swiftyninja" echopadder/swiftyninja
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - sudo docker push echopadder/swiftyninja
+  - sudo docker logout
   
