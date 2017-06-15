@@ -11,14 +11,8 @@ install:
 
 script:
   - docker run -it "swiftyninja" swift test
-
-before_deploy:
   - docker tag "swiftyninja" echopadder/swiftyninja
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-
-deploy:
   - docker push echopadder/swiftyninja
-  
-after_deploy:
   - docker logout
-  
+
