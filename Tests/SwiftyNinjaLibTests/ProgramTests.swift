@@ -41,15 +41,15 @@ extension ProgramTests {
 class ProgramTests: XCTestCase {
 	private enum FileError: Error {
 		case CannotRead
-		case Encoding
 	}
 	
 	private func readFile(filename: String) throws -> String {
-		guard let data = NSData(contentsOfFile: filename) else {
+		print(filename)
+		 let url = URL(fileURLWithPath: filename) 
+		print(url)
+		let data = try Data(contentsOf: url)
+		guard let string = String(data: data, encoding: String.Encoding.utf8) else {
 			throw FileError.CannotRead
-		}
-		guard let string = String(data: data as Data, encoding: String.Encoding.utf8) else {
-			throw FileError.Encoding
 		}
 		return string
 	}
