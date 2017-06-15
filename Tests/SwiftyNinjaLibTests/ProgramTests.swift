@@ -45,7 +45,7 @@ class ProgramTests: XCTestCase {
 	
 	private func readFile(filename: String) throws -> String {
 		print(filename)
-		 let url = URL(fileURLWithPath: filename) 
+		let url = URL(fileURLWithPath: filename) 
 		print(url)
 		let data = try Data(contentsOf: url)
 		guard let string = String(data: data, encoding: String.Encoding.utf8) else {
