@@ -10,7 +10,7 @@ install:
   - docker build -t "swiftyninja" .
 
 script:
-  - docker run -it "swiftyinja" swift test
+  - docker run -it "swiftyninja" swift test
   - docker tag "swiftyninja" echopadder/swiftyninja
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push echopadder/swiftyninja
