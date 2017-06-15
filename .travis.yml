@@ -1,5 +1,8 @@
 sudo: required
 
+notifications:
+  email: false
+
 services:
   - docker
 
@@ -7,5 +10,5 @@ install:
   - docker build -t "swifty-ninja" .
 
 script:
-  - docker run -it "swifty-ninja" "swift test"
+  - docker run -it "swifty-ninja" swift test
   
