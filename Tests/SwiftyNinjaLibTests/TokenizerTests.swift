@@ -33,7 +33,9 @@ extension TokenizerTests {
 
 class TokenizerTests: XCTestCase {
 	func check(_ map: [String: [Token]]) throws {
-		try map.forEach { key, value in
+		try map.forEach { (arg) in
+			
+			let (key, value) = arg
 			print("\(key)")
 			print("Should be: \(String(describing: value))")
 			let tokens = try Tokenizer(with: key).tokenize()

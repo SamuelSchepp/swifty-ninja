@@ -23,7 +23,9 @@ class Helper {
 	
 	class func checkHeap(map: [String: Value]) throws {
 		do {
-		try map.forEach { source, shouldValue in
+		try map.forEach { (arg) in
+			
+			let (source, shouldValue) = arg
 			print("==== Source ====")
 			print(source)
 			

@@ -101,19 +101,25 @@ public class GlobalEnvironment {
 	public func dump() {
 		let width = 20
 		print("==== Type Declarations ====")
-		typeDecMap.forEach { key, value in
+		typeDecMap.forEach { (arg) in
+			
+			let (key, value) = arg
 			let left = String.padding("\"\(key)\":")(toLength: width, withPad: " ", startingAt: 0)
 			print("\(left)\(value)")
 		}
 		print()
 		print("==== Variable Types ====")
-		varTypeMap.forEach { key, value in
+		varTypeMap.forEach { (arg) in
+			
+			let (key, value) = arg
 			let left = String.padding("\"\(key)\":")(toLength: width, withPad: " ", startingAt: 0)
 			print("\(left)\(value)")
 		}
 		print()
 		print("==== Variables ====")
-		globalVariables.forEach { key, value in
+		globalVariables.forEach { (arg) in
+			
+			let (key, value) = arg
 			let left = String.padding("\"\(key)\":")(toLength: width, withPad: " ", startingAt: 0)
 			print("\(left)\(value)")
 		}
@@ -124,7 +130,9 @@ public class GlobalEnvironment {
 		}
 		print()
 		print("==== Functions ====")
-		functions.forEach { key, value in
+		functions.forEach { (arg) in
+			
+			let (key, value) = arg
 			let left = String.padding("\"\(key)\":")(toLength: width, withPad: " ", startingAt: 0)
 			print("\(left)\(value.signature)")
 		}

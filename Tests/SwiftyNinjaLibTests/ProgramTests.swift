@@ -46,8 +46,9 @@ class ProgramTests: XCTestCase {
 	private func readFile(filename: String) throws -> String {
 		print(filename)
 		let url = URL(fileURLWithPath: filename) 
-		print(url)
+		print("URL STRUCT: \(url)")
 		let data = try Data(contentsOf: url)
+		print("data: \(data.count) bytes")
 		guard let string = String(data: data, encoding: String.Encoding.utf8) else {
 			throw FileError.CannotRead
 		}

@@ -28,13 +28,17 @@ public class LocalEnvironment {
 		print("==== Stack Slot Start \"\(identifier)\" ====")
 		let width = 20
 		print("==== Local Variable Types ====")
-		varTypeMap.forEach { key, value in
+		varTypeMap.forEach { (arg) in
+			
+			let (key, value) = arg
 			let left = String.padding("\"\(key)\":")(toLength: width, withPad: " ", startingAt: 0)
 			print("\(left)\(value)")
 		}
 		print()
 		print("==== Local Variables ====")
-		variables.forEach { key, value in
+		variables.forEach { (arg) in
+			
+			let (key, value) = arg
 			let left = String.padding("\"\(key)\":")(toLength: width, withPad: " ", startingAt: 0)
 			print("\(left)\(value)")
 		}
