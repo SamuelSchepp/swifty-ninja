@@ -15,7 +15,7 @@ import SwiftyNinjaRuntime
 class Helper {
 	class func baseURL() -> String {
 		#if os(Linux)
-			return "./Examples/nj"
+			return "./examples/nj"
 		#else
 			return "/Users/samuel/Library/Mobile Documents/com~apple~CloudDocs/iCloud Drive Daten/Programmierung/Swift/swifty-ninja/examples/nj"
 		#endif
