@@ -1,10 +1,9 @@
-sudo: required
-dist: trusty
+os: osx
+language: swift
+osx_image: xcode9.1
 
 notifications:
   email: false
 
-services:
-  - docker
-
-script: ./travis.sh
+script:
+  - swift test
