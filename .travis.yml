@@ -8,4 +8,3 @@ notifications:
 script:
   - swift --version
   - swift build
-  - swift test
