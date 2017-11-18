@@ -76,7 +76,7 @@ public class Tokenizer {
 	
 	private func scanOperators(scanner: Scanner, line: Int) -> Token? {
 		for token in TokenMap.operatorMap(line: line).keys.sorted(by: { a, b in
-			return a.characters.count > b.characters.count
+			return a.count > b.count
 		}) {
 			let location = scanner.scanLocation
 			if scanner.scanString(string: token) != nil {
@@ -162,7 +162,7 @@ public class Tokenizer {
 		s = s.replacingOccurrences(of: "\u{5C}\u{22}", with: "\u{22}")	// \"
 		s = s.replacingOccurrences(of: "\u{5C}\u{5C}", with: "\u{5C}")	// \\
 		
-		if (s.characters.count != 1) {
+		if (s.count != 1) {
 			scanner.scanLocation = location
 			return .none
 		}
@@ -173,7 +173,7 @@ public class Tokenizer {
 		}
 		
 		
-		return CHARACTERLIT(line: line, value: s.characters.first!)
+		return CHARACTERLIT(line: line, value: s.first!)
 	}
 	private func scanStringLiteral(scanner: Scanner, line: Int) -> Token? {
 		let location = scanner.scanLocation

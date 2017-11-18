@@ -272,9 +272,9 @@ extension Evaluator {
 	
 	func evaluateRefToValue(primary_exp_string: Primary_Exp_String) throws -> ReferenceValue {
 		let string = primary_exp_string.value
-		let refToArray = try globalEnvironment.heap.malloc(size: string.characters.count + 1)
-		try globalEnvironment.heap.set(value: SizeValue(value: string.characters.count), addr: refToArray)
-		for i: Int in 0..<string.characters.count {
+		let refToArray = try globalEnvironment.heap.malloc(size: string.count + 1)
+		try globalEnvironment.heap.set(value: SizeValue(value: string.count), addr: refToArray)
+		for i: Int in 0..<string.count {
 			let reToChar = try globalEnvironment.heap.malloc(size: 1)
 			try globalEnvironment.heap.set(value: CharacterValue(value: string[string.index(string.startIndex, offsetBy: i)]), addr: reToChar)
 			try globalEnvironment.heap.set(value: reToChar, addr: ReferenceValue(value: refToArray.value + i + 1))

@@ -40,7 +40,7 @@ public class App {
 		let repl = REPL()
 		
 		while !quit {
-			if buffer.characters.count == 0 {
+			if buffer.count == 0 {
 				print("> ", terminator:"")
 			}
 			else {
