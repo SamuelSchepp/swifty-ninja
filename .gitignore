@@ -1,3 +1,5 @@
-.DS_Store
-/.build
-*.xcodeproj
+
+.build
+build
+SwiftyNinja.xcodeproj/project.xcworkspace/xcuserdata
+SwiftyNinja.xcodeproj/xcuserdata

@@ -1,7 +1,11 @@
 language: objective-c
 osx_image: xcode9.2
 
+install:
+  - brew install swiftlint
+  - gem install xcpretty
+
 script:
-  - swift --version
-  - swift build
-  - swift test
+  - swiftlint lint || true
+  - xcodebuild test -project SwiftyNinja.xcodeproj -scheme SwiftyNinjaREPL | xcpretty --report junit && exit ${PIPESTATUS[0]}
+

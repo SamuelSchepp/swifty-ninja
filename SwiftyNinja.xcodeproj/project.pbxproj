@@ -1,0 +1,1165 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		"SwiftyNinja::SwiftyNinjaPackageTests::ProductTarget" /* SwiftyNinjaPackageTests */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = OBJ_172 /* Build configuration list for PBXAggregateTarget "SwiftyNinjaPackageTests" */;
+			buildPhases = (
+			);
+			dependencies = (
+				OBJ_175 /* PBXTargetDependency */,
+			);
+			name = SwiftyNinjaPackageTests;
+			productName = SwiftyNinjaPackageTests;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		OBJ_100 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* main.swift */; };
+		OBJ_102 /* SwiftyNinjaLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaLib::Product" /* SwiftyNinjaLib.framework */; };
+		OBJ_103 /* SwiftyNinjaRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaRuntime::Product" /* SwiftyNinjaRuntime.framework */; };
+		OBJ_104 /* SwiftyNinjaLang.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaLang::Product" /* SwiftyNinjaLang.framework */; };
+		OBJ_105 /* SwiftyNinjaUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaUtils::Product" /* SwiftyNinjaUtils.framework */; };
+		OBJ_114 /* Evaluator$Reference.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Evaluator$Reference.swift */; };
+		OBJ_115 /* Evaluator$Stm.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* Evaluator$Stm.swift */; };
+		OBJ_116 /* Evaluator$Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* Evaluator$Type.swift */; };
+		OBJ_117 /* Evaluator$Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* Evaluator$Value.swift */; };
+		OBJ_118 /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* Evaluator.swift */; };
+		OBJ_119 /* Parser$Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* Parser$Expression.swift */; };
+		OBJ_120 /* Parser$Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* Parser$Statement.swift */; };
+		OBJ_121 /* Parser$Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* Parser$Type.swift */; };
+		OBJ_122 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* Parser.swift */; };
+		OBJ_123 /* REPL.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* REPL.swift */; };
+		OBJ_124 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* Tokenizer.swift */; };
+		OBJ_126 /* SwiftyNinjaRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaRuntime::Product" /* SwiftyNinjaRuntime.framework */; };
+		OBJ_127 /* SwiftyNinjaLang.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaLang::Product" /* SwiftyNinjaLang.framework */; };
+		OBJ_128 /* SwiftyNinjaUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaUtils::Product" /* SwiftyNinjaUtils.framework */; };
+		OBJ_136 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* CPU.swift */; };
+		OBJ_137 /* Framework.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* Framework.swift */; };
+		OBJ_138 /* Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* Function.swift */; };
+		OBJ_139 /* GlobalEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* GlobalEnvironment.swift */; };
+		OBJ_140 /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* Heap.swift */; };
+		OBJ_141 /* LocalEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* LocalEnvironment.swift */; };
+		OBJ_142 /* REPLControlFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* REPLControlFlow.swift */; };
+		OBJ_143 /* REPLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* REPLError.swift */; };
+		OBJ_144 /* REPLResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* REPLResult.swift */; };
+		OBJ_145 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* Types.swift */; };
+		OBJ_146 /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* Value.swift */; };
+		OBJ_148 /* SwiftyNinjaLang.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaLang::Product" /* SwiftyNinjaLang.framework */; };
+		OBJ_149 /* SwiftyNinjaUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaUtils::Product" /* SwiftyNinjaUtils.framework */; };
+		OBJ_156 /* AST$Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AST$Expression.swift */; };
+		OBJ_157 /* AST$Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* AST$Statement.swift */; };
+		OBJ_158 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* AST.swift */; };
+		OBJ_159 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Token.swift */; };
+		OBJ_160 /* TokenStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* TokenStack.swift */; };
+		OBJ_162 /* SwiftyNinjaUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaUtils::Product" /* SwiftyNinjaUtils.framework */; };
+		OBJ_168 /* ScannerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* ScannerExtension.swift */; };
+		OBJ_169 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Stack.swift */; };
+		OBJ_73 /* ASTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* ASTTests.swift */; };
+		OBJ_74 /* ExpressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* ExpressionTests.swift */; };
+		OBJ_75 /* GlobalVarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_48 /* GlobalVarTests.swift */; };
+		OBJ_76 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* Helper.swift */; };
+		OBJ_77 /* ProgramTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* ProgramTests.swift */; };
+		OBJ_78 /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* StackTests.swift */; };
+		OBJ_79 /* StmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* StmTests.swift */; };
+		OBJ_80 /* TokenizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_53 /* TokenizerTests.swift */; };
+		OBJ_82 /* SwiftyNinjaLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaLib::Product" /* SwiftyNinjaLib.framework */; };
+		OBJ_83 /* SwiftyNinjaRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaRuntime::Product" /* SwiftyNinjaRuntime.framework */; };
+		OBJ_84 /* SwiftyNinjaLang.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaLang::Product" /* SwiftyNinjaLang.framework */; };
+		OBJ_85 /* SwiftyNinjaUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaUtils::Product" /* SwiftyNinjaUtils.framework */; };
+		OBJ_99 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* App.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7E28D7D0206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaLib";
+			remoteInfo = SwiftyNinjaLib;
+		};
+		7E28D7D1206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaRuntime";
+			remoteInfo = SwiftyNinjaRuntime;
+		};
+		7E28D7D2206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaLang";
+			remoteInfo = SwiftyNinjaLang;
+		};
+		7E28D7D3206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaUtils";
+			remoteInfo = SwiftyNinjaUtils;
+		};
+		7E28D7D4206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaUtils";
+			remoteInfo = SwiftyNinjaUtils;
+		};
+		7E28D7D5206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaLang";
+			remoteInfo = SwiftyNinjaLang;
+		};
+		7E28D7D6206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaUtils";
+			remoteInfo = SwiftyNinjaUtils;
+		};
+		7E28D7D7206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaRuntime";
+			remoteInfo = SwiftyNinjaRuntime;
+		};
+		7E28D7D8206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaLang";
+			remoteInfo = SwiftyNinjaLang;
+		};
+		7E28D7D9206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaUtils";
+			remoteInfo = SwiftyNinjaUtils;
+		};
+		7E28D7DA206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaLib";
+			remoteInfo = SwiftyNinjaLib;
+		};
+		7E28D7DB206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaRuntime";
+			remoteInfo = SwiftyNinjaRuntime;
+		};
+		7E28D7DC206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaLang";
+			remoteInfo = SwiftyNinjaLang;
+		};
+		7E28D7DD206122FB00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaUtils";
+			remoteInfo = SwiftyNinjaUtils;
+		};
+		7E28D7DE206122FC00B465B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SwiftyNinja::SwiftyNinjaLibTests";
+			remoteInfo = SwiftyNinjaLibTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		OBJ_10 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
+		OBJ_12 /* AST$Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST$Expression.swift; sourceTree = "<group>"; };
+		OBJ_13 /* AST$Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST$Statement.swift; sourceTree = "<group>"; };
+		OBJ_14 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
+		OBJ_15 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		OBJ_16 /* TokenStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStack.swift; sourceTree = "<group>"; };
+		OBJ_18 /* CPU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
+		OBJ_19 /* Framework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Framework.swift; sourceTree = "<group>"; };
+		OBJ_20 /* Function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
+		OBJ_21 /* GlobalEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnvironment.swift; sourceTree = "<group>"; };
+		OBJ_22 /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
+		OBJ_23 /* LocalEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalEnvironment.swift; sourceTree = "<group>"; };
+		OBJ_24 /* REPLControlFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = REPLControlFlow.swift; sourceTree = "<group>"; };
+		OBJ_25 /* REPLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = REPLError.swift; sourceTree = "<group>"; };
+		OBJ_26 /* REPLResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = REPLResult.swift; sourceTree = "<group>"; };
+		OBJ_27 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
+		OBJ_28 /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
+		OBJ_30 /* Evaluator$Reference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluator$Reference.swift; sourceTree = "<group>"; };
+		OBJ_31 /* Evaluator$Stm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluator$Stm.swift; sourceTree = "<group>"; };
+		OBJ_32 /* Evaluator$Type.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluator$Type.swift; sourceTree = "<group>"; };
+		OBJ_33 /* Evaluator$Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluator$Value.swift; sourceTree = "<group>"; };
+		OBJ_34 /* Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
+		OBJ_35 /* Parser$Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser$Expression.swift; sourceTree = "<group>"; };
+		OBJ_36 /* Parser$Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser$Statement.swift; sourceTree = "<group>"; };
+		OBJ_37 /* Parser$Type.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser$Type.swift; sourceTree = "<group>"; };
+		OBJ_38 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		OBJ_39 /* REPL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = REPL.swift; sourceTree = "<group>"; };
+		OBJ_40 /* Tokenizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokenizer.swift; sourceTree = "<group>"; };
+		OBJ_42 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		OBJ_43 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		OBJ_46 /* ASTTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASTTests.swift; sourceTree = "<group>"; };
+		OBJ_47 /* ExpressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionTests.swift; sourceTree = "<group>"; };
+		OBJ_48 /* GlobalVarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVarTests.swift; sourceTree = "<group>"; };
+		OBJ_49 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		OBJ_50 /* ProgramTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTests.swift; sourceTree = "<group>"; };
+		OBJ_51 /* StackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
+		OBJ_52 /* StmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StmTests.swift; sourceTree = "<group>"; };
+		OBJ_53 /* TokenizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenizerTests.swift; sourceTree = "<group>"; };
+		OBJ_54 /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = examples; sourceTree = SOURCE_ROOT; };
+		OBJ_9 /* ScannerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerExtension.swift; sourceTree = "<group>"; };
+		"SwiftyNinja::SwiftyNinjaLang::Product" /* SwiftyNinjaLang.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyNinjaLang.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SwiftyNinja::SwiftyNinjaLib::Product" /* SwiftyNinjaLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyNinjaLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SwiftyNinja::SwiftyNinjaLibTests::Product" /* SwiftyNinjaLibTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = SwiftyNinjaLibTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SwiftyNinja::SwiftyNinjaREPL::Product" /* SwiftyNinjaREPL */ = {isa = PBXFileReference; lastKnownFileType = text; path = SwiftyNinjaREPL; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SwiftyNinja::SwiftyNinjaRuntime::Product" /* SwiftyNinjaRuntime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyNinjaRuntime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SwiftyNinja::SwiftyNinjaUtils::Product" /* SwiftyNinjaUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyNinjaUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_101 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_102 /* SwiftyNinjaLib.framework in Frameworks */,
+				OBJ_103 /* SwiftyNinjaRuntime.framework in Frameworks */,
+				OBJ_104 /* SwiftyNinjaLang.framework in Frameworks */,
+				OBJ_105 /* SwiftyNinjaUtils.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_125 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_126 /* SwiftyNinjaRuntime.framework in Frameworks */,
+				OBJ_127 /* SwiftyNinjaLang.framework in Frameworks */,
+				OBJ_128 /* SwiftyNinjaUtils.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_147 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_148 /* SwiftyNinjaLang.framework in Frameworks */,
+				OBJ_149 /* SwiftyNinjaUtils.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_161 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_162 /* SwiftyNinjaUtils.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_170 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_81 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_82 /* SwiftyNinjaLib.framework in Frameworks */,
+				OBJ_83 /* SwiftyNinjaRuntime.framework in Frameworks */,
+				OBJ_84 /* SwiftyNinjaLang.framework in Frameworks */,
+				OBJ_85 /* SwiftyNinjaUtils.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		OBJ_11 /* SwiftyNinjaLang */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_12 /* AST$Expression.swift */,
+				OBJ_13 /* AST$Statement.swift */,
+				OBJ_14 /* AST.swift */,
+				OBJ_15 /* Token.swift */,
+				OBJ_16 /* TokenStack.swift */,
+			);
+			name = SwiftyNinjaLang;
+			path = Sources/SwiftyNinjaLang;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_17 /* SwiftyNinjaRuntime */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_18 /* CPU.swift */,
+				OBJ_19 /* Framework.swift */,
+				OBJ_20 /* Function.swift */,
+				OBJ_21 /* GlobalEnvironment.swift */,
+				OBJ_22 /* Heap.swift */,
+				OBJ_23 /* LocalEnvironment.swift */,
+				OBJ_24 /* REPLControlFlow.swift */,
+				OBJ_25 /* REPLError.swift */,
+				OBJ_26 /* REPLResult.swift */,
+				OBJ_27 /* Types.swift */,
+				OBJ_28 /* Value.swift */,
+			);
+			name = SwiftyNinjaRuntime;
+			path = Sources/SwiftyNinjaRuntime;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_29 /* SwiftyNinjaLib */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_30 /* Evaluator$Reference.swift */,
+				OBJ_31 /* Evaluator$Stm.swift */,
+				OBJ_32 /* Evaluator$Type.swift */,
+				OBJ_33 /* Evaluator$Value.swift */,
+				OBJ_34 /* Evaluator.swift */,
+				OBJ_35 /* Parser$Expression.swift */,
+				OBJ_36 /* Parser$Statement.swift */,
+				OBJ_37 /* Parser$Type.swift */,
+				OBJ_38 /* Parser.swift */,
+				OBJ_39 /* REPL.swift */,
+				OBJ_40 /* Tokenizer.swift */,
+			);
+			name = SwiftyNinjaLib;
+			path = Sources/SwiftyNinjaLib;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_41 /* SwiftyNinjaREPL */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_42 /* App.swift */,
+				OBJ_43 /* main.swift */,
+			);
+			name = SwiftyNinjaREPL;
+			path = Sources/SwiftyNinjaREPL;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_44 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_45 /* SwiftyNinjaLibTests */,
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_45 /* SwiftyNinjaLibTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_46 /* ASTTests.swift */,
+				OBJ_47 /* ExpressionTests.swift */,
+				OBJ_48 /* GlobalVarTests.swift */,
+				OBJ_49 /* Helper.swift */,
+				OBJ_50 /* ProgramTests.swift */,
+				OBJ_51 /* StackTests.swift */,
+				OBJ_52 /* StmTests.swift */,
+				OBJ_53 /* TokenizerTests.swift */,
+			);
+			name = SwiftyNinjaLibTests;
+			path = Tests/SwiftyNinjaLibTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_5 /*  */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_7 /* Sources */,
+				OBJ_44 /* Tests */,
+				OBJ_54 /* examples */,
+				OBJ_55 /* Products */,
+			);
+			name = "";
+			sourceTree = "<group>";
+		};
+		OBJ_55 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"SwiftyNinja::SwiftyNinjaLibTests::Product" /* SwiftyNinjaLibTests.xctest */,
+				"SwiftyNinja::SwiftyNinjaREPL::Product" /* SwiftyNinjaREPL */,
+				"SwiftyNinja::SwiftyNinjaLib::Product" /* SwiftyNinjaLib.framework */,
+				"SwiftyNinja::SwiftyNinjaRuntime::Product" /* SwiftyNinjaRuntime.framework */,
+				"SwiftyNinja::SwiftyNinjaLang::Product" /* SwiftyNinjaLang.framework */,
+				"SwiftyNinja::SwiftyNinjaUtils::Product" /* SwiftyNinjaUtils.framework */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_7 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* SwiftyNinjaUtils */,
+				OBJ_11 /* SwiftyNinjaLang */,
+				OBJ_17 /* SwiftyNinjaRuntime */,
+				OBJ_29 /* SwiftyNinjaLib */,
+				OBJ_41 /* SwiftyNinjaREPL */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_8 /* SwiftyNinjaUtils */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_9 /* ScannerExtension.swift */,
+				OBJ_10 /* Stack.swift */,
+			);
+			name = SwiftyNinjaUtils;
+			path = Sources/SwiftyNinjaUtils;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"SwiftyNinja::SwiftPMPackageDescription" /* SwiftyNinjaPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_63 /* Build configuration list for PBXNativeTarget "SwiftyNinjaPackageDescription" */;
+			buildPhases = (
+				OBJ_66 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftyNinjaPackageDescription;
+			productName = SwiftyNinjaPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"SwiftyNinja::SwiftyNinjaLang" /* SwiftyNinjaLang */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_152 /* Build configuration list for PBXNativeTarget "SwiftyNinjaLang" */;
+			buildPhases = (
+				OBJ_155 /* Sources */,
+				OBJ_161 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_163 /* PBXTargetDependency */,
+			);
+			name = SwiftyNinjaLang;
+			productName = SwiftyNinjaLang;
+			productReference = "SwiftyNinja::SwiftyNinjaLang::Product" /* SwiftyNinjaLang.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"SwiftyNinja::SwiftyNinjaLib" /* SwiftyNinjaLib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_110 /* Build configuration list for PBXNativeTarget "SwiftyNinjaLib" */;
+			buildPhases = (
+				OBJ_113 /* Sources */,
+				OBJ_125 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_129 /* PBXTargetDependency */,
+				OBJ_130 /* PBXTargetDependency */,
+				OBJ_131 /* PBXTargetDependency */,
+			);
+			name = SwiftyNinjaLib;
+			productName = SwiftyNinjaLib;
+			productReference = "SwiftyNinja::SwiftyNinjaLib::Product" /* SwiftyNinjaLib.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"SwiftyNinja::SwiftyNinjaLibTests" /* SwiftyNinjaLibTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_69 /* Build configuration list for PBXNativeTarget "SwiftyNinjaLibTests" */;
+			buildPhases = (
+				OBJ_72 /* Sources */,
+				OBJ_81 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_86 /* PBXTargetDependency */,
+				OBJ_88 /* PBXTargetDependency */,
+				OBJ_90 /* PBXTargetDependency */,
+				OBJ_92 /* PBXTargetDependency */,
+			);
+			name = SwiftyNinjaLibTests;
+			productName = SwiftyNinjaLibTests;
+			productReference = "SwiftyNinja::SwiftyNinjaLibTests::Product" /* SwiftyNinjaLibTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		"SwiftyNinja::SwiftyNinjaREPL" /* SwiftyNinjaREPL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_95 /* Build configuration list for PBXNativeTarget "SwiftyNinjaREPL" */;
+			buildPhases = (
+				OBJ_98 /* Sources */,
+				OBJ_101 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_106 /* PBXTargetDependency */,
+				OBJ_107 /* PBXTargetDependency */,
+				OBJ_108 /* PBXTargetDependency */,
+				OBJ_109 /* PBXTargetDependency */,
+			);
+			name = SwiftyNinjaREPL;
+			productName = SwiftyNinjaREPL;
+			productReference = "SwiftyNinja::SwiftyNinjaREPL::Product" /* SwiftyNinjaREPL */;
+			productType = "com.apple.product-type.tool";
+		};
+		"SwiftyNinja::SwiftyNinjaRuntime" /* SwiftyNinjaRuntime */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_132 /* Build configuration list for PBXNativeTarget "SwiftyNinjaRuntime" */;
+			buildPhases = (
+				OBJ_135 /* Sources */,
+				OBJ_147 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_150 /* PBXTargetDependency */,
+				OBJ_151 /* PBXTargetDependency */,
+			);
+			name = SwiftyNinjaRuntime;
+			productName = SwiftyNinjaRuntime;
+			productReference = "SwiftyNinja::SwiftyNinjaRuntime::Product" /* SwiftyNinjaRuntime.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"SwiftyNinja::SwiftyNinjaUtils" /* SwiftyNinjaUtils */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_164 /* Build configuration list for PBXNativeTarget "SwiftyNinjaUtils" */;
+			buildPhases = (
+				OBJ_167 /* Sources */,
+				OBJ_170 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftyNinjaUtils;
+			productName = SwiftyNinjaUtils;
+			productReference = "SwiftyNinja::SwiftyNinjaUtils::Product" /* SwiftyNinjaUtils.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "SwiftyNinja" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5 /*  */;
+			productRefGroup = OBJ_55 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"SwiftyNinja::SwiftPMPackageDescription" /* SwiftyNinjaPackageDescription */,
+				"SwiftyNinja::SwiftyNinjaLibTests" /* SwiftyNinjaLibTests */,
+				"SwiftyNinja::SwiftyNinjaREPL" /* SwiftyNinjaREPL */,
+				"SwiftyNinja::SwiftyNinjaLib" /* SwiftyNinjaLib */,
+				"SwiftyNinja::SwiftyNinjaRuntime" /* SwiftyNinjaRuntime */,
+				"SwiftyNinja::SwiftyNinjaLang" /* SwiftyNinjaLang */,
+				"SwiftyNinja::SwiftyNinjaUtils" /* SwiftyNinjaUtils */,
+				"SwiftyNinja::SwiftyNinjaPackageTests::ProductTarget" /* SwiftyNinjaPackageTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_113 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_114 /* Evaluator$Reference.swift in Sources */,
+				OBJ_115 /* Evaluator$Stm.swift in Sources */,
+				OBJ_116 /* Evaluator$Type.swift in Sources */,
+				OBJ_117 /* Evaluator$Value.swift in Sources */,
+				OBJ_118 /* Evaluator.swift in Sources */,
+				OBJ_119 /* Parser$Expression.swift in Sources */,
+				OBJ_120 /* Parser$Statement.swift in Sources */,
+				OBJ_121 /* Parser$Type.swift in Sources */,
+				OBJ_122 /* Parser.swift in Sources */,
+				OBJ_123 /* REPL.swift in Sources */,
+				OBJ_124 /* Tokenizer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_135 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_136 /* CPU.swift in Sources */,
+				OBJ_137 /* Framework.swift in Sources */,
+				OBJ_138 /* Function.swift in Sources */,
+				OBJ_139 /* GlobalEnvironment.swift in Sources */,
+				OBJ_140 /* Heap.swift in Sources */,
+				OBJ_141 /* LocalEnvironment.swift in Sources */,
+				OBJ_142 /* REPLControlFlow.swift in Sources */,
+				OBJ_143 /* REPLError.swift in Sources */,
+				OBJ_144 /* REPLResult.swift in Sources */,
+				OBJ_145 /* Types.swift in Sources */,
+				OBJ_146 /* Value.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_155 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_156 /* AST$Expression.swift in Sources */,
+				OBJ_157 /* AST$Statement.swift in Sources */,
+				OBJ_158 /* AST.swift in Sources */,
+				OBJ_159 /* Token.swift in Sources */,
+				OBJ_160 /* TokenStack.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_167 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_168 /* ScannerExtension.swift in Sources */,
+				OBJ_169 /* Stack.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_66 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_72 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_73 /* ASTTests.swift in Sources */,
+				OBJ_74 /* ExpressionTests.swift in Sources */,
+				OBJ_75 /* GlobalVarTests.swift in Sources */,
+				OBJ_76 /* Helper.swift in Sources */,
+				OBJ_77 /* ProgramTests.swift in Sources */,
+				OBJ_78 /* StackTests.swift in Sources */,
+				OBJ_79 /* StmTests.swift in Sources */,
+				OBJ_80 /* TokenizerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_98 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_99 /* App.swift in Sources */,
+				OBJ_100 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		OBJ_106 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaLib" /* SwiftyNinjaLib */;
+			targetProxy = 7E28D7D0206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_107 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaRuntime" /* SwiftyNinjaRuntime */;
+			targetProxy = 7E28D7D7206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_108 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaLang" /* SwiftyNinjaLang */;
+			targetProxy = 7E28D7D8206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_109 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaUtils" /* SwiftyNinjaUtils */;
+			targetProxy = 7E28D7D9206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_129 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaRuntime" /* SwiftyNinjaRuntime */;
+			targetProxy = 7E28D7D1206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_130 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaLang" /* SwiftyNinjaLang */;
+			targetProxy = 7E28D7D5206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_131 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaUtils" /* SwiftyNinjaUtils */;
+			targetProxy = 7E28D7D6206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_150 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaLang" /* SwiftyNinjaLang */;
+			targetProxy = 7E28D7D2206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_151 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaUtils" /* SwiftyNinjaUtils */;
+			targetProxy = 7E28D7D4206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_163 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaUtils" /* SwiftyNinjaUtils */;
+			targetProxy = 7E28D7D3206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_175 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaLibTests" /* SwiftyNinjaLibTests */;
+			targetProxy = 7E28D7DE206122FC00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_86 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaLib" /* SwiftyNinjaLib */;
+			targetProxy = 7E28D7DA206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_88 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaRuntime" /* SwiftyNinjaRuntime */;
+			targetProxy = 7E28D7DB206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaLang" /* SwiftyNinjaLang */;
+			targetProxy = 7E28D7DC206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+		OBJ_92 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SwiftyNinja::SwiftyNinjaUtils" /* SwiftyNinjaUtils */;
+			targetProxy = 7E28D7DD206122FB00B465B2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_111 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaLib_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftyNinjaLib;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaLib;
+			};
+			name = Debug;
+		};
+		OBJ_112 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaLib_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftyNinjaLib;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaLib;
+			};
+			name = Release;
+		};
+		OBJ_133 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaRuntime_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftyNinjaRuntime;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaRuntime;
+			};
+			name = Debug;
+		};
+		OBJ_134 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaRuntime_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftyNinjaRuntime;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaRuntime;
+			};
+			name = Release;
+		};
+		OBJ_153 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaLang_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftyNinjaLang;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaLang;
+			};
+			name = Debug;
+		};
+		OBJ_154 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaLang_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftyNinjaLang;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaLang;
+			};
+			name = Release;
+		};
+		OBJ_165 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaUtils_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftyNinjaUtils;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaUtils;
+			};
+			name = Debug;
+		};
+		OBJ_166 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaUtils_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftyNinjaUtils;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaUtils;
+			};
+			name = Release;
+		};
+		OBJ_173 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		OBJ_174 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+		OBJ_64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 3 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/3 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		OBJ_65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 3 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/3 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		OBJ_70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaLibTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaLibTests;
+			};
+			name = Debug;
+		};
+		OBJ_71 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaLibTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaLibTests;
+			};
+			name = Release;
+		};
+		OBJ_96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaREPL_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaREPL;
+			};
+			name = Debug;
+		};
+		OBJ_97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = SwiftyNinja.xcodeproj/SwiftyNinjaREPL_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = SwiftyNinjaREPL;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_110 /* Build configuration list for PBXNativeTarget "SwiftyNinjaLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_111 /* Debug */,
+				OBJ_112 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_132 /* Build configuration list for PBXNativeTarget "SwiftyNinjaRuntime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_133 /* Debug */,
+				OBJ_134 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_152 /* Build configuration list for PBXNativeTarget "SwiftyNinjaLang" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_153 /* Debug */,
+				OBJ_154 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_164 /* Build configuration list for PBXNativeTarget "SwiftyNinjaUtils" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_165 /* Debug */,
+				OBJ_166 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_172 /* Build configuration list for PBXAggregateTarget "SwiftyNinjaPackageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_173 /* Debug */,
+				OBJ_174 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_2 /* Build configuration list for PBXProject "SwiftyNinja" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_63 /* Build configuration list for PBXNativeTarget "SwiftyNinjaPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_64 /* Debug */,
+				OBJ_65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_69 /* Build configuration list for PBXNativeTarget "SwiftyNinjaLibTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_70 /* Debug */,
+				OBJ_71 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_95 /* Build configuration list for PBXNativeTarget "SwiftyNinjaREPL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_96 /* Debug */,
+				OBJ_97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}
