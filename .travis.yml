@@ -2,9 +2,7 @@ os: osx
 language: swift
 osx_image: xcode9.1
 
-notifications:
-  email: false
-
 script:
   - swift --version
   - swift build
+  - swift test
