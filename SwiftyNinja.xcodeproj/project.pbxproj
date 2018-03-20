@@ -21,6 +21,24 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		7E28D806206126A200B465B2 /* ggt_glob.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7F42061267D00B465B2 /* ggt_glob.nj */; };
+		7E28D807206126A200B465B2 /* factor.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7F52061267D00B465B2 /* factor.nj */; };
+		7E28D808206126A200B465B2 /* fac_rec.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7F62061267D00B465B2 /* fac_rec.nj */; };
+		7E28D809206126A200B465B2 /* bruch.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7F72061267D00B465B2 /* bruch.nj */; };
+		7E28D80A206126A200B465B2 /* matinv.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7F82061267D00B465B2 /* matinv.nj */; };
+		7E28D80B206126A200B465B2 /* twodim.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7F92061267D00B465B2 /* twodim.nj */; };
+		7E28D80C206126A200B465B2 /* bruch2.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7FA2061267D00B465B2 /* bruch2.nj */; };
+		7E28D80D206126A200B465B2 /* fib_it.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7FB2061267D00B465B2 /* fib_it.nj */; };
+		7E28D80E206126A200B465B2 /* t.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7FC2061267D00B465B2 /* t.nj */; };
+		7E28D80F206126A200B465B2 /* ggt.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7FD2061267D00B465B2 /* ggt.nj */; };
+		7E28D810206126A200B465B2 /* caesar.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7FE2061267D00B465B2 /* caesar.nj */; };
+		7E28D811206126A200B465B2 /* array.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D7FF2061267D00B465B2 /* array.nj */; };
+		7E28D812206126A200B465B2 /* listrev.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D8002061267D00B465B2 /* listrev.nj */; };
+		7E28D813206126A200B465B2 /* recursive_record.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D8012061267D00B465B2 /* recursive_record.nj */; };
+		7E28D814206126A200B465B2 /* fac_it.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D8022061267D00B465B2 /* fac_it.nj */; };
+		7E28D815206126A200B465B2 /* njlisp.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D8032061267D00B465B2 /* njlisp.nj */; };
+		7E28D816206126A200B465B2 /* exp_tree.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D8042061267D00B465B2 /* exp_tree.nj */; };
+		7E28D817206126A200B465B2 /* null.nj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E28D8052061267D00B465B2 /* null.nj */; };
 		OBJ_100 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* main.swift */; };
 		OBJ_102 /* SwiftyNinjaLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaLib::Product" /* SwiftyNinjaLib.framework */; };
 		OBJ_103 /* SwiftyNinjaRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftyNinja::SwiftyNinjaRuntime::Product" /* SwiftyNinjaRuntime.framework */; };
@@ -184,7 +202,71 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		7E28D7DF206125D700B465B2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = examples;
+			dstSubfolderSpec = 7;
+			files = (
+				7E28D806206126A200B465B2 /* ggt_glob.nj in CopyFiles */,
+				7E28D807206126A200B465B2 /* factor.nj in CopyFiles */,
+				7E28D808206126A200B465B2 /* fac_rec.nj in CopyFiles */,
+				7E28D809206126A200B465B2 /* bruch.nj in CopyFiles */,
+				7E28D80A206126A200B465B2 /* matinv.nj in CopyFiles */,
+				7E28D80B206126A200B465B2 /* twodim.nj in CopyFiles */,
+				7E28D80C206126A200B465B2 /* bruch2.nj in CopyFiles */,
+				7E28D80D206126A200B465B2 /* fib_it.nj in CopyFiles */,
+				7E28D80E206126A200B465B2 /* t.nj in CopyFiles */,
+				7E28D80F206126A200B465B2 /* ggt.nj in CopyFiles */,
+				7E28D810206126A200B465B2 /* caesar.nj in CopyFiles */,
+				7E28D811206126A200B465B2 /* array.nj in CopyFiles */,
+				7E28D812206126A200B465B2 /* listrev.nj in CopyFiles */,
+				7E28D813206126A200B465B2 /* recursive_record.nj in CopyFiles */,
+				7E28D814206126A200B465B2 /* fac_it.nj in CopyFiles */,
+				7E28D815206126A200B465B2 /* njlisp.nj in CopyFiles */,
+				7E28D816206126A200B465B2 /* exp_tree.nj in CopyFiles */,
+				7E28D817206126A200B465B2 /* null.nj in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		7E28D7E32061267D00B465B2 /* caesar.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = caesar.asm; sourceTree = "<group>"; };
+		7E28D7E42061267D00B465B2 /* twodim.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = twodim.asm; sourceTree = "<group>"; };
+		7E28D7E52061267D00B465B2 /* factor.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = factor.asm; sourceTree = "<group>"; };
+		7E28D7E62061267D00B465B2 /* expTree.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = expTree.asm; sourceTree = "<group>"; };
+		7E28D7E72061267D00B465B2 /* fib_it.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = fib_it.asm; sourceTree = "<group>"; };
+		7E28D7E82061267D00B465B2 /* fac_100.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = fac_100.asm; sourceTree = "<group>"; };
+		7E28D7E92061267D00B465B2 /* listrev.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = listrev.asm; sourceTree = "<group>"; };
+		7E28D7EA2061267D00B465B2 /* t.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = t.asm; sourceTree = "<group>"; };
+		7E28D7EB2061267D00B465B2 /* ggt_glob.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = ggt_glob.asm; sourceTree = "<group>"; };
+		7E28D7EC2061267D00B465B2 /* ggt.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = ggt.asm; sourceTree = "<group>"; };
+		7E28D7ED2061267D00B465B2 /* matinv.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = matinv.asm; sourceTree = "<group>"; };
+		7E28D7EE2061267D00B465B2 /* njlisp.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = njlisp.asm; sourceTree = "<group>"; };
+		7E28D7EF2061267D00B465B2 /* bruch.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = bruch.asm; sourceTree = "<group>"; };
+		7E28D7F02061267D00B465B2 /* fac_it.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = fac_it.asm; sourceTree = "<group>"; };
+		7E28D7F12061267D00B465B2 /* bruch2.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = bruch2.asm; sourceTree = "<group>"; };
+		7E28D7F22061267D00B465B2 /* fac_rec.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = fac_rec.asm; sourceTree = "<group>"; };
+		7E28D7F42061267D00B465B2 /* ggt_glob.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = ggt_glob.nj; sourceTree = "<group>"; };
+		7E28D7F52061267D00B465B2 /* factor.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = factor.nj; sourceTree = "<group>"; };
+		7E28D7F62061267D00B465B2 /* fac_rec.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = fac_rec.nj; sourceTree = "<group>"; };
+		7E28D7F72061267D00B465B2 /* bruch.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bruch.nj; sourceTree = "<group>"; };
+		7E28D7F82061267D00B465B2 /* matinv.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = matinv.nj; sourceTree = "<group>"; };
+		7E28D7F92061267D00B465B2 /* twodim.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = twodim.nj; sourceTree = "<group>"; };
+		7E28D7FA2061267D00B465B2 /* bruch2.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = bruch2.nj; sourceTree = "<group>"; };
+		7E28D7FB2061267D00B465B2 /* fib_it.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = fib_it.nj; sourceTree = "<group>"; };
+		7E28D7FC2061267D00B465B2 /* t.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = t.nj; sourceTree = "<group>"; };
+		7E28D7FD2061267D00B465B2 /* ggt.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = ggt.nj; sourceTree = "<group>"; };
+		7E28D7FE2061267D00B465B2 /* caesar.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = caesar.nj; sourceTree = "<group>"; };
+		7E28D7FF2061267D00B465B2 /* array.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = array.nj; sourceTree = "<group>"; };
+		7E28D8002061267D00B465B2 /* listrev.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = listrev.nj; sourceTree = "<group>"; };
+		7E28D8012061267D00B465B2 /* recursive_record.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = recursive_record.nj; sourceTree = "<group>"; };
+		7E28D8022061267D00B465B2 /* fac_it.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = fac_it.nj; sourceTree = "<group>"; };
+		7E28D8032061267D00B465B2 /* njlisp.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = njlisp.nj; sourceTree = "<group>"; };
+		7E28D8042061267D00B465B2 /* exp_tree.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = exp_tree.nj; sourceTree = "<group>"; };
+		7E28D8052061267D00B465B2 /* null.nj */ = {isa = PBXFileReference; lastKnownFileType = text; path = null.nj; sourceTree = "<group>"; };
 		OBJ_10 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		OBJ_12 /* AST$Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST$Expression.swift; sourceTree = "<group>"; };
 		OBJ_13 /* AST$Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST$Statement.swift; sourceTree = "<group>"; };
@@ -223,7 +305,6 @@
 		OBJ_51 /* StackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
 		OBJ_52 /* StmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StmTests.swift; sourceTree = "<group>"; };
 		OBJ_53 /* TokenizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenizerTests.swift; sourceTree = "<group>"; };
-		OBJ_54 /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = examples; sourceTree = SOURCE_ROOT; };
 		OBJ_9 /* ScannerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerExtension.swift; sourceTree = "<group>"; };
 		"SwiftyNinja::SwiftyNinjaLang::Product" /* SwiftyNinjaLang.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyNinjaLang.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"SwiftyNinja::SwiftyNinjaLib::Product" /* SwiftyNinjaLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyNinjaLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -293,6 +374,63 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7E28D7E12061267D00B465B2 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				7E28D7E22061267D00B465B2 /* njasm */,
+				7E28D7F32061267D00B465B2 /* nj */,
+			);
+			path = examples;
+			sourceTree = SOURCE_ROOT;
+		};
+		7E28D7E22061267D00B465B2 /* njasm */ = {
+			isa = PBXGroup;
+			children = (
+				7E28D7E32061267D00B465B2 /* caesar.asm */,
+				7E28D7E42061267D00B465B2 /* twodim.asm */,
+				7E28D7E52061267D00B465B2 /* factor.asm */,
+				7E28D7E62061267D00B465B2 /* expTree.asm */,
+				7E28D7E72061267D00B465B2 /* fib_it.asm */,
+				7E28D7E82061267D00B465B2 /* fac_100.asm */,
+				7E28D7E92061267D00B465B2 /* listrev.asm */,
+				7E28D7EA2061267D00B465B2 /* t.asm */,
+				7E28D7EB2061267D00B465B2 /* ggt_glob.asm */,
+				7E28D7EC2061267D00B465B2 /* ggt.asm */,
+				7E28D7ED2061267D00B465B2 /* matinv.asm */,
+				7E28D7EE2061267D00B465B2 /* njlisp.asm */,
+				7E28D7EF2061267D00B465B2 /* bruch.asm */,
+				7E28D7F02061267D00B465B2 /* fac_it.asm */,
+				7E28D7F12061267D00B465B2 /* bruch2.asm */,
+				7E28D7F22061267D00B465B2 /* fac_rec.asm */,
+			);
+			path = njasm;
+			sourceTree = "<group>";
+		};
+		7E28D7F32061267D00B465B2 /* nj */ = {
+			isa = PBXGroup;
+			children = (
+				7E28D7F42061267D00B465B2 /* ggt_glob.nj */,
+				7E28D7F52061267D00B465B2 /* factor.nj */,
+				7E28D7F62061267D00B465B2 /* fac_rec.nj */,
+				7E28D7F72061267D00B465B2 /* bruch.nj */,
+				7E28D7F82061267D00B465B2 /* matinv.nj */,
+				7E28D7F92061267D00B465B2 /* twodim.nj */,
+				7E28D7FA2061267D00B465B2 /* bruch2.nj */,
+				7E28D7FB2061267D00B465B2 /* fib_it.nj */,
+				7E28D7FC2061267D00B465B2 /* t.nj */,
+				7E28D7FD2061267D00B465B2 /* ggt.nj */,
+				7E28D7FE2061267D00B465B2 /* caesar.nj */,
+				7E28D7FF2061267D00B465B2 /* array.nj */,
+				7E28D8002061267D00B465B2 /* listrev.nj */,
+				7E28D8012061267D00B465B2 /* recursive_record.nj */,
+				7E28D8022061267D00B465B2 /* fac_it.nj */,
+				7E28D8032061267D00B465B2 /* njlisp.nj */,
+				7E28D8042061267D00B465B2 /* exp_tree.nj */,
+				7E28D8052061267D00B465B2 /* null.nj */,
+			);
+			path = nj;
+			sourceTree = "<group>";
+		};
 		OBJ_11 /* SwiftyNinjaLang */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,6 +503,7 @@
 		OBJ_45 /* SwiftyNinjaLibTests */ = {
 			isa = PBXGroup;
 			children = (
+				7E28D7E12061267D00B465B2 /* examples */,
 				OBJ_46 /* ASTTests.swift */,
 				OBJ_47 /* ExpressionTests.swift */,
 				OBJ_48 /* GlobalVarTests.swift */,
@@ -378,15 +517,13 @@
 			path = Tests/SwiftyNinjaLibTests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_7 /* Sources */,
 				OBJ_44 /* Tests */,
-				OBJ_54 /* examples */,
 				OBJ_55 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_55 /* Products */ = {
@@ -483,6 +620,7 @@
 			buildPhases = (
 				OBJ_72 /* Sources */,
 				OBJ_81 /* Frameworks */,
+				7E28D7DF206125D700B465B2 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -566,7 +704,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_55 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

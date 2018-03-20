@@ -14,11 +14,7 @@ import SwiftyNinjaRuntime
 
 class Helper {
 	class func baseURL() -> String {
-		#if os(Linux)
-			return "./examples/nj"
-		#else
-			return "/Users/samuel/Library/Mobile Documents/com~apple~CloudDocs/iCloud Drive Daten/Programmierung/Swift/swifty-ninja/examples/nj"
-		#endif
+		return "\(Bundle.init(for: self).resourcePath!)/examples"
 	}
 	
 	class func checkHeap(map: [String: Value]) throws {
